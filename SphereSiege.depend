@@ -1,0 +1,46 @@
+# depslib dependency file v1.0
+1708792157 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+	<iostream>
+	<SDL.h>
+	"Window.h"
+	"Hero.h"
+
+1708787466 d:\code\cpp\bai_tap_lon\spheresiege\window.h
+	<string>
+	<SDL.h>
+
+1708787800 d:\code\cpp\bai_tap_lon\spheresiege\rect.h
+	<string>
+	"Window.h"
+
+1708787714 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
+	"Window.h"
+	<iostream>
+	<SDL_image.h>
+
+1708787715 source:d:\code\cpp\bai_tap_lon\spheresiege\rect.cpp
+	"Rect.h"
+	<SDL_image.h>
+	<iostream>
+	<string>
+
+1708793854 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+	"Hero.h"
+	"Bullet.h"
+	<SDL_image.h>
+	<iostream>
+	<string>
+	<cmath>
+
+1708792109 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
+	<string>
+	<vector>
+	"Window.h"
+	"Bullet.h"
+
+1708792004 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
+	<cmath>
+	"Bullet.h"
+
+1708793876 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
+
