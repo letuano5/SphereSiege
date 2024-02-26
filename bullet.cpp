@@ -1,6 +1,8 @@
+#include <cmath>
+
+#include "Includes.h"
 #include "Bullet.h"
 
-#include <cmath>
 
 Bullet::Bullet(int x, int y, double angle)
     : x(x), y(y), angle(angle) {}
@@ -16,19 +18,9 @@ void Bullet::update(double dt) {
     x += static_cast<double>(dx);
     y += static_cast<double>(dy);
 }
+bool Bullet::outOfBound() {
+    return getX() < 0 || getX() > WINDOW_WIDTH || getY() < 0 || getY() > WINDOW_HEIGHT;
+}
 
 Bullet::~Bullet() {
 }
-//void Bullet::checkCollision(std::vector<Enemy>& enemies) {
-//}
-
-//SDL_Rect Bullet::getRect() const {
-//    return {x, y, 5, 5};
-//}
-
-//bool Bullet::isColliding(const SDL_Rect& a, const SDL_Rect& b) const {
-//    return a.x < b.x + b.w &&
-//           a.x + a.w > b.x &&
-//           a.y < b.y + b.h &&
-//           a.y + a.h > b.y;
-//}

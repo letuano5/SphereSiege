@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 
-#include "Bullet.h"
+#include "Includes.h"
 #include "Window.h"
+#include "Bullet.h"
 
 using namespace std;
 
@@ -20,6 +21,9 @@ class Hero {
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
+    int intersect(double enemyX, double enemyY);
+    int getX() const { return x; }
+    int getY() const { return y; }
 
    private:
     int w, h;

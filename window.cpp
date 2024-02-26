@@ -1,6 +1,5 @@
 #include "Window.h"
-
-#include <iostream>
+#include "Includes.h"
 
 using namespace std;
 

@@ -3,11 +3,20 @@
 #include <iostream>
 #include "Hero.h"
 #include "Window.h"
+#include "Includes.h"
+#include "Enemy.h"
+using namespace std;
+
 
 using namespace std;
 
-const int WINDOW_WIDTH = 960;
-const int WINDOW_HEIGHT = 540;
+void pollEvents (Window &window, Hero &hero) {
+    SDL_Event event;
+    if (SDL_PollEvent(&event)) {
+        hero.pollEvents(event);
+        window.pollEvents(event);
+    }
+}
 
 int main(int argv, char** args) {
     srand(time(NULL));
@@ -16,6 +25,7 @@ int main(int argv, char** args) {
 
     Window window("Sphere Siege", WINDOW_WIDTH, WINDOW_HEIGHT);
     Hero hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
+    Enemy enemy(50, 50, 5, 5, 0.1, "res/enemy.png");
 
     while (!window.isClosed()) {
         SDL_Event event;
@@ -30,9 +40,14 @@ int main(int argv, char** args) {
         if (SDL_PollEvent(&event)) {
             window.pollEvents(event);
         }
-
+        
+        enemy.update(hero.getX(), hero.getY());
+        hero.intersect(enemy.getX(), enemy.getY());
+        enemy.draw();
+        
         window.clear();
         prevTime = currTime;
+       
     }
 
     return 0;

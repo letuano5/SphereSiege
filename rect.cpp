@@ -1,8 +1,6 @@
 #include "Rect.h"
-#include <SDL_image.h>
 
-#include <iostream>
-#include <string>
+#include "Includes.h"
 
 using namespace std;
 

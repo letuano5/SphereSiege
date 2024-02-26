@@ -12,9 +12,8 @@ class Bullet {
     ~Bullet();
     void draw() const;
     void update(double dt);
-//    void checkCollision(vector<Enemy>& enemies);
-//    SDL_Rect getRect() const;
-//    bool isOffScreen() const;
+    void update();
+    bool outOfBound();
 
     int getX() const { return x; }
     int getY() const { return y; }
@@ -33,5 +32,4 @@ class Bullet {
     static constexpr int w = 5, h = 5;
     static constexpr double speed = 700.0;
     double angle;
-//    bool isColliding(const SDL_Rect& a, const SDL_Rect& b) const;
 };
