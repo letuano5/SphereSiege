@@ -31,5 +31,6 @@ class Hero {
     int r, g, b, a;
 
     SDL_Texture *triangle_texture = nullptr;
+//    Bullet bullets[50005];
     vector<Bullet> bullets;
 };
