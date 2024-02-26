@@ -5,7 +5,7 @@ public:
     Bullet(int x, int y, double angle);
     ~Bullet();
     void update();
-//    bool isOffScreen() const;
+    bool outOfBound();
 
     int getX() const { return x; }
     int getY() const { return y; }

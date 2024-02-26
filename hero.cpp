@@ -1,5 +1,6 @@
 #include "Hero.h"
 #include "Bullet.h"
+#include "Includes.h"
 
 #include <SDL_image.h>
 #include <iostream>
@@ -8,9 +9,6 @@
 
 using namespace std;
 
-double calculateAngle(int mouseX, int mouseY, int textureX, int textureY) {
-    return atan2(mouseY - textureY, mouseX - textureX) * 180 / M_PI;
-}
 pair<int, int> getMousePosition() {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -35,6 +33,7 @@ Hero::~Hero() {
 
 void Hero::draw() const {
     SDL_Rect hero = {x, y, w, h};
+//    cerr << "Draw hero at " << x << " " << y << endl;
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -86,7 +85,31 @@ void Hero::shoot() {
 }
 
 void Hero::update() {
-    for (auto &bullet : bullets) {
-        bullet.update();
+    for (int i = 0; i < int(bullets.size()); i++) {
+        bullets[i].update();
+        if (bullets[i].outOfBound()) {
+            bullets.erase(bullets.begin() + i);
+            i--;
+        }
     }
+}
+
+int Hero::intersect(double enemyX, double enemyY) {
+    if (inRectangle(w, h, x, y, enemyX, enemyY)) {
+        cerr << "YOU LOSE!" << endl;
+//        exit(0);
+        return LOSE;
+    }
+    for (int i = 0; i < int(bullets.size()); i++) {
+        if (collision(bullets[i].getX(), bullets[i].getY(), enemyX, enemyY)) {
+            cerr << "This enemy has been killed" << endl;
+            exit(0);
+            return WIN;
+        } else {
+            cerr << "Try bullets " << i << " but failed" << endl;
+            cerr << bullets[i].getX() << " " << bullets[i].getY() << " " << enemyX << " " << enemyY << endl;
+        }
+    }
+    cerr << "..." << endl;
+    return CONTINUE;
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 
+#include "Includes.h"
 #include "Window.h"
 
 class Rect {
