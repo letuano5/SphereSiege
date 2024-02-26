@@ -3,9 +3,13 @@
 #include "Includes.h"
 
 #include <SDL_image.h>
+
+#include <cmath>
 #include <iostream>
 #include <string>
-#include <cmath>
+#include <vector>
+
+#include "Bullet.h"
 
 using namespace std;
 
@@ -38,51 +42,67 @@ void Hero::draw() const {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
         int mouseY = mousePos.second;
-        double angle = calculateAngle(mouseX, mouseY, x, y);
+        double dx = mouseX - (x + w / 2);
+        double dy = mouseY - (y + h / 2);
+        double angle = atan2(dy, dx) * 180 / M_PI;
+
         SDL_RenderCopyEx(Window::renderer, triangle_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
 
-        for (const auto& bullet : bullets) {
-            SDL_Rect bulletRect = {bullet.getX(), bullet.getY(), 5, 5};
-            SDL_SetRenderDrawColor(Window::renderer, 255, 0, 0, 255);
-            SDL_RenderFillRect(Window::renderer, &bulletRect);
+        for (const auto &bullet : bullets) {
+            bullet.draw();
         }
 
     } else {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(SDL_Event &event) {
-    if (event.type == SDL_KEYDOWN) {
-        switch (event.key.keysym.sym) {
-            case SDLK_LEFT:
-            case SDLK_a:
-                x -= 10;
-                break;
-            case SDLK_RIGHT:
-            case SDLK_d:
-                x += 10;
-                break;
-            case SDLK_UP:
-            case SDLK_w:
-                y -= 10;
-                break;
-            case SDLK_DOWN:
-            case SDLK_s:
-                y += 10;
-                break;
+void Hero::pollEvents(double dt) {
+    double dx = 0;
+    double dy = 0;
+
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_LEFT] || state[SDL_SCANCODE_A]) {
+        dx -= 1;
+    }
+    if (state[SDL_SCANCODE_RIGHT] || state[SDL_SCANCODE_D]) {
+        dx += 1;
+    }
+    if (state[SDL_SCANCODE_UP] || state[SDL_SCANCODE_W]) {
+        dy -= 1;
+    }
+    if (state[SDL_SCANCODE_DOWN] || state[SDL_SCANCODE_S]) {
+        dy += 1;
+    }
+    double length = sqrt(dx * dx + dy * dy);
+    if (length > 0) {
+        dx /= length;
+        dy /= length;
+        x += dx * moveSpeed * dt;
+        y += dy * moveSpeed * dt;
+    }
+
+    int x, y;
+    Uint32 mouseState = SDL_GetMouseState(&x, &y);
+    if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+        double currentTime = SDL_GetTicks() / 1000.0;
+        if (currentTime - lastShot >= fireRate) {
+            shoot(x, y);
+            lastShot = currentTime;
         }
-    } else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-        shoot();
     }
 }
 
-void Hero::shoot() {
-    pair<int, int> mousePos = getMousePosition();
-    int mouseX = mousePos.first;
-    int mouseY = mousePos.second;
-    double angle = calculateAngle(mouseX, mouseY, x, y);
-    bullets.emplace_back(x + w / 2, y + h / 2, angle);
+void Hero::shoot(int mouseX, int mouseY) {
+    int dx = mouseX - (x + w / 2);
+    int dy = mouseY - (y + h / 2);
+    double angle = atan2(dy, dx);
+
+    int bulletX = x + w / 2 + cos(angle) * (w / 2);
+    int bulletY = y + h / 2 + sin(angle) * (h / 2);
+
+    bullets.emplace_back(bulletX, bulletY, angle);
 }
+
 
 void Hero::update() {
     for (int i = 0; i < int(bullets.size()); i++) {

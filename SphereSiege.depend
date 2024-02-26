@@ -1,22 +1,25 @@
 # depslib dependency file v1.0
-1708792157 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+1708865651 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+	<SDL.h>
+	<ctime>
 	<iostream>
-	<SDL.h>
-	"Window.h"
+	"Enemy.h"
 	"Hero.h"
+	"Window.h"
 
-1708787466 d:\code\cpp\bai_tap_lon\spheresiege\window.h
-	<string>
+1708866360 d:\code\cpp\bai_tap_lon\spheresiege\window.h
 	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<string>
 
 1708787800 d:\code\cpp\bai_tap_lon\spheresiege\rect.h
 	<string>
 	"Window.h"
 
-1708787714 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
+1708866428 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
 	"Window.h"
 	<iostream>
-	<SDL_image.h>
 
 1708787715 source:d:\code\cpp\bai_tap_lon\spheresiege\rect.cpp
 	"Rect.h"
@@ -24,25 +27,33 @@
 	<iostream>
 	<string>
 
-1708793854 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1708869568 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
-	"Bullet.h"
 	<SDL_image.h>
+	<cmath>
 	<iostream>
 	<string>
-	<cmath>
-
-1708792109 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
-	<string>
 	<vector>
+	"Bullet.h"
+
+1708869568 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
+	<string>
+	"Bullet.h"
 	"Window.h"
-	"Bullet.h"
 
-1708792004 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
+1708869545 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
+	"Bullet.h"
 	<cmath>
-	"Bullet.h"
 
-1708793876 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
+1708869535 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
+	<vector>
+	"Enemy.h"
+
+1708865060 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
+	"Enemy.h"
+
+1708865032 d:\code\cpp\bai_tap_lon\spheresiege\enemy.h
+	"Window.h"
 
 1708939975 source:d:\uet\int2215 51\spheresiege\bullet.cpp
 	<cmath>
