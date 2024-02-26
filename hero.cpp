@@ -1,5 +1,4 @@
 #include "Hero.h"
-#include "Bullet.h"
 #include "Includes.h"
 
 #include <SDL_image.h>
@@ -9,7 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "Bullet.h"
 
 using namespace std;
 
@@ -104,9 +102,9 @@ void Hero::shoot(int mouseX, int mouseY) {
 }
 
 
-void Hero::update() {
+void Hero::update(double dt) {
     for (int i = 0; i < int(bullets.size()); i++) {
-        bullets[i].update();
+        bullets[i].update(dt);
         if (bullets[i].outOfBound()) {
             bullets.erase(bullets.begin() + i);
             i--;
@@ -117,7 +115,7 @@ void Hero::update() {
 int Hero::intersect(double enemyX, double enemyY) {
     if (inRectangle(w, h, x, y, enemyX, enemyY)) {
         cerr << "YOU LOSE!" << endl;
-//        exit(0);
+        exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {

@@ -1,8 +1,7 @@
 #pragma once
 
 #include <vector>
-
-#include "Enemy.h"
+#include "Window.h"
 
 using namespace std;
 
@@ -12,7 +11,6 @@ class Bullet {
     ~Bullet();
     void draw() const;
     void update(double dt);
-    void update();
     bool outOfBound();
 
     int getX() const { return x; }

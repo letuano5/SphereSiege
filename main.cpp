@@ -1,22 +1,14 @@
 #include <SDL.h>
 #include <ctime>
 #include <iostream>
-#include "Hero.h"
-#include "Window.h"
 #include "Includes.h"
+#include "Window.h"
 #include "Enemy.h"
+#include "Hero.h"
 using namespace std;
 
 
 using namespace std;
-
-void pollEvents (Window &window, Hero &hero) {
-    SDL_Event event;
-    if (SDL_PollEvent(&event)) {
-        hero.pollEvents(event);
-        window.pollEvents(event);
-    }
-}
 
 int main(int argv, char** args) {
     srand(time(NULL));
@@ -40,14 +32,14 @@ int main(int argv, char** args) {
         if (SDL_PollEvent(&event)) {
             window.pollEvents(event);
         }
-        
+
         enemy.update(hero.getX(), hero.getY());
         hero.intersect(enemy.getX(), enemy.getY());
         enemy.draw();
-        
+
         window.clear();
         prevTime = currTime;
-       
+
     }
 
     return 0;
