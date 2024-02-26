@@ -1,7 +1,6 @@
 #pragma once
-#include <string>
-#include <vector>
 
+#include "Includes.h"
 #include "Window.h"
 #include "Bullet.h"
 
@@ -15,6 +14,9 @@ class Hero {
     void shoot();
     void update();
     void pollEvents(SDL_Event &event);
+    int intersect(double enemyX, double enemyY);
+    int getX() const { return x; }
+    int getY() const { return y; }
 
    private:
     int w, h;

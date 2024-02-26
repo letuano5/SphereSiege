@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <SDL.h>
+#include "Includes.h"
 
 using namespace std;
 class Window {

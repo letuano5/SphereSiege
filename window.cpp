@@ -1,7 +1,7 @@
 #include "Window.h"
 
-#include <iostream>
-#include <SDL_image.h>
+#include "Includes.h"
+
 
 using namespace std;
 SDL_Renderer *Window::renderer = nullptr;
