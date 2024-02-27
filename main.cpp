@@ -1,6 +1,4 @@
-#include <SDL.h>
-#include <ctime>
-#include <iostream>
+
 #include "Includes.h"
 #include "Window.h"
 #include "Enemy.h"
@@ -17,7 +15,7 @@ int main(int argv, char** args) {
 
     Window window("Sphere Siege", WINDOW_WIDTH, WINDOW_HEIGHT);
     Hero hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
-    Enemy enemy(50, 50, 5, 5, 0.1, "res/enemy.png");
+    Enemy enemy(20, 20, 60, 60, 2, "res/triangle.png");
 
     while (!window.isClosed()) {
         SDL_Event event;
@@ -33,8 +31,9 @@ int main(int argv, char** args) {
             window.pollEvents(event);
         }
 
+//        cerr << hero.getX() << " " << hero.getY() << endl;
         enemy.update(hero.getX(), hero.getY());
-        hero.intersect(enemy.getX(), enemy.getY());
+        hero.intersect(enemy);
         enemy.draw();
 
         window.clear();
