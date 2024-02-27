@@ -1,5 +1,4 @@
 #include "Includes.h"
-#include "Hero.h"
 #include "Enemy.h"
 
 Enemy::Enemy(int w, int h, double x, double y, double speed, const string& image_path)
@@ -20,7 +19,7 @@ Enemy::~Enemy() {
 
 void Enemy::draw() {
     SDL_FRect enemy = {x, y, w, h};
-    cerr << "draw enemy at " << x  << " " << y << endl;
+    cerr << "draw enemy at " << x << " " << y << " " << w << " " << h << endl;
     if (triangle_texture) {
         SDL_RenderCopyF(Window::renderer, triangle_texture, nullptr, &enemy);
     } else {

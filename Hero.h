@@ -1,9 +1,9 @@
 #pragma once
-#include <string>
 
 #include "Includes.h"
 #include "Window.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ class Hero {
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
-    int intersect(double enemyX, double enemyY);
+    int intersect(const Enemy& enemy);
     int getX() const { return x; }
     int getY() const { return y; }
 
@@ -31,5 +31,6 @@ class Hero {
     int r, g, b, a;
 
     SDL_Texture *triangle_texture = nullptr;
+//    Bullet bullets[50005];
     vector<Bullet> bullets;
 };

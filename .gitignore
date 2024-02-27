@@ -31,4 +31,7 @@
 *.out
 *.app
 
+*.cbp
+*.layout
+*.depend
 /.vscode/

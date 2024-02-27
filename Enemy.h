@@ -2,7 +2,6 @@
 
 #include "Includes.h"
 #include "Window.h"
-#include "Hero.h"
 
 class Enemy {
 public:
@@ -12,6 +11,8 @@ public:
     void update(int heroX, int heroY);
     double getX() const { return x; }
     double getY() const { return y; }
+    int getW() const { return w; }
+    int getH() const { return h; }
 
 private:
     int w, h;
