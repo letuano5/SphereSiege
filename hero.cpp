@@ -1,14 +1,6 @@
 #include "Hero.h"
 #include "Includes.h"
 
-#include <SDL_image.h>
-
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <vector>
-
-
 using namespace std;
 
 pair<int, int> getMousePosition() {
@@ -112,20 +104,20 @@ void Hero::update(double dt) {
     }
 }
 
-int Hero::intersect(double enemyX, double enemyY) {
-    if (inRectangle(w, h, x, y, enemyX, enemyY)) {
+int Hero::intersect(const Enemy& enemy) {
+    if (intersectRectangle(w, h, x, y, enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY())) {
         cerr << "YOU LOSE!" << endl;
         exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
-        if (collision(bullets[i].getX(), bullets[i].getY(), enemyX, enemyY)) {
+        const Bullet& bullet = bullets[i];
+        if (intersectRectangle(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY(), bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
             cerr << "This enemy has been killed" << endl;
             exit(0);
             return WIN;
         } else {
-            cerr << "Try bullets " << i << " but failed" << endl;
-            cerr << bullets[i].getX() << " " << bullets[i].getY() << " " << enemyX << " " << enemyY << endl;
+
         }
     }
     cerr << "..." << endl;

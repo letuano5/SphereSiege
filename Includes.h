@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <ctime>
 #include <SDL.h>
 #include <SDL_Image.h>
 
@@ -17,5 +18,6 @@ const int WINDOW_HEIGHT = 540;
 const double EPS = 1e-6;
 
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY);
+bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, double thatX, double thatY);
 bool collision(double lhsX, double lhsY, double rhsX, double rhsY);
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY);
