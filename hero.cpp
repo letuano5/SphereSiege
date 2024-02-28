@@ -27,7 +27,6 @@ Hero::~Hero() {
 
 void Hero::draw() const {
     SDL_Rect hero = {x, y, w, h};
-//    cerr << "Draw hero at " << x << " " << y << endl;
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -104,22 +103,21 @@ void Hero::update(double dt) {
     }
 }
 
-int Hero::intersect(const Enemy& enemy) {
-    if (intersectRectangle(w, h, x, y, enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY())) {
-        cerr << "YOU LOSE!" << endl;
+// can't include enemy in hero and hero in enemy
+int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY) const {
+    if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
+        cerr << "Failed at " << w << " " << h << " " << x << " " << y << " " << enemyW << " " << enemyH << " " << enemyX << " " << enemyY << endl;
+        cerr << "Loser" << endl;
         exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet& bullet = bullets[i];
-        if (intersectRectangle(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY(), bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-            cerr << "This enemy has been killed" << endl;
-            exit(0);
+        if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
+            cerr << "OK shoot!" << endl;
             return WIN;
-        } else {
-
         }
     }
-    cerr << "..." << endl;
+    cerr << "Waiting for shoot" << endl;
     return CONTINUE;
 }

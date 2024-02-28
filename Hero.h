@@ -3,7 +3,6 @@
 #include "Includes.h"
 #include "Window.h"
 #include "Bullet.h"
-#include "Enemy.h"
 
 using namespace std;
 
@@ -21,7 +20,7 @@ class Hero {
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
-    int intersect(const Enemy& enemy);
+    int intersect(int enemyW, int enemyH, int enemyX, int enemyY) const;
     int getX() const { return x; }
     int getY() const { return y; }
 

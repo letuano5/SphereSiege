@@ -1,8 +1,8 @@
 #include "Includes.h"
 #include "Enemy.h"
 
-Enemy::Enemy(int w, int h, double x, double y, double speed, const string& image_path)
-: w(w), h(h), x(x), y(y), speed(speed) {
+Enemy::Enemy(int w, int h, double x, double y, double speed, double rotateSpeed, const string& image_path)
+: w(w), h(h), x(x), y(y), speed(speed), rotateSpeed(rotateSpeed) {
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
         cerr << "Failed to create surface.\n";
@@ -19,18 +19,16 @@ Enemy::~Enemy() {
 
 void Enemy::draw() {
     SDL_FRect enemy = {x, y, w, h};
-    cerr << "draw enemy at " << x << " " << y << " " << w << " " << h << endl;
     if (triangle_texture) {
-        SDL_RenderCopyF(Window::renderer, triangle_texture, nullptr, &enemy);
+        SDL_RenderCopyExF(Window::renderer, triangle_texture, nullptr, &enemy, rotateAngle, nullptr, SDL_FLIP_NONE);
+        rotateAngle += rotateSpeed;
     } else {
         cout << "No texture.\n";
     }
 }
 
-void Enemy::update(int heroX, int heroY) {
+void Enemy::updateEnemy(int heroX, int heroY) {
     double angle = calculateAngle(heroX, heroY, x, y);
-//    cerr << x << " " << y << endl;
-//    cerr << getX() << " " << getY() << " " << x << " " << y << " " << angle << endl;
     x += speed * cos(angle * M_PI / 180);
     y += speed * sin(angle * M_PI / 180);
 }
