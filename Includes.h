@@ -25,7 +25,10 @@ bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, 
 bool collision(double lhsX, double lhsY, double rhsX, double rhsY);
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY);
 int randInt(int low, int high);
+double randDouble(double low, double high);
 bool rectOutOfBound(int w, int h, double x, double y);
+bool pointInBound(double x, double y);
+bool equalF(double x, double y);
 
 //class T : high_resolution_clock {
 //  const time_point start_time;

@@ -4,29 +4,44 @@ MultiEnemy::MultiEnemy() {
     ;
 }
 
+MultiEnemy::~MultiEnemy() {
+    enemies.clear();
+}
+
+bool MultiEnemy::checkTime() {
+    clock_t currentTime = clock();
+    int diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
+//    cerr << diffTime << endl;
+    return diffTime > MAX_DIFF_TIME;
+}
+
+// https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
 void MultiEnemy::generateEnemy(const Hero& hero) {
     for (int i = 0; i < int(enemies.size()); i++) {
-        const Enemy& enemy = enemies[i];
-        if (rectOutOfBound(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY())) {
+        if (rectOutOfBound(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY())) {
             enemies.erase(enemies.begin() + i);
             i--;
         }
-        if (enemy.getHealthPoint() <= 0) {
+        if (enemies[i]->getHealthPoint() <= 0) {
             enemies.erase(enemies.begin() + i);
             i--;
         }
     }
-    if (enemies.empty()) {
-//        getTime.init();
-        enemies.emplace_back(20, 20, randInt(1, WINDOW_WIDTH), randInt(1, WINDOW_HEIGHT), randInt(1, 1.5), randInt(1, 2), "res/triangle.png");
+    if (enemies.empty() || checkTime()) {
+        pair<int, int> currentPosition;
+        do {
+            currentPosition.first = randInt(0, WINDOW_WIDTH);
+            currentPosition.second = randInt(0, WINDOW_HEIGHT);
+        } while (!pointInBound(currentPosition.first, currentPosition.second));
+//        cerr << "Spawning new enemy from " << currentPosition.first << " " << currentPosition.second << " " << pointInBound(currentPosition.first, currentPosition.second) << endl;
+        lastTimeSpawned = clock();
+        enemies.push_back(new Enemy (20, 20, currentPosition.first, currentPosition.second, randDouble(1, 1.5), randInt(1, 2), "res/triangle.png"));
     }
     for (int i = 0; i < int(enemies.size()); i++) {
-        Enemy& enemy = enemies[i];
-        enemy.updateEnemy(hero.getX(), hero.getY());
-        cerr << "check " << enemy.getW() << " " << enemy.getH() << " " << enemy.getX() << " " << enemy.getY() << endl;
-        if (hero.intersect(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY()) == WIN) {
-            enemy.decreaseHealthPoint(1);
+        enemies[i]->updateEnemy(hero.getX(), hero.getY());
+        if (hero.intersect(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY()) == WIN) {
+            enemies[i]->decreaseHealthPoint(1);
         }
-        enemy.draw();
+        enemies[i]->draw();
     }
 }

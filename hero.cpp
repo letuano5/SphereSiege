@@ -114,10 +114,10 @@ int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY) const {
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet& bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-            cerr << "OK shoot!" << endl;
+//            cerr << "OK shoot!" << endl;
             return WIN;
         }
     }
-    cerr << "Waiting for shoot" << endl;
+//    cerr << "Waiting for shoot" << endl;
     return CONTINUE;
 }

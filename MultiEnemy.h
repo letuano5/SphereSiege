@@ -4,13 +4,16 @@
 #include "Hero.h"
 #include "Enemy.h"
 
-// microseconds
-const int MAX_DIFF_TIME = 3000;
+// seconds
+const int MAX_DIFF_TIME = 5;
 
 class MultiEnemy {
 public:
     MultiEnemy();
+    ~MultiEnemy();
     void generateEnemy(const Hero& hero);
+    clock_t lastTimeSpawned = clock();
+    bool checkTime();
 private:
-    vector<Enemy> enemies;
+    vector<Enemy*> enemies;
 };
