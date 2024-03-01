@@ -103,21 +103,16 @@ void Hero::update(double dt) {
     }
 }
 
-// can't include enemy in hero and hero in enemy
 int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY) const {
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
-        cerr << "Failed at " << w << " " << h << " " << x << " " << y << " " << enemyW << " " << enemyH << " " << enemyX << " " << enemyY << endl;
-        cerr << "Loser" << endl;
         exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet& bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-//            cerr << "OK shoot!" << endl;
             return WIN;
         }
     }
-//    cerr << "Waiting for shoot" << endl;
     return CONTINUE;
 }

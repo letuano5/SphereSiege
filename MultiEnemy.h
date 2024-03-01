@@ -5,7 +5,7 @@
 #include "Enemy.h"
 
 // seconds
-const int MAX_DIFF_TIME = 5;
+const int MAX_DIFF_TIME = 1;
 
 class MultiEnemy {
 public:

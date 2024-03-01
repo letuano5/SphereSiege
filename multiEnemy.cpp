@@ -5,13 +5,16 @@ MultiEnemy::MultiEnemy() {
 }
 
 MultiEnemy::~MultiEnemy() {
+    for (int i = 0; i < int(enemies.size()); i++) {
+        delete enemies[i];
+        enemies[i] = NULL;
+    }
     enemies.clear();
 }
 
 bool MultiEnemy::checkTime() {
     clock_t currentTime = clock();
     int diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
-//    cerr << diffTime << endl;
     return diffTime > MAX_DIFF_TIME;
 }
 
@@ -19,10 +22,14 @@ bool MultiEnemy::checkTime() {
 void MultiEnemy::generateEnemy(const Hero& hero) {
     for (int i = 0; i < int(enemies.size()); i++) {
         if (rectOutOfBound(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY())) {
+            delete enemies[i];
+            enemies[i] = NULL;
             enemies.erase(enemies.begin() + i);
             i--;
         }
         if (enemies[i]->getHealthPoint() <= 0) {
+            delete enemies[i];
+            enemies[i] = NULL;
             enemies.erase(enemies.begin() + i);
             i--;
         }
@@ -33,7 +40,6 @@ void MultiEnemy::generateEnemy(const Hero& hero) {
             currentPosition.first = randInt(0, WINDOW_WIDTH);
             currentPosition.second = randInt(0, WINDOW_HEIGHT);
         } while (!pointInBound(currentPosition.first, currentPosition.second));
-//        cerr << "Spawning new enemy from " << currentPosition.first << " " << currentPosition.second << " " << pointInBound(currentPosition.first, currentPosition.second) << endl;
         lastTimeSpawned = clock();
         enemies.push_back(new Enemy (20, 20, currentPosition.first, currentPosition.second, randDouble(1, 1.5), randInt(1, 2), "res/triangle.png"));
     }

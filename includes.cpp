@@ -12,10 +12,6 @@ bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, 
     return topLeft.first <= botRight.first && topLeft.second <= botRight.second;
 }
 
-bool collision(double lhsX, double lhsY, double rhsX, double rhsY) {
-    return fabsl(lhsX - rhsX) <= EPS && fabsl(lhsY - rhsY) <= EPS;
-}
-
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY) {
     return atan2(mouseY - textureY, mouseX - textureX) * 180 / M_PI;
 }
