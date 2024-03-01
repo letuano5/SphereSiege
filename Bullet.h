@@ -27,7 +27,8 @@ class Bullet {
 
    private:
     int x, y;
-    static constexpr int w = 5, h = 5;
+    static constexpr int w = 4, h = 4;
     static constexpr double speed = 700.0;
     double angle;
+//    SDL_Texture *bullet_texture = nullptr;
 };

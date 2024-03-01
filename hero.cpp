@@ -1,4 +1,5 @@
 #include "Hero.h"
+
 #include "Includes.h"
 
 using namespace std;
@@ -27,7 +28,7 @@ Hero::~Hero() {
 
 void Hero::draw() const {
     SDL_Rect hero = {x, y, w, h};
-//    cerr << "Draw hero at " << x << " " << y << endl;
+    //    cerr << "Draw hero at " << x << " " << y << endl;
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -93,7 +94,6 @@ void Hero::shoot(int mouseX, int mouseY) {
     bullets.emplace_back(bulletX, bulletY, angle);
 }
 
-
 void Hero::update(double dt) {
     for (int i = 0; i < int(bullets.size()); i++) {
         bullets[i].update(dt);
@@ -104,20 +104,23 @@ void Hero::update(double dt) {
     }
 }
 
-int Hero::intersect(const Enemy& enemy) {
+int Hero::intersect(Enemy &enemy, Score &score) {
     if (intersectRectangle(w, h, x, y, enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY())) {
         cerr << "YOU LOSE!" << endl;
-        exit(0);
+        //        exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
-        const Bullet& bullet = bullets[i];
+        const Bullet &bullet = bullets[i];
         if (intersectRectangle(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY(), bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
             cerr << "This enemy has been killed" << endl;
-            exit(0);
+            score.update(1);
+            enemy.takeDmg(dmg);
+            bullets.erase(bullets.begin() + i);
+            i--;
+            //            exit(0);
             return WIN;
         } else {
-
         }
     }
     cerr << "..." << endl;

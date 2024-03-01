@@ -1,8 +1,9 @@
-#include "Includes.h"
 #include "Enemy.h"
 
-Enemy::Enemy(int w, int h, double x, double y, double speed, const string& image_path)
-: w(w), h(h), x(x), y(y), speed(speed) {
+#include "Includes.h"
+
+Enemy::Enemy(int w, int h, double x, double y, double speed, const string &image_path)
+    : w(w), h(h), x(x), y(y), speed(speed) {
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
         cerr << "Failed to create surface.\n";
@@ -19,8 +20,14 @@ Enemy::~Enemy() {
 
 void Enemy::draw() {
     SDL_FRect enemy = {x, y, w, h};
+    SDL_Rect inner = {x + (w - hp_w) / 2, y + h + 8, hp_w * (health_point / max_health_point), hp_h};
+
     cerr << "draw enemy at " << x << " " << y << " " << w << " " << h << endl;
     if (triangle_texture) {
+        SDL_Rect outer = {x + (w - hp_w) / 2, y + h + 8, hp_w, hp_h};
+        SDL_SetRenderDrawColor(Window::renderer, 200, 0, 0, 255);
+        SDL_RenderDrawRect(Window::renderer, &outer);
+        SDL_RenderFillRect(Window::renderer, &inner);
         SDL_RenderCopyF(Window::renderer, triangle_texture, nullptr, &enemy);
     } else {
         cout << "No texture.\n";
@@ -28,9 +35,18 @@ void Enemy::draw() {
 }
 
 void Enemy::update(int heroX, int heroY) {
+//    if (health_point <= 0) return;
     double angle = calculateAngle(heroX, heroY, x, y);
-//    cerr << x << " " << y << endl;
-//    cerr << getX() << " " << getY() << " " << x << " " << y << " " << angle << endl;
+    //    cerr << x << " " << y << endl;
+    //    cerr << getX() << " " << getY() << " " << x << " " << y << " " << angle << endl;
     x += speed * cos(angle * M_PI / 180);
     y += speed * sin(angle * M_PI / 180);
+}
+
+void Enemy::takeDmg(double dmg) {
+    if (health_point > dmg) {
+        health_point -= dmg;
+    } else {
+        health_point = 0;
+    }
 }

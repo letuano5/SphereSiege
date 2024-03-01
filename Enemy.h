@@ -4,7 +4,7 @@
 #include "Window.h"
 
 class Enemy {
-public:
+   public:
     Enemy(int w, int h, double x, double y, double speed, const string &image_path);
     ~Enemy();
     void draw();
@@ -13,10 +13,14 @@ public:
     double getY() const { return y; }
     int getW() const { return w; }
     int getH() const { return h; }
+    void takeDmg(double dmg);
+    double health_point = 1;
+    int max_health_point = 1;
 
-private:
+   private:
     int w, h;
     double x, y;
     double speed;
+    int hp_w = 30, hp_h = 4;
     SDL_Texture *triangle_texture = nullptr;
 };
