@@ -104,7 +104,7 @@ void Hero::update(double dt) {
 }
 
 
-int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY, Score& score) const {
+int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score) {
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
         cerr << "YOU LOSE!" << endl;
         exit(0);
@@ -115,7 +115,6 @@ int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY, Score& score
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
             cerr << "This enemy has been killed" << endl;
             score.update(1);
-            enemy.takeDmg(dmg);
             bullets.erase(bullets.begin() + i);
             i--;
             return WIN;
