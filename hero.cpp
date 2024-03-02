@@ -1,4 +1,5 @@
 #include "Hero.h"
+
 #include "Includes.h"
 
 using namespace std;
@@ -92,7 +93,6 @@ void Hero::shoot(int mouseX, int mouseY) {
     bullets.emplace_back(bulletX, bulletY, angle);
 }
 
-
 void Hero::update(double dt) {
     for (int i = 0; i < int(bullets.size()); i++) {
         bullets[i].update(dt);
@@ -103,14 +103,21 @@ void Hero::update(double dt) {
     }
 }
 
-int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY) const {
+
+int Hero::intersect(int enemyW, int enemyH, int enemyX, int enemyY, Score& score) const {
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
+        cerr << "YOU LOSE!" << endl;
         exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet& bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
+            cerr << "This enemy has been killed" << endl;
+            score.update(1);
+            enemy.takeDmg(dmg);
+            bullets.erase(bullets.begin() + i);
+            i--;
             return WIN;
         }
     }

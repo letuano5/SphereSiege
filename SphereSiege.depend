@@ -1,58 +1,57 @@
 # depslib dependency file v1.0
-1708865651 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
-	<SDL.h>
-	<ctime>
-	<iostream>
+1709219369 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
+	"Includes.h"
+	"ProgressBar.h"
+	"Text.h"
 	"Window.h"
+	"Score.h"
 
-1708866360 d:\code\cpp\bai_tap_lon\spheresiege\window.h
+1708941655 d:\code\cpp\bai_tap_lon\spheresiege\window.h
 	<SDL.h>
 	<SDL_image.h>
-	<SDL_ttf.h>
 	<string>
+	"Includes.h"
 
-1708787800 d:\code\cpp\bai_tap_lon\spheresiege\rect.h
-	<string>
+1709046940 d:\code\cpp\bai_tap_lon\spheresiege\rect.h
+	"Includes.h"
 	"Window.h"
 
-1708866428 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
+1709043457 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
 	"Window.h"
-	<iostream>
+	"Includes.h"
 
-1708787715 source:d:\code\cpp\bai_tap_lon\spheresiege\rect.cpp
+1709046937 source:d:\code\cpp\bai_tap_lon\spheresiege\rect.cpp
 	"Rect.h"
-	<SDL_image.h>
-	<iostream>
-	<string>
+	"Includes.h"
 
-1708869568 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1709262885 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
-	<SDL_image.h>
+	"Includes.h"
+
+1709221172 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
+	"Bullet.h"
+	"Enemy.h"
+	"Includes.h"
+	"Window.h"
+	"Score.h"
+
+1709264558 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
 	<cmath>
-	<iostream>
-	<string>
-	<vector>
+	"Includes.h"
 	"Bullet.h"
 
-1708869568 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
-	<string>
-	"Bullet.h"
+1709264573 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
+	"Includes.h"
 	"Window.h"
 
-1708869545 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
-	"Bullet.h"
-	<cmath>
-
-1708869535 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
-	<vector>
+1709264962 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
 	"Enemy.h"
+	"Includes.h"
 
-1708865060 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
-	"Enemy.h"
-
-1708865032 d:\code\cpp\bai_tap_lon\spheresiege\enemy.h
+1709220858 d:\code\cpp\bai_tap_lon\spheresiege\enemy.h
+	"Includes.h"
 	"Window.h"
 
 1708941412 source:d:\uet\int2215 51\spheresiege\bullet.cpp
@@ -119,6 +118,44 @@
 1709174905 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
+1709213254 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+	<iostream>
+	<string>
+	<vector>
+	<cmath>
+	<ctime>
+	<SDL.h>
+	<SDL_Image.h>
+	<SDL_ttf.h>
+
+1709043314 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
+	"Includes.h"
+
+1709214556 d:\code\cpp\bai_tap_lon\spheresiege\text.h
+	"Includes.h"
+
+1709214574 source:d:\code\cpp\bai_tap_lon\spheresiege\text.cpp
+	"Text.h"
+	<iostream>
+	"Window.h"
+
+1709214594 d:\code\cpp\bai_tap_lon\spheresiege\progressbar.h
+	"Includes.h"
+
+1709218441 source:d:\code\cpp\bai_tap_lon\spheresiege\progressbar.cpp
+	"ProgressBar.h"
+	"Text.h"
+	"Window.h"
+
+1709219155 d:\code\cpp\bai_tap_lon\spheresiege\score.h
+	"Includes.h"
+
+1709219155 source:d:\code\cpp\bai_tap_lon\spheresiege\score.cpp
+	"Score.h"
+	<string>
+	"Text.h"
+	"Window.h"
+=======
 1709175034 source:d:\uet\int2215 51\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 

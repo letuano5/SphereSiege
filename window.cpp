@@ -11,9 +11,9 @@ Window::Window(const string &title, int width, int height) : _title(title), _wid
 Window::~Window() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(_window);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
-//    SDL_TTF_Quit();
 }
 
 bool Window::init() {
@@ -23,6 +23,11 @@ bool Window::init() {
     }
     if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
         cerr << "Failed to init SDL_image.\n";
+        return 0;
+    }
+    if (TTF_Init() == -1) {
+        cerr << "Failed to init SDL_ttf.\n";
+        return 0;
     }
 
     _window = SDL_CreateWindow(
