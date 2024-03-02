@@ -1,14 +1,15 @@
 
-#include "Includes.h"
-#include "Window.h"
 #include "Enemy.h"
 #include "Hero.h"
+#include "Includes.h"
+#include "ProgressBar.h"
+#include "Text.h"
+#include "Window.h"
+#include "Score.h"
+
 using namespace std;
 
-
-using namespace std;
-
-int main(int argv, char** args) {
+int main(int argv, char **args) {
     srand(time(NULL));
     Uint64 prevTime = SDL_GetPerformanceCounter();
     Uint64 currTime, deltaTime;
@@ -16,6 +17,10 @@ int main(int argv, char** args) {
     Window window("Sphere Siege", WINDOW_WIDTH, WINDOW_HEIGHT);
     Hero hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
     Enemy enemy(20, 20, 60, 60, 2, "res/triangle.png");
+    ProgressBar Health(120, 12, 20, 20, "HP", true, {0, 255, 0, 255});
+    ProgressBar Progress(120, 12, 220, 20, "progress", true, {150, 150, 150, 255});
+    Score score(0, "score: ", 520, 20, false);
+    Score best(0, "best: ", 750, 20, true);
 
     while (!window.isClosed()) {
         SDL_Event event;
@@ -23,22 +28,30 @@ int main(int argv, char** args) {
         deltaTime = currTime - prevTime;
         double dt = (double)deltaTime / SDL_GetPerformanceFrequency();
 
-        hero.draw();
-        hero.pollEvents(dt);
-        hero.update(dt);
+
 
         if (SDL_PollEvent(&event)) {
             window.pollEvents(event);
         }
 
-//        cerr << hero.getX() << " " << hero.getY() << endl;
+        //        cerr << hero.getX() << " " << hero.getY() << endl;
         enemy.update(hero.getX(), hero.getY());
-        hero.intersect(enemy);
+        hero.intersect(enemy, score);
         enemy.draw();
-
+        Progress.draw();
+        Health.draw();
+        score.draw();
+        best.draw();
+        if (score.getScore() >= best.getScore()) {
+            best.update(score.getScore());
+        }
+        Health.update(0.8);
+        Progress.update(0);
+        hero.draw();
+        hero.pollEvents(dt);
+        hero.update(dt);
         window.clear();
         prevTime = currTime;
-
     }
 
     return 0;
