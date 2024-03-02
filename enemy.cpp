@@ -23,11 +23,10 @@ void Enemy::draw() {
 
     cerr << "draw enemy at " << x << " " << y << " " << w << " " << h << endl;
     if (triangle_texture) {
-        SDL_Rect outer = {x + (w - hp_w) / 2, y + h + 8, hp_w, hp_h};
+        SDL_FRect outer = {x + (w - hp_w) / 2, y + h + 8, hp_w, hp_h};
         SDL_SetRenderDrawColor(Window::renderer, 200, 0, 0, 255);
-        SDL_RenderDrawRect(Window::renderer, &outer);
-        SDL_RenderFillRect(Window::renderer, &inner);
-        SDL_RenderCopyExF(Window::renderer, triangle_texture, nullptr, &enemy, rotateAngle, nullptr, SDL_FLIP_NONE);
+        SDL_RenderDrawRectF(Window::renderer, &outer);
+        SDL_RenderFillRectF(Window::renderer, &inner);
         rotateAngle += rotateSpeed;
     } else {
         cout << "No texture.\n";

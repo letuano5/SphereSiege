@@ -19,7 +19,6 @@ int main(int argv, char **args) {
 
     Window window("Sphere Siege", WINDOW_WIDTH, WINDOW_HEIGHT);
     Hero hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
-    Enemy enemy(20, 20, 60, 60, 2, "res/triangle.png");
     ProgressBar Health(120, 12, 20, 20, "HP", true, {0, 255, 0, 255});
     ProgressBar Progress(120, 12, 220, 20, "progress", true, {150, 150, 150, 255});
     Score score(0, "score: ", 520, 20, false);
@@ -36,10 +35,10 @@ int main(int argv, char **args) {
             window.pollEvents(event);
         }
 
-////// In progress
-        enemy.update(hero.getX(), hero.getY());
-        hero.intersect(enemy, score);
-        enemy.draw();
+        enemies.generateEnemy(hero, score);
+//        enemy.update(hero.getX(), hero.getY());
+//        hero.intersect(enemy, score);
+//        enemy.draw();
         Progress.draw();
         Health.draw();
         score.draw();
@@ -52,7 +51,7 @@ int main(int argv, char **args) {
         hero.draw();
         hero.pollEvents(dt);
         hero.update(dt);
-        enemies.generateEnemy(hero);
+//        enemies.generateEnemy(hero);
         window.clear();
         prevTime = currTime;
     }

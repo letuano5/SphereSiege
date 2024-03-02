@@ -19,7 +19,7 @@ bool MultiEnemy::checkTime() {
 }
 
 // https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
-void MultiEnemy::generateEnemy(const Hero& hero) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score) {
     for (int i = 0; i < int(enemies.size()); i++) {
         if (rectOutOfBound(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY())) {
             delete enemies[i];
@@ -27,7 +27,7 @@ void MultiEnemy::generateEnemy(const Hero& hero) {
             enemies.erase(enemies.begin() + i);
             i--;
         }
-        if (enemies[i]->getHealthPoint() <= 0) {
+        if (enemies[i]->health_point <= 0) {
             delete enemies[i];
             enemies[i] = NULL;
             enemies.erase(enemies.begin() + i);
@@ -44,9 +44,9 @@ void MultiEnemy::generateEnemy(const Hero& hero) {
         enemies.push_back(new Enemy (20, 20, currentPosition.first, currentPosition.second, randDouble(1, 1.5), randInt(1, 2), "res/triangle.png"));
     }
     for (int i = 0; i < int(enemies.size()); i++) {
-        enemies[i]->updateEnemy(hero.getX(), hero.getY());
-        if (hero.intersect(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY()) == WIN) {
-            enemies[i]->decreaseHealthPoint(1);
+        enemies[i]->update(hero.getX(), hero.getY());
+        if (hero.intersect(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY(), score) == WIN) {
+            enemies[i]->takeDmg(1);
         }
         enemies[i]->draw();
     }

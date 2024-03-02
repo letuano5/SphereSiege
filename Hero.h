@@ -23,7 +23,7 @@ class Hero {
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
-    int intersect(int enemyW, int enemyH, int enemyX, int enemyY, Score& score) const;
+    int intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score);
     int getX() const { return x; }
     int getY() const { return y; }
     int getW() const { return w; }
