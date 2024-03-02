@@ -4,8 +4,9 @@
 #include "Window.h"
 
 class Enemy {
-   public:
-    Enemy(int w, int h, double x, double y, double speed, const string &image_path);
+
+public:
+    Enemy(int w, int h, double x, double y, double speed, double rotateSpeed, const string &image_path);
     ~Enemy();
     void draw();
     void update(int heroX, int heroY);
@@ -22,5 +23,7 @@ class Enemy {
     double x, y;
     double speed;
     int hp_w = 30, hp_h = 4;
+    double rotateSpeed = 2;
+    double rotateAngle = 0;
     SDL_Texture *triangle_texture = nullptr;
 };

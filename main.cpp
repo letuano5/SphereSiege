@@ -1,5 +1,8 @@
 
 #include "Enemy.h"
+#include "Includes.h"
+#include "Window.h"
+#include "MultiEnemy.h"
 #include "Hero.h"
 #include "Includes.h"
 #include "ProgressBar.h"
@@ -21,6 +24,7 @@ int main(int argv, char **args) {
     ProgressBar Progress(120, 12, 220, 20, "progress", true, {150, 150, 150, 255});
     Score score(0, "score: ", 520, 20, false);
     Score best(0, "best: ", 750, 20, true);
+    MultiEnemy enemies;
 
     while (!window.isClosed()) {
         SDL_Event event;
@@ -28,13 +32,11 @@ int main(int argv, char **args) {
         deltaTime = currTime - prevTime;
         double dt = (double)deltaTime / SDL_GetPerformanceFrequency();
 
-
-
         if (SDL_PollEvent(&event)) {
             window.pollEvents(event);
         }
 
-        //        cerr << hero.getX() << " " << hero.getY() << endl;
+////// In progress
         enemy.update(hero.getX(), hero.getY());
         hero.intersect(enemy, score);
         enemy.draw();
@@ -50,6 +52,7 @@ int main(int argv, char **args) {
         hero.draw();
         hero.pollEvents(dt);
         hero.update(dt);
+        enemies.generateEnemy(hero);
         window.clear();
         prevTime = currTime;
     }
