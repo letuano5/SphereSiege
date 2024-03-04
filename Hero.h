@@ -23,7 +23,7 @@ class Hero {
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
-    int intersect(Enemy &enemy, Score &score);
+    int intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score);
     int getX() const { return x; }
     int getY() const { return y; }
     int getW() const { return w; }
@@ -35,6 +35,5 @@ class Hero {
     int r, g, b, a;
 
     SDL_Texture *triangle_texture = nullptr;
-    //    Bullet bullets[50005];
     vector<Bullet> bullets;
 };

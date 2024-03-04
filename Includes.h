@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <random>
 #include <cmath>
 #include <ctime>
 #include <SDL.h>
@@ -10,6 +12,7 @@
 #include <SDL_ttf.h>
 
 using namespace std;
+using namespace chrono;
 
 const int WIN = 0;
 const int LOSE = 1;
@@ -25,5 +28,9 @@ struct screen {
 };
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY);
 bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, double thatX, double thatY);
-bool collision(double lhsX, double lhsY, double rhsX, double rhsY);
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY);
+int randInt(int low, int high);
+double randDouble(double low, double high);
+bool rectOutOfBound(int w, int h, double x, double y);
+bool pointInBound(double x, double y);
+bool equalF(double x, double y);

@@ -28,7 +28,6 @@ Hero::~Hero() {
 
 void Hero::draw() const {
     SDL_Rect hero = {x, y, w, h};
-    //    cerr << "Draw hero at " << x << " " << y << endl;
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -104,25 +103,22 @@ void Hero::update(double dt) {
     }
 }
 
-int Hero::intersect(Enemy &enemy, Score &score) {
-    if (intersectRectangle(w, h, x, y, enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY())) {
+
+int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score) {
+    if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
         cerr << "YOU LOSE!" << endl;
-        //        exit(0);
+        exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
-        const Bullet &bullet = bullets[i];
-        if (intersectRectangle(enemy.getW(), enemy.getH(), enemy.getX(), enemy.getY(), bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
+        const Bullet& bullet = bullets[i];
+        if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
             cerr << "This enemy has been killed" << endl;
             score.update(1);
-            enemy.takeDmg(dmg);
             bullets.erase(bullets.begin() + i);
             i--;
-            //            exit(0);
             return WIN;
-        } else {
         }
     }
-    cerr << "..." << endl;
     return CONTINUE;
 }
