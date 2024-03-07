@@ -2,7 +2,9 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+
 #include <string>
+
 #include "Includes.h"
 
 using namespace std;
@@ -11,10 +13,10 @@ class Window {
     Window(const string &title, int width, int height);
     ~Window();
 
-    int getWidth() const { return _width; }
-    int getHeight() const { return _height; }
+    int getW() const { return _width; }
+    int getH() const { return _height; }
 
-    void pollEvents(SDL_Event &event);
+    pair<int, int> pollEvents(SDL_Event &event);
     void clear() const;
     bool isClosed() const { return _close; }
 

@@ -4,12 +4,6 @@
 
 using namespace std;
 
-pair<int, int> getMousePosition() {
-    int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    return make_pair(mouseX, mouseY);
-}
-
 Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x(x), y(y) {
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
@@ -19,14 +13,19 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!triangle_texture) {
         cerr << "Failed to create texture.\n";
     }
+    vignette_texture = SDL_CreateTexture(Window::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+    if (!vignette_texture) {
+        cerr << "Failed to create vignette texture.\n";
+    }
     SDL_FreeSurface(surface);
 }
 
 Hero::~Hero() {
     SDL_DestroyTexture(triangle_texture);
+    SDL_DestroyTexture(vignette_texture);
 }
 
-void Hero::draw() const {
+void Hero::draw() {
     SDL_Rect hero = {x, y, w, h};
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
@@ -35,9 +34,13 @@ void Hero::draw() const {
         double dx = mouseX - (x + w / 2);
         double dy = mouseY - (y + h / 2);
         double angle = atan2(dy, dx) * 180 / M_PI;
+        if (shakeDuration > 0) {
+            hero.x += rand() % (2 * shakeIntensity) - shakeIntensity;
+            hero.y += rand() % (2 * shakeIntensity) - shakeIntensity;
+            shakeDuration--;
+        }
 
         SDL_RenderCopyEx(Window::renderer, triangle_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
-
         for (const auto &bullet : bullets) {
             bullet.draw();
         }
@@ -103,18 +106,31 @@ void Hero::update(double dt) {
     }
 }
 
-
-int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score) {
+int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score &score, double enemyDmg) {
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
-        cerr << "YOU LOSE!" << endl;
-        exit(0);
+        bool isFlickering = false;
+        double currentTime = SDL_GetTicks() / 1000.0;
+        if (currentTime - enemyLastHit >= enemyDmgRate) {
+            //            health_point -= enemyDmg;
+            enemyLastHit = currentTime;
+            isFlickering = true;
+            shakeDuration = 10;  // Shake for 10 frames
+            shakeIntensity = 5;  // Shake intensity
+        }
+        if (health_point <= 0) {
+            isLost = 1;
+        }
+        if (isFlickering) {
+            SDL_SetTextureAlphaMod(vignette_texture, 128);
+            SDL_Rect vignette_rect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+            SDL_RenderCopy(Window::renderer, vignette_texture, nullptr, &vignette_rect);
+        }
+        isFlickering = false;
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
-        const Bullet& bullet = bullets[i];
+        const Bullet &bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-            cerr << "This enemy has been killed" << endl;
-            score.update(1);
             bullets.erase(bullets.begin() + i);
             i--;
             return WIN;
