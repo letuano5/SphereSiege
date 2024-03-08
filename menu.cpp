@@ -1,0 +1,63 @@
+#include "Menu.h"
+
+#include "Button.h"
+#include "Text.h"
+#include "Window.h"
+
+Menu::Menu(string menuType) : menuType(menuType) {}
+Menu::~Menu() {}
+
+void Menu::draw(int mouseX, int mouseY) const {
+    SDL_Rect overlay = {x, y, w, h};
+    SDL_SetRenderDrawColor(Window::renderer, 30, 30, 30, 255);
+    SDL_RenderFillRect(Window::renderer, &overlay);
+    if (menuType == "start") {
+        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
+        Text credit(Window::renderer, "res/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
+
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
+        credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8, Window::renderer);
+
+        Button startBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "PLAY");
+        Button statsBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "STATS");
+        startBtn.draw();
+        statsBtn.draw();
+        if (startBtn.isClicked(mouseX, mouseY)) {
+            isStarted = 1;
+        }
+    } else if (menuType == "pause") {
+        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
+
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
+
+        Button resumeBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESUME");
+        Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, resumeBtn.getY() + resumeBtn.getH() + 10, "EXIT");
+        resumeBtn.draw();
+        exitBtn.draw();
+        if (resumeBtn.isClicked(mouseX, mouseY)) {
+            isPaused = !isPaused;
+        }
+        if (exitBtn.isClicked(mouseX, mouseY)) {
+            exit(0);
+        }
+    } else if (menuType == "lost") {
+        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "YOU LOST", {200, 200, 200, 255});
+
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
+
+        Button restartBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESTART");
+        Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, restartBtn.getY() + restartBtn.getH() + 10, "EXIT");
+        restartBtn.draw();
+        exitBtn.draw();
+        if (restartBtn.isClicked(mouseX, mouseY)) {
+            isPaused = false;
+            isStarted = true;
+//            RESET HERE
+        }
+        if (exitBtn.isClicked(mouseX, mouseY)) {
+            exit(0);
+        }
+    } else {
+
+    }
+}

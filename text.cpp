@@ -34,10 +34,17 @@ SDL_Texture *Text::loadFont(SDL_Renderer *renderer, const string &font_path, int
     return text_texture;
 }
 
-int Text::getWidth() const {
+int Text::getW() const {
     return text_rect.w;
 }
 
-int Text::getHeight() const {
+int Text::getH() const {
     return text_rect.h;
+}
+int Text::getX() const {
+    return text_rect.x;
+}
+
+int Text::getY() const {
+    return text_rect.y;
 }

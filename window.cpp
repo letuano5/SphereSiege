@@ -52,7 +52,7 @@ bool Window::init() {
     return true;
 }
 
-void Window::pollEvents(SDL_Event &event) {
+pair<int, int> Window::pollEvents(SDL_Event &event) {
     switch (event.type) {
         case SDL_QUIT:
             _close = true;
@@ -62,10 +62,20 @@ void Window::pollEvents(SDL_Event &event) {
                 case SDLK_ESCAPE:
                     _close = true;
                     break;
+                case SDLK_p:
+                    isPaused = !isPaused;
+                    break;
                 default:
                     break;
             }
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            int x, y;
+            Uint32 mouseState = SDL_GetMouseState(&x, &y);
+            return { x, y };
+            break;
     }
+    return { -1, -1 };
 }
 
 void Window::clear() const {

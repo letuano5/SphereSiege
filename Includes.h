@@ -1,15 +1,16 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <chrono>
-#include <random>
-#include <cmath>
-#include <ctime>
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <SDL_ttf.h>
+
+#include <chrono>
+#include <cmath>
+#include <ctime>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 
 using namespace std;
 using namespace chrono;
@@ -34,3 +35,7 @@ double randDouble(double low, double high);
 bool rectOutOfBound(int w, int h, double x, double y);
 bool pointInBound(double x, double y);
 bool equalF(double x, double y);
+pair <int, int> getMousePosition();
+extern bool isStarted;
+extern bool isPaused;
+extern bool isLost;
