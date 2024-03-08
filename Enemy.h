@@ -18,13 +18,14 @@ public:
     void takeDmg(double dmg);
     double health_point = 1;
     int max_health_point = 1;
+    double dmg = 0.1;
 
    private:
     int w, h;
     double x, y;
     double speed;
     int hp_w = 30, hp_h = 4;
-    double rotateSpeed = 2;
+    double rotateSpeed = 100;
     double rotateAngle = 0;
     SDL_Texture *triangle_texture = nullptr;
 };

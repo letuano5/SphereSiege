@@ -1,6 +1,9 @@
 #include "Includes.h"
 
 mt19937_64 rng(time(NULL));
+bool isStarted = false;
+bool isPaused = false;
+bool isLost = false;
 
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
     return x <= ptsX && ptsX <= x + w && y <= ptsY && ptsY <= y + h;
@@ -38,4 +41,10 @@ bool equalF(double x, double y) {
 
 bool pointInBound(double x, double y) {
     return (equalF(x, 0) || equalF(x, MAP_WIDTH) || equalF(y, 0) || equalF(y, MAP_HEIGHT));
+}
+
+pair<int, int> getMousePosition() {
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    return make_pair(mouseX, mouseY);
 }

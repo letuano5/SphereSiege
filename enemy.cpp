@@ -44,12 +44,9 @@ void Enemy::update(int heroX, int heroY) {
     double angle = calculateAngle(heroX, heroY, x, y);
     x += speed * cos(angle * M_PI / 180);
     y += speed * sin(angle * M_PI / 180);
+    rotateAngle += rotateSpeed;
 }
 
 void Enemy::takeDmg(double dmg) {
-    if (health_point > dmg) {
-        health_point -= dmg;
-    } else {
-        health_point = 0;
-    }
+    health_point -= dmg;
 }
