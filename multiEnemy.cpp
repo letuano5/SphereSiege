@@ -18,7 +18,7 @@ bool MultiEnemy::checkTime() {
 }
 
 // https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
-void MultiEnemy::generateEnemy(Hero& hero, Score& score) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
     if (enemies.empty() || checkTime()) {
         pair<int, int> currentPosition;
         do {
@@ -48,6 +48,6 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score) {
             i--;
             continue;
         }
-        enemies[i]->draw();
+        enemies[i]->draw(camera);
     }
 }

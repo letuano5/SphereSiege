@@ -1,6 +1,5 @@
-
-#include "Enemy.h"
 #include "Includes.h"
+#include "Enemy.h"
 #include "Window.h"
 #include "MultiEnemy.h"
 #include "Hero.h"
@@ -25,6 +24,8 @@ int main(int argv, char **args) {
     Score score(0, "score: ", 520, 20, false);
     Score best(0, "best: ", 750, 20, true);
     MultiEnemy enemies;
+    Camera camera;
+
     Menu start("start");
     Menu pause("pause");
     Menu lost("lost");
@@ -48,7 +49,7 @@ int main(int argv, char **args) {
             deltaTime = currTime - prevTime;
             double dt = (double)deltaTime / SDL_GetPerformanceFrequency();
 
-            enemies.generateEnemy(hero, score);
+            enemies.generateEnemy(hero, score, camera);
             Progress.draw();
             Health.draw();
             score.draw();
@@ -58,7 +59,7 @@ int main(int argv, char **args) {
             }
             Health.update(hero.health_point);
             Progress.update(0);
-            hero.draw();
+            hero.draw(camera);
             hero.pollEvents(dt);
             hero.update(dt);
             prevTime = currTime;

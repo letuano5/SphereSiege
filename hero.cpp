@@ -1,8 +1,5 @@
 #include "Hero.h"
-
 #include "Includes.h"
-
-using namespace std;
 
 Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x(x), y(y) {
     auto surface = IMG_Load(image_path.c_str());
@@ -25,8 +22,15 @@ Hero::~Hero() {
     SDL_DestroyTexture(vignette_texture);
 }
 
-void Hero::draw() {
-    SDL_Rect hero = {x, y, w, h};
+void Hero::draw(Camera& camera) {
+    x = max(x, 0);
+    x = min(x, MAP_WIDTH - w);
+    y = max(y, 0);
+    y = min(y, MAP_HEIGHT - h);
+    cerr << x << " " << y << endl;
+    camera.adjust(getX(), getY(), getW(), getH());
+    SDL_Rect hero = {getX(camera), getY(camera), w, h};
+
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -42,7 +46,7 @@ void Hero::draw() {
 
         SDL_RenderCopyEx(Window::renderer, triangle_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
         for (const auto &bullet : bullets) {
-            bullet.draw();
+            bullet.draw(camera);
         }
 
     } else {
