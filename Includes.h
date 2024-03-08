@@ -32,5 +32,6 @@ double calculateAngle(double mouseX, double mouseY, double textureX, double text
 int randInt(int low, int high);
 double randDouble(double low, double high);
 bool rectOutOfBound(int w, int h, double x, double y);
+bool rectOutOfCamera(int w, int h, double x, double y);
 bool pointInBound(double x, double y);
 bool equalF(double x, double y);

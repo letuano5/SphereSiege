@@ -1,6 +1,5 @@
-
-#include "Enemy.h"
 #include "Includes.h"
+#include "Enemy.h"
 #include "Window.h"
 #include "MultiEnemy.h"
 #include "Hero.h"
@@ -24,6 +23,7 @@ int main(int argv, char **args) {
     Score score(0, "score: ", 520, 20, false);
     Score best(0, "best: ", 750, 20, true);
     MultiEnemy enemies;
+    Camera camera;
 
     while (!window.isClosed()) {
         SDL_Event event;
@@ -35,10 +35,7 @@ int main(int argv, char **args) {
             window.pollEvents(event);
         }
 
-        enemies.generateEnemy(hero, score);
-//        enemy.update(hero.getX(), hero.getY());
-//        hero.intersect(enemy, score);
-//        enemy.draw();
+        enemies.generateEnemy(hero, score, camera);
         Progress.draw();
         Health.draw();
         score.draw();
@@ -48,10 +45,9 @@ int main(int argv, char **args) {
         }
         Health.update(0.8);
         Progress.update(0);
-        hero.draw();
+        hero.draw(camera);
         hero.pollEvents(dt);
         hero.update(dt);
-//        enemies.generateEnemy(hero);
         window.clear();
         prevTime = currTime;
     }

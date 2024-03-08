@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.h"
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Includes.h"
@@ -19,11 +20,13 @@ class Hero {
     double moveSpeed = 300.0;
     double dmg = 0.1;
 
-    void draw() const;
+    void draw(Camera& camera);
     void shoot(int mouseX, int mouseY);
     void update(double dt);
     void pollEvents(double dt);
     int intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score);
+    int getX(const Camera& camera) const { return x - camera.getX(); }
+    int getY(const Camera& camera) const { return y - camera.getY(); }
     int getX() const { return x; }
     int getY() const { return y; }
     int getW() const { return w; }

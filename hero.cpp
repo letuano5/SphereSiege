@@ -1,9 +1,5 @@
 #include "Hero.h"
 
-#include "Includes.h"
-
-using namespace std;
-
 pair<int, int> getMousePosition() {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
@@ -26,8 +22,14 @@ Hero::~Hero() {
     SDL_DestroyTexture(triangle_texture);
 }
 
-void Hero::draw() const {
-    SDL_Rect hero = {x, y, w, h};
+void Hero::draw(Camera& camera) {
+    x = max(x, 0);
+    x = min(x, MAP_WIDTH - w);
+    y = max(y, 0);
+    y = min(y, MAP_HEIGHT - h);
+    cerr << x << " " << y << endl;
+    camera.adjust(getX(), getY(), getW(), getH());
+    SDL_Rect hero = {getX(camera), getY(camera), w, h};
     if (triangle_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
@@ -39,7 +41,7 @@ void Hero::draw() const {
         SDL_RenderCopyEx(Window::renderer, triangle_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
 
         for (const auto &bullet : bullets) {
-            bullet.draw();
+            bullet.draw(camera);
         }
 
     } else {
@@ -106,14 +108,12 @@ void Hero::update(double dt) {
 
 int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score) {
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
-        cerr << "YOU LOSE!" << endl;
         exit(0);
         return LOSE;
     }
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet& bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-            cerr << "This enemy has been killed" << endl;
             score.update(1);
             bullets.erase(bullets.begin() + i);
             i--;

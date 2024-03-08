@@ -33,22 +33,24 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="Bullet.h" />
+		<Unit filename="Camera.h" />
 		<Unit filename="Enemy.h" />
 		<Unit filename="Hero.h" />
 		<Unit filename="Includes.h" />
-		<Unit filename="ProgressBar.h" />
 		<Unit filename="MultiEnemy.h" />
+		<Unit filename="ProgressBar.h" />
 		<Unit filename="Rect.h" />
 		<Unit filename="Score.h" />
 		<Unit filename="Text.h" />
 		<Unit filename="Window.h" />
 		<Unit filename="bullet.cpp" />
+		<Unit filename="camera.cpp" />
 		<Unit filename="enemy.cpp" />
 		<Unit filename="hero.cpp" />
 		<Unit filename="includes.cpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="progressBar.cpp" />
 		<Unit filename="multiEnemy.cpp" />
+		<Unit filename="progressBar.cpp" />
 		<Unit filename="rect.cpp" />
 		<Unit filename="score.cpp" />
 		<Unit filename="text.cpp" />
