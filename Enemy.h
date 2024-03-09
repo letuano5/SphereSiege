@@ -2,13 +2,14 @@
 
 #include "Includes.h"
 #include "Window.h"
+#include "Camera.h"
 
 class Enemy {
 
 public:
     Enemy(int w, int h, double x, double y, double speed, double rotateSpeed, const string &image_path);
     ~Enemy();
-    void draw();
+    void draw(const Camera& camera);
     void update(int heroX, int heroY);
     double getX() const { return x; }
     double getY() const { return y; }

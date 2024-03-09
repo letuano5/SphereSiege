@@ -58,20 +58,20 @@
 	"Includes.h"
 	"Window.h"
 
-1709391734 source:d:\uet\int2215 51\spheresiege\bullet.cpp
-	<cmath>
+1709869945 source:d:\uet\int2215 51\spheresiege\bullet.cpp
 	"Includes.h"
 	"Bullet.h"
 
-1709391733 d:\uet\int2215 51\spheresiege\bullet.h
+1709869286 d:\uet\int2215 51\spheresiege\bullet.h
 	"Includes.h"
 	"Window.h"
+	"Camera.h"
 
-1709393611 source:d:\uet\int2215 51\spheresiege\hero.cpp
+1709871507 source:d:\uet\int2215 51\spheresiege\hero.cpp
 	"Hero.h"
-	"Includes.h"
 
-1709393616 d:\uet\int2215 51\spheresiege\hero.h
+1709870411 d:\uet\int2215 51\spheresiege\hero.h
+	"Camera.h"
 	"Bullet.h"
 	"Enemy.h"
 	"Includes.h"
@@ -84,9 +84,9 @@
 	<string>
 	"Includes.h"
 
-1709393665 source:d:\uet\int2215 51\spheresiege\main.cpp
-	"Enemy.h"
+1709867043 source:d:\uet\int2215 51\spheresiege\main.cpp
 	"Includes.h"
+	"Enemy.h"
 	"Window.h"
 	"MultiEnemy.h"
 	"Hero.h"
@@ -108,15 +108,16 @@
 	"Window.h"
 	"Includes.h"
 
-1709392770 source:d:\uet\int2215 51\spheresiege\enemy.cpp
+1709869255 source:d:\uet\int2215 51\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
-1709392796 d:\uet\int2215 51\spheresiege\enemy.h
+1709869215 d:\uet\int2215 51\spheresiege\enemy.h
 	"Includes.h"
 	"Window.h"
+	"Camera.h"
 
-1709391733 d:\uet\int2215 51\spheresiege\includes.h
+1709864432 d:\uet\int2215 51\spheresiege\includes.h
 	<iostream>
 	<string>
 	<vector>
@@ -128,7 +129,7 @@
 	<SDL_Image.h>
 	<SDL_ttf.h>
 
-1709174905 source:d:\uet\int2215 51\spheresiege\includes.cpp
+1709870054 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
 1709784008 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
@@ -173,10 +174,10 @@
 
 1709219155 
 
-1709393687 source:d:\uet\int2215 51\spheresiege\multienemy.cpp
+1709870105 source:d:\uet\int2215 51\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 
-1709393696 d:\uet\int2215 51\spheresiege\multienemy.h
+1709867034 d:\uet\int2215 51\spheresiege\multienemy.h
 	"Includes.h"
 	"Hero.h"
 	"Enemy.h"
@@ -207,6 +208,11 @@
 	<iostream>
 	"Window.h"
 
+1709880966 source:d:\uet\int2215 51\spheresiege\camera.cpp
+	"Camera.h"
+
+1709783375 d:\uet\int2215 51\spheresiege\camera.h
+	"Includes.h"
 1709560673 d:\code\cpp\bai_tap_lon\spheresiege\multienemy.h
 	"Includes.h"
 	"Hero.h"

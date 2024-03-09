@@ -2,6 +2,7 @@
 
 #include "Includes.h"
 #include "Window.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -9,10 +10,13 @@ class Bullet {
    public:
     Bullet(int x, int y, double angle);
     ~Bullet();
-    void draw() const;
+    void draw(const Camera& camera) const;
     void update(double dt);
     bool outOfBound();
+    bool outOfCamera(const Camera& camera) const;
 
+    int getX(const Camera& camera) const { return x - camera.getX(); }
+    int getY(const Camera& camera) const { return y - camera.getY(); }
     int getX() const { return x; }
     int getY() const { return y; }
     int getH() const { return h; }
@@ -30,5 +34,4 @@ class Bullet {
     static constexpr int w = 4, h = 4;
     static constexpr double speed = 700.0;
     double angle;
-//    SDL_Texture *bullet_texture = nullptr;
 };

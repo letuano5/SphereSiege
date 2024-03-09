@@ -12,7 +12,7 @@ class MultiEnemy {
 public:
     MultiEnemy();
     ~MultiEnemy();
-    void generateEnemy(Hero& hero, Score& score);
+    void generateEnemy(Hero& hero, Score& score, const Camera& camera);
     clock_t lastTimeSpawned = clock();
     bool checkTime();
 private:
