@@ -27,7 +27,7 @@ void Hero::draw(Camera& camera) {
     x = min(x, MAP_WIDTH - w);
     y = max(y, 0);
     y = min(y, MAP_HEIGHT - h);
-    cerr << x << " " << y << endl;
+//    cerr << x << " " << y << endl;
     camera.adjust(getX(), getY(), getW(), getH());
     SDL_Rect hero = {getX(camera), getY(camera), w, h};
 
@@ -35,6 +35,8 @@ void Hero::draw(Camera& camera) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
         int mouseY = mousePos.second;
+        mouseX += camera.getX();
+        mouseY += camera.getY();
         double dx = mouseX - (x + w / 2);
         double dy = mouseY - (y + h / 2);
         double angle = atan2(dy, dx) * 180 / M_PI;
@@ -53,7 +55,7 @@ void Hero::draw(Camera& camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(double dt) {
+void Hero::pollEvents(double dt, const Camera& camera) {
     double dx = 0;
     double dy = 0;
 
@@ -80,6 +82,8 @@ void Hero::pollEvents(double dt) {
 
     int x, y;
     Uint32 mouseState = SDL_GetMouseState(&x, &y);
+    x += camera.getX();
+    y += camera.getY();
     if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
         double currentTime = SDL_GetTicks() / 1000.0;
         if (currentTime - lastShot >= fireRate) {

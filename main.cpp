@@ -60,7 +60,7 @@ int main(int argv, char **args) {
             Health.update(hero.health_point);
             Progress.update(0);
             hero.draw(camera);
-            hero.pollEvents(dt);
+            hero.pollEvents(dt, camera);
             hero.update(dt);
             prevTime = currTime;
         } else {
