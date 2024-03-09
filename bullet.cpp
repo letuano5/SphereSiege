@@ -19,7 +19,7 @@ void Bullet::draw(const Camera& camera) const {
     if (outOfCamera(camera)) {
         return;
     }
-    cerr << "draw bullet at " << getX(camera) << " " << getY(camera) << endl;
+//    cerr << "draw bullet at " << getX(camera) << " " << getY(camera) << endl;
     SDL_Rect bulletRect = {getX(camera), getY(camera), w, h};
     SDL_SetRenderDrawColor(Window::renderer, Color.r, Color.g, Color.b, Color.a);
     SDL_RenderFillRect(Window::renderer, &bulletRect);
