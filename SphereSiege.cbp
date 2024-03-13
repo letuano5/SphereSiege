@@ -38,6 +38,7 @@
 		<Unit filename="Enemy.h" />
 		<Unit filename="Hero.h" />
 		<Unit filename="Includes.h" />
+		<Unit filename="Item.h" />
 		<Unit filename="Menu.h" />
 		<Unit filename="MultiEnemy.h" />
 		<Unit filename="ProgressBar.h" />
@@ -52,6 +53,7 @@
 		<Unit filename="enemy.cpp" />
 		<Unit filename="hero.cpp" />
 		<Unit filename="includes.cpp" />
+		<Unit filename="item.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
 		<Unit filename="multiEnemy.cpp" />

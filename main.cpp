@@ -9,6 +9,7 @@
 #include "Window.h"
 #include "Score.h"
 #include "Menu.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ int main(int argv, char **args) {
     Menu start("start");
     Menu pause("pause");
     Menu lost("lost");
+    Item item(0, 0, "RAPID");
     while (!window.isClosed()) {
         pair<int, int> mousePos = { -1, -1 };
         window.clear();
@@ -54,6 +56,8 @@ int main(int argv, char **args) {
             Health.draw();
             score.draw();
             best.draw();
+            item.draw(camera);
+            item.update();
             if (score.getScore() >= best.getScore()) {
                 best.update(score.getScore());
             }
