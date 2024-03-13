@@ -23,6 +23,7 @@ const int WINDOW_HEIGHT = 540;
 const int MAP_WIDTH = WINDOW_WIDTH * 2;
 const int MAP_HEIGHT = WINDOW_HEIGHT * 2;
 const double EPS = 1e-6;
+const double PI = acos(-1);
 struct screen {
     int x = WINDOW_WIDTH / -2;
     int y = WINDOW_HEIGHT / -2;

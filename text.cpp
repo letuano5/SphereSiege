@@ -6,13 +6,16 @@
 
 Text::Text(SDL_Renderer *renderer, const string &font_path, int font_size, const string &message_text, const SDL_Color &color) {
     text_texture = loadFont(renderer, font_path, font_size, message_text, color);
-    SDL_QueryTexture(text_texture, nullptr, nullptr, &text_rect.w, &text_rect.h);
+    int width, height;
+    SDL_QueryTexture(text_texture, nullptr, nullptr, &width, &height);
+    text_rect.w = static_cast<float>(width);
+    text_rect.h = static_cast<float>(height);
 }
 
-void Text::display(int x, int y, SDL_Renderer *renderer) const {
+void Text::display(double x, double y, SDL_Renderer *renderer) const {
     text_rect.x = x;
     text_rect.y = y;
-    SDL_RenderCopy(renderer, text_texture, nullptr, &text_rect);
+    SDL_RenderCopyF(renderer, text_texture, nullptr, &text_rect);
 }
 
 SDL_Texture *Text::loadFont(SDL_Renderer *renderer, const string &font_path, int font_size, const string &message_text, const SDL_Color &color) {
@@ -37,14 +40,12 @@ SDL_Texture *Text::loadFont(SDL_Renderer *renderer, const string &font_path, int
 int Text::getW() const {
     return text_rect.w;
 }
-
 int Text::getH() const {
     return text_rect.h;
 }
-int Text::getX() const {
+double Text::getX() const {
     return text_rect.x;
 }
-
-int Text::getY() const {
+double Text::getY() const {
     return text_rect.y;
 }
