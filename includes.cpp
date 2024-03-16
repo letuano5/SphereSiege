@@ -11,12 +11,14 @@ bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
 
 bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, double thatX, double thatY) {
     pair<double, double> topLeft = {max(x, thatX), max(y, thatY)};
-    pair<double, double> botRight = {min(x + w, thatX + w), min(y + h, thatY + h)};
+    pair<double, double> botRight = {min(x + w, thatX + thatW), min(y + h, thatY + thatH)};
+//    cerr << "intersect = " << topLeft.first << " " << topLeft.second << ", " << botRight.first << " " << botRight.second << endl;
     return topLeft.first <= botRight.first && topLeft.second <= botRight.second;
 }
 
+// radian
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY) {
-    return atan2(mouseY - textureY, mouseX - textureX) * 180 / M_PI;
+    return atan2(mouseY - textureY, mouseX - textureX);
 }
 
 int randInt(int low, int high) {
@@ -40,7 +42,7 @@ bool equalF(double x, double y) {
 }
 
 bool pointInBound(double x, double y) {
-    return (equalF(x, 0) || equalF(x, MAP_WIDTH) || equalF(y, 0) || equalF(y, MAP_HEIGHT));
+    return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT));
 }
 
 pair<int, int> getMousePosition() {

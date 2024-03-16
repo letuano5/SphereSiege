@@ -7,7 +7,7 @@
 class Enemy {
 
 public:
-    Enemy(int w, int h, double x, double y, double speed, double rotateSpeed, const string &image_path);
+    Enemy(int w, int h, double x, double y, double speed, double angle, double canSpilt, double hp, const string &image_path);
     ~Enemy();
     void draw(const Camera& camera);
     void update(int heroX, int heroY);
@@ -15,7 +15,10 @@ public:
     double getY() const { return y; }
     int getW() const { return w; }
     int getH() const { return h; }
+    double getAngle() const { return angle; }
     void takeDmg(double dmg);
+    bool enemyOutOfBound(int leftBound) const;
+    bool canSpilt;
     double health_point = 1;
     int max_health_point = 1;
     double dmg = 0.1;
@@ -23,9 +26,12 @@ public:
    private:
     int w, h;
     double x, y;
+    double angle = randDouble(0, 2 * PI);
     double speed;
     int hp_w = 30, hp_h = 4;
-    double rotateSpeed = 100;
+    double rotateSpeed = randInt(1, 2);
     double rotateAngle = 0;
+    bool canShiftAngle = randInt(0, 1);
     SDL_Texture *triangle_texture = nullptr;
+    double randomAngle();
 };

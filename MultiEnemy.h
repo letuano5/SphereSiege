@@ -13,8 +13,9 @@ public:
     MultiEnemy();
     ~MultiEnemy();
     void generateEnemy(Hero& hero, Score& score, const Camera& camera);
-    clock_t lastTimeSpawned = clock();
-    bool checkTime();
 private:
     vector<Enemy*> enemies;
+    void killEnemy(int& index);
+    bool checkTime();
+    clock_t lastTimeSpawned = clock();
 };

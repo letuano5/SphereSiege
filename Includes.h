@@ -11,6 +11,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <cassert>
 
 using namespace std;
 using namespace chrono;
@@ -20,9 +21,12 @@ const int LOSE = 1;
 const int CONTINUE = 2;
 const int WINDOW_WIDTH = 960;
 const int WINDOW_HEIGHT = 540;
-const int MAP_WIDTH = WINDOW_WIDTH * 2;
-const int MAP_HEIGHT = WINDOW_HEIGHT * 2;
+const int LEFT_BOUND = -50;
+const int MAP_WIDTH = 1280;
+const int MAP_HEIGHT = 720;
 const double EPS = 1e-6;
+const double PI = acos(-1);
+
 struct screen {
     int x = WINDOW_WIDTH / -2;
     int y = WINDOW_HEIGHT / -2;
