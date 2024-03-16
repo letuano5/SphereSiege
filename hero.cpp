@@ -1,4 +1,5 @@
 #include "Hero.h"
+
 #include "Includes.h"
 
 Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x(x), y(y) {
@@ -22,12 +23,12 @@ Hero::~Hero() {
     SDL_DestroyTexture(vignette_texture);
 }
 
-void Hero::draw(Camera& camera) {
+void Hero::draw(Camera &camera) {
     x = max(x, 0);
     x = min(x, MAP_WIDTH - w);
     y = max(y, 0);
     y = min(y, MAP_HEIGHT - h);
-//    cerr << x << " " << y << endl;
+    //    cerr << x << " " << y << endl;
     camera.adjust(getX(), getY(), getW(), getH());
     SDL_Rect hero = {getX(camera), getY(camera), w, h};
 
@@ -55,7 +56,7 @@ void Hero::draw(Camera& camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(double dt, const Camera& camera) {
+void Hero::pollEvents(double dt, const Camera &camera) {
     double dx = 0;
     double dy = 0;
 
@@ -86,7 +87,11 @@ void Hero::pollEvents(double dt, const Camera& camera) {
     y += camera.getY();
     if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
         double currentTime = SDL_GetTicks() / 1000.0;
-        if (currentTime - lastShot >= fireRate) {
+        double effectiveFireRate = fireRate;
+        if (fastShoot) {
+            effectiveFireRate /= 2;
+        }
+        if (currentTime - lastShot >= effectiveFireRate) {
             shoot(x, y);
             lastShot = currentTime;
         }
@@ -101,7 +106,13 @@ void Hero::shoot(int mouseX, int mouseY) {
     int bulletX = x + w / 2 + cos(angle) * (w / 2);
     int bulletY = y + h / 2 + sin(angle) * (h / 2);
 
-    bullets.emplace_back(bulletX, bulletY, angle);
+    if (trippleShot) {
+        bullets.push_back(Bullet(bulletX, bulletY, angle - PI / 15));
+        bullets.push_back(Bullet(bulletX, bulletY, angle));
+        bullets.push_back(Bullet(bulletX, bulletY, angle + PI / 15));
+    } else {
+        bullets.push_back(Bullet(bulletX, bulletY, angle));
+    }
 }
 
 void Hero::update(double dt) {
@@ -110,6 +121,20 @@ void Hero::update(double dt) {
         if (bullets[i].outOfBound()) {
             bullets.erase(bullets.begin() + i);
             i--;
+        }
+    }
+    for (auto it = activeItems.begin(); it != activeItems.end();) {
+        if (SDL_GetTicks() > it->second + itemActiveTime * 1000) {
+            if (it->first == "FAST_SHOT") {
+                setFastShot(false);
+            } else if (it->first == "TRIPPLE_SHOT") {
+                setTrippleShot(false);
+            } else if (it->first == "PIERCE_SHOT") {
+                setPierceShot(false);
+            }
+            it = activeItems.erase(it);
+        } else {
+            ++it;
         }
     }
 }
@@ -140,10 +165,28 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
     for (int i = 0; i < int(bullets.size()); i++) {
         const Bullet &bullet = bullets[i];
         if (intersectRectangle(enemyW, enemyH, enemyX, enemyY, bullet.getW(), bullet.getH(), bullet.getX(), bullet.getY())) {
-            bullets.erase(bullets.begin() + i);
-            i--;
+            if (!pierceShot) {
+                bullets.erase(bullets.begin() + i);
+                i--;
+            }
             return WIN;
         }
     }
     return CONTINUE;
+}
+
+void Hero::setFastShot(bool fastShoot) {
+    this->fastShoot = fastShoot;
+}
+
+void Hero::setHealth(double health) {
+    health_point = health;
+}
+
+void Hero::setTrippleShot(bool trippleShot) {
+    this->trippleShot = trippleShot;
+}
+
+void Hero::setPierceShot(bool pierceShot) {
+    this->pierceShot = pierceShot;
 }

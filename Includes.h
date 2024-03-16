@@ -40,7 +40,7 @@ bool rectOutOfBound(int w, int h, double x, double y);
 bool rectOutOfCamera(int w, int h, double x, double y);
 bool pointInBound(double x, double y);
 bool equalF(double x, double y);
-pair <int, int> getMousePosition();
+pair<int, int> getMousePosition();
 extern bool isStarted;
 extern bool isPaused;
 extern bool isLost;

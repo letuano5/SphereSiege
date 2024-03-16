@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Camera.h"
+#include <map>
+
 #include "Bullet.h"
+#include "Camera.h"
 #include "Enemy.h"
 #include "Includes.h"
 #include "Score.h"
@@ -11,7 +13,7 @@ using namespace std;
 
 class Hero {
    public:
-    Hero(int w, int h, int x, int y, const string &image_path);
+    Hero(int w, int h, int x, int y, const string& image_path);
 
     ~Hero();
 
@@ -20,8 +22,10 @@ class Hero {
     double moveSpeed = 300.0;
     double dmg = 0.1;
     double health_point = 1;
+    double maxHealth = 1;
     int shakeDuration = 0;
     int shakeIntensity = 0;
+    const double itemActiveTime = 5;
 
     double enemyDmgRate = 0.1;
     double enemyLastHit = 0.0;
@@ -37,13 +41,25 @@ class Hero {
     int getY() const { return y; }
     int getW() const { return w; }
     int getH() const { return h; }
+    double getHealth() const { return health_point; }
+    double getDamage() const { return dmg; }
+    void setFastShot(bool fastShoot);
+    void setHealth(double health);
+    void setTrippleShot(bool trippleShot);
+    void setPierceShot(bool setPierceShot);
+
+    map<string, Uint32> activeItems;
 
    private:
-    int w, h;
+    int w,
+        h;
     int x, y;
     int r, g, b, a;
+    bool fastShoot = false;
+    bool trippleShot = false;
+    bool pierceShot = false;
 
-    SDL_Texture *triangle_texture = nullptr;
-    SDL_Texture *vignette_texture = nullptr;
+    SDL_Texture* triangle_texture = nullptr;
+    SDL_Texture* vignette_texture = nullptr;
     vector<Bullet> bullets;
 };
