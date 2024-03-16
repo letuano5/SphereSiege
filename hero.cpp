@@ -120,7 +120,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
         bool isFlickering = false;
         double currentTime = SDL_GetTicks() / 1000.0;
         if (currentTime - enemyLastHit >= enemyDmgRate) {
-            //            health_point -= enemyDmg;
+            health_point -= enemyDmg;
             enemyLastHit = currentTime;
             isFlickering = true;
             shakeDuration = 10;  // Shake for 10 frames
