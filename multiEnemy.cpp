@@ -14,7 +14,7 @@ MultiEnemy::~MultiEnemy() {
 
 bool MultiEnemy::checkTime() {
     clock_t currentTime = clock();
-    int diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
+    double diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
     return diffTime > MAX_DIFF_TIME;
 }
 
