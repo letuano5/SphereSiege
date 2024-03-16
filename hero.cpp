@@ -140,11 +140,12 @@ void Hero::update(double dt) {
 }
 
 int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score &score, double enemyDmg) {
+//    cerr << w << " " << h << " " << x << " " << y << " " << enemyW << " " << enemyH << " " << enemyX << " " << enemyY << " " << intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY) << endl;
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
         bool isFlickering = false;
         double currentTime = SDL_GetTicks() / 1000.0;
         if (currentTime - enemyLastHit >= enemyDmgRate) {
-            //            health_point -= enemyDmg;
+            health_point -= enemyDmg;
             enemyLastHit = currentTime;
             isFlickering = true;
             shakeDuration = 10;  // Shake for 10 frames
