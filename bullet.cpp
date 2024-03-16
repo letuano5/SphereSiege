@@ -1,29 +1,29 @@
-#include "Includes.h"
 #include "Bullet.h"
 
+#include "Includes.h"
+
 Bullet::Bullet(int x, int y, double angle)
-    : x(x), y(y), angle(angle)
-{
-//    auto surface = IMG_Load("res/bullet.png");
-//    if (!surface) {
-//        cerr << "Failed to create surface.\n";
-//    }
-//    bullet_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
-//    if (!bullet_texture) {
-//        cerr << "Failed to create texture.\n";
-//    }
-//    SDL_FreeSurface(surface);
+    : x(x), y(y), angle(angle) {
+    //    auto surface = IMG_Load("res/bullet.png");
+    //    if (!surface) {
+    //        cerr << "Failed to create surface.\n";
+    //    }
+    //    bullet_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
+    //    if (!bullet_texture) {
+    //        cerr << "Failed to create texture.\n";
+    //    }
+    //    SDL_FreeSurface(surface);
 }
 
 void Bullet::draw(const Camera& camera) const {
     if (outOfCamera(camera)) {
         return;
     }
-//    cerr << "draw bullet at " << getX(camera) << " " << getY(camera) << endl;
+    //    cerr << "draw bullet at " << getX(camera) << " " << getY(camera) << endl;
     SDL_Rect bulletRect = {getX(camera), getY(camera), w, h};
-    SDL_SetRenderDrawColor(Window::renderer, Color.r, Color.g, Color.b, Color.a);
+    SDL_SetRenderDrawColor(Window::renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(Window::renderer, &bulletRect);
-//    SDL_RenderCopyEx(Window::renderer, bullet_texture, nullptr, &bulletRect, angle, nullptr, SDL_FLIP_NONE);
+    //    SDL_RenderCopyEx(Window::renderer, bullet_texture, nullptr, &bulletRect, angle, nullptr, SDL_FLIP_NONE);
 }
 void Bullet::update(double dt) {
     double dx = cos(angle) * speed * dt;
@@ -39,5 +39,5 @@ bool Bullet::outOfCamera(const Camera& camera) const {
 }
 
 Bullet::~Bullet() {
-//    SDL_DestroyTexture(bullet_texture);
+    //    SDL_DestroyTexture(bullet_texture);
 }

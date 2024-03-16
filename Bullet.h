@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Camera.h"
 #include "Includes.h"
 #include "Window.h"
-#include "Camera.h"
 
 using namespace std;
 
@@ -22,12 +22,7 @@ class Bullet {
     int getH() const { return h; }
     int getW() const { return w; }
 
-    struct {
-        int r = 230;
-        int g = 230;
-        int b = 230;
-        int a = 255;
-    } Color;
+    SDL_Color color = {230, 230, 230, 255};
 
    private:
     int x, y;
