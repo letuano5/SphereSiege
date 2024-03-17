@@ -4,7 +4,8 @@ mt19937_64 rng(time(NULL));
 bool isStarted = false;
 bool isPaused = false;
 bool isLost = false;
-
+bool heroAutoShoot = false;
+double dt = 0;
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
     return x <= ptsX && ptsX <= x + w && y <= ptsY && ptsY <= y + h;
 }
@@ -12,7 +13,7 @@ bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
 bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, double thatX, double thatY) {
     pair<double, double> topLeft = {max(x, thatX), max(y, thatY)};
     pair<double, double> botRight = {min(x + w, thatX + thatW), min(y + h, thatY + thatH)};
-//    cerr << "intersect = " << topLeft.first << " " << topLeft.second << ", " << botRight.first << " " << botRight.second << endl;
+    //    cerr << "intersect = " << topLeft.first << " " << topLeft.second << ", " << botRight.first << " " << botRight.second << endl;
     return topLeft.first <= botRight.first && topLeft.second <= botRight.second;
 }
 

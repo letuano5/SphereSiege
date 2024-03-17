@@ -28,13 +28,13 @@ void Items::spawnItem(Hero& hero, const Camera& camera) {
             items.erase(items.begin() + i);
             i--;
             cout << "Item collected\n";
-            continue;  // Skip the rest of the loop
+            continue;
         }
         if (items[i]->isOutOfBounds()) {
             delete items[i];
             items.erase(items.begin() + i);
             i--;
-            continue;  // Skip the rest of the loop
+            continue;
         }
     }
 }
