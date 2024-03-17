@@ -50,7 +50,8 @@ int main(int argv, char **args) {
             double dt = (double)deltaTime / SDL_GetPerformanceFrequency();
 
             enemies.generateEnemy(hero, score, camera);
-            items.spawnItem(hero, camera);
+//            cerr << "here" << endl;
+            items.spawnItem(hero, camera, enemies);
             Progress.draw();
             Health.draw();
             score.draw();

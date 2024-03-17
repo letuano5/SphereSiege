@@ -10,7 +10,7 @@ public:
     Enemy(int w, int h, double x, double y, double speed, double angle, double canSpilt, double hp, double dmg, const string &image_path);
     ~Enemy();
     void draw(const Camera& camera);
-    void update(int heroX, int heroY);
+    void update(int heroX, int heroY, double slowRate);
     double getX() const { return x; }
     double getY() const { return y; }
     int getW() const { return w; }
@@ -21,7 +21,6 @@ public:
     bool enemyOutOfBound(int leftBound) const;
     bool canSpilt;
     double dmg = 0.1;
-
    private:
     int w, h;
     double x, y;

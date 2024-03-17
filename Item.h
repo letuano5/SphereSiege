@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "Window.h"
 #include "Hero.h"
+#include "MultiEnemy.h"
 const int activeTime = 5;
 class Item {
    public:
@@ -13,7 +14,7 @@ class Item {
     void update();
     bool intersect(double x, double y, double w, double h);
     bool isOutOfBounds() const;
-    void applyEffect(Hero &hero);
+    void applyEffect(Hero &hero, MultiEnemy &enemies);
 
    private:
     double x, y;

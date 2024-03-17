@@ -127,9 +127,11 @@ void Hero::update(double dt) {
         if (SDL_GetTicks() > it->second + itemActiveTime * 1000) {
             if (it->first == "FAST_SHOT") {
                 setFastShot(false);
-            } else if (it->first == "TRIPPLE_SHOT") {
+            }
+            if (it->first == "TRIPPLE_SHOT") {
                 setTrippleShot(false);
-            } else if (it->first == "PIERCE_SHOT") {
+            }
+            if (it->first == "PIERCE_SHOT") {
                 setPierceShot(false);
             }
             it = activeItems.erase(it);
