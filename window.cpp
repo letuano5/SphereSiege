@@ -1,4 +1,5 @@
 #include "Window.h"
+
 #include "Includes.h"
 
 using namespace std;
@@ -14,6 +15,7 @@ Window::~Window() {
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
+    Mix_CloseAudio();
 }
 
 bool Window::init() {
@@ -29,6 +31,11 @@ bool Window::init() {
         cerr << "Failed to init SDL_ttf.\n";
         return 0;
     }
+    if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ) {
+        cerr << "Failed to init SDL_mixer.\n";
+        return 0;
+    }
+
 
     _window = SDL_CreateWindow(
         _title.c_str(),
@@ -65,6 +72,9 @@ pair<int, int> Window::pollEvents(SDL_Event &event) {
                 case SDLK_p:
                     isPaused = !isPaused;
                     break;
+                case SDLK_f:
+                    heroAutoShoot = !heroAutoShoot;
+                    break;
                 default:
                     break;
             }
@@ -72,10 +82,10 @@ pair<int, int> Window::pollEvents(SDL_Event &event) {
         case SDL_MOUSEBUTTONDOWN:
             int x, y;
             Uint32 mouseState = SDL_GetMouseState(&x, &y);
-            return { x, y };
+            return {x, y};
             break;
     }
-    return { -1, -1 };
+    return {-1, -1};
 }
 
 void Window::clear() const {

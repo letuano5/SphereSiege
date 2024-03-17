@@ -61,20 +61,8 @@ void Item::draw(const Camera &camera) {
     text.display(x + w / 2 - text.getW() / 2 - camera.getX(), y + h / 2 - text.getH() / 2 - camera.getY(), Window::renderer);
 }
 void Item::update() {
-    double newX = x + cos(direction) * speed;
-    double newY = y + sin(direction) * speed;
-
-    // Check if the new position is within the map boundaries
-    if (newX < 0 || newX > MAP_WIDTH || newY < 0 || newY > MAP_HEIGHT) {
-        // If the new position would be outside the map, reverse the direction
-        direction = direction + PI;
-        newX = x + cos(direction) * speed;
-        newY = y + sin(direction) * speed;
-    } else {
-        // If the new position is within the map, update the position
-        x = newX;
-        y = newY;
-    }
+    x += speed * cos(direction) * dt;
+    y += speed * sin(direction) * dt;
 }
 
 bool Item::intersect(double x, double y, double w, double h) {

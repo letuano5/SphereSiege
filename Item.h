@@ -1,9 +1,9 @@
 #pragma once
 #include "Camera.h"
+#include "Hero.h"
 #include "Includes.h"
 #include "Text.h"
 #include "Window.h"
-#include "Hero.h"
 const int activeTime = 5;
 class Item {
    public:
@@ -19,6 +19,6 @@ class Item {
     double x, y;
     int w = 100, h = 24;
     double direction = randDouble(0, 2 * PI);
-    double speed = randDouble(0.5, 2);
+    double speed = randDouble(20, 100);
     const string type;
 };

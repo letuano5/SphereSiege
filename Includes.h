@@ -3,7 +3,9 @@
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <ctime>
@@ -11,7 +13,6 @@
 #include <random>
 #include <string>
 #include <vector>
-#include <cassert>
 
 using namespace std;
 using namespace chrono;
@@ -44,3 +45,5 @@ pair<int, int> getMousePosition();
 extern bool isStarted;
 extern bool isPaused;
 extern bool isLost;
+extern bool heroAutoShoot;
+extern double dt;

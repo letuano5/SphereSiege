@@ -1,9 +1,9 @@
 #include "Enemy.h"
+
 #include "Includes.h"
 
-
 Enemy::Enemy(int w, int h, double x, double y, double speed, double angle, double canSpilt, double hp, double dmg, const string& image_path)
-: w(w), h(h), x(x), y(y), speed(speed), angle(angle), health_point(hp), max_health_point(hp), dmg(dmg), canSpilt(canSpilt) {
+    : w(w), h(h), x(x), y(y), speed(speed), angle(angle), health_point(hp), max_health_point(hp), dmg(dmg), canSpilt(canSpilt) {
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
         cerr << "Failed to create surface.\n";
@@ -19,7 +19,7 @@ Enemy::~Enemy() {
 }
 
 void Enemy::draw(const Camera& camera) {
-//    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
+    //    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
     SDL_FRect enemy = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_Rect inner = {x + (w - hp_w) / 2 - camera.getX(), y + h + 8 - camera.getY(), hp_w * (health_point / max_health_point), hp_h};
 
@@ -47,11 +47,11 @@ bool Enemy::enemyOutOfBound(int leftBound) const {
 
 void Enemy::update(int heroX, int heroY) {
     if (canShiftAngle) {
-//        angle += randDouble(-0.15, 0.15);
+        //        angle += randDouble(-0.15, 0.15);
     }
-//    cerr << "updating " << x << " " << y << " " << cos(angle) << " " << sin(angle) << " "<< x + speed * cos(angle) << " " << y + speed * sin(angle) <<" " << angle << endl;
-    x += speed * cos(angle);
-    y += speed * sin(angle);
+    //    cerr << "updating " << x << " " << y << " " << cos(angle) << " " << sin(angle) << " "<< x + speed * cos(angle) << " " << y + speed * sin(angle) <<" " << angle << endl;
+    x += speed * cos(angle) * dt * 50;
+    y += speed * sin(angle) * dt * 50;
     rotateAngle += rotateSpeed;
 }
 
