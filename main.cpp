@@ -37,6 +37,10 @@ int main(int argv, char **args) {
             mousePos = window.pollEvents(event);
         }
         if (isStarted) {
+            currTime = SDL_GetPerformanceCounter();
+            deltaTime = currTime - prevTime;
+            dt = (double)deltaTime / SDL_GetPerformanceFrequency();
+            prevTime = currTime;
             if (isPaused) {
                 pause.draw(mousePos.first, mousePos.second);
                 continue;
@@ -45,12 +49,8 @@ int main(int argv, char **args) {
                 lost.draw(mousePos.first, mousePos.second);
                 continue;
             }
-            currTime = SDL_GetPerformanceCounter();
-            deltaTime = currTime - prevTime;
-            dt = (double)deltaTime / SDL_GetPerformanceFrequency();
 
             enemies.generateEnemy(hero, score, camera);
-//            cerr << "here" << endl;
             items.spawnItem(hero, camera, enemies);
             Progress.draw();
             Health.draw();
@@ -64,7 +64,7 @@ int main(int argv, char **args) {
             hero.draw(camera);
             hero.pollEvents(camera);
             hero.update();
-            prevTime = currTime;
+
         } else {
             start.draw(mousePos.first, mousePos.second);
         }
