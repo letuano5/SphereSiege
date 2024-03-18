@@ -11,6 +11,8 @@ void Menu::draw(int mouseX, int mouseY) const {
     SDL_Rect overlay = {x, y, w, h};
     SDL_SetRenderDrawColor(Window::renderer, 30, 30, 30, 255);
     SDL_RenderFillRect(Window::renderer, &overlay);
+    int mX, mY;
+    SDL_GetMouseState(&mX, &mY);
     if (menuType == "start") {
         Text title(Window::renderer, "res/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
         Text credit(Window::renderer, "res/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
@@ -20,6 +22,8 @@ void Menu::draw(int mouseX, int mouseY) const {
 
         Button startBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "PLAY");
         Button statsBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "STATS");
+        startBtn.updateHover(mX, mY);
+        statsBtn.updateHover(mX, mY);
         startBtn.draw();
         statsBtn.draw();
         if (startBtn.isClicked(mouseX, mouseY)) {
@@ -32,6 +36,8 @@ void Menu::draw(int mouseX, int mouseY) const {
 
         Button resumeBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESUME");
         Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, resumeBtn.getY() + resumeBtn.getH() + 10, "EXIT");
+        resumeBtn.updateHover(mX, mY);
+        exitBtn.updateHover(mX, mY);
         resumeBtn.draw();
         exitBtn.draw();
         if (resumeBtn.isClicked(mouseX, mouseY)) {
@@ -47,17 +53,18 @@ void Menu::draw(int mouseX, int mouseY) const {
 
         Button restartBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESTART");
         Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, restartBtn.getY() + restartBtn.getH() + 10, "EXIT");
+        restartBtn.updateHover(mX, mY);
+        exitBtn.updateHover(mX, mY);
         restartBtn.draw();
         exitBtn.draw();
         if (restartBtn.isClicked(mouseX, mouseY)) {
             isPaused = false;
             isStarted = true;
-//            RESET HERE
+            //            RESET HERE
         }
         if (exitBtn.isClicked(mouseX, mouseY)) {
             exit(0);
         }
     } else {
-
     }
 }

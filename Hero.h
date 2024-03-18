@@ -32,8 +32,8 @@ class Hero {
 
     void draw(Camera& camera);
     void shoot(int mouseX, int mouseY);
-    void update(double dt);
-    void pollEvents(double dt, const Camera& camera);
+    void update();
+    void pollEvents(const Camera& camera);
     int intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score, double enemyDmg);
     int getX(const Camera& camera) const { return x - camera.getX(); }
     int getY(const Camera& camera) const { return y - camera.getY(); }
@@ -61,5 +61,6 @@ class Hero {
 
     SDL_Texture* triangle_texture = nullptr;
     SDL_Texture* vignette_texture = nullptr;
+    Mix_Chunk* shoot_sound = nullptr;
     vector<Bullet> bullets;
 };

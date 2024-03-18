@@ -15,12 +15,17 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!vignette_texture) {
         cerr << "Failed to create vignette texture.\n";
     }
+    shoot_sound = Mix_LoadWAV("res/audio/shoot.wav");
+    if (!shoot_sound) {
+        cerr << "Failed to load shoot sound.\n";
+    }
     SDL_FreeSurface(surface);
 }
 
 Hero::~Hero() {
     SDL_DestroyTexture(triangle_texture);
     SDL_DestroyTexture(vignette_texture);
+    Mix_FreeChunk(shoot_sound);
 }
 
 void Hero::draw(Camera &camera) {
@@ -56,7 +61,7 @@ void Hero::draw(Camera &camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(double dt, const Camera &camera) {
+void Hero::pollEvents(const Camera &camera) {
     double dx = 0;
     double dy = 0;
 
@@ -85,7 +90,7 @@ void Hero::pollEvents(double dt, const Camera &camera) {
     Uint32 mouseState = SDL_GetMouseState(&x, &y);
     x += camera.getX();
     y += camera.getY();
-    if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+    if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT) || heroAutoShoot) {
         double currentTime = SDL_GetTicks() / 1000.0;
         double effectiveFireRate = fireRate;
         if (fastShoot) {
@@ -99,6 +104,9 @@ void Hero::pollEvents(double dt, const Camera &camera) {
 }
 
 void Hero::shoot(int mouseX, int mouseY) {
+    if (Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
+        cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
+    }
     int dx = mouseX - (x + w / 2);
     int dy = mouseY - (y + h / 2);
     double angle = atan2(dy, dx);
@@ -115,7 +123,7 @@ void Hero::shoot(int mouseX, int mouseY) {
     }
 }
 
-void Hero::update(double dt) {
+void Hero::update() {
     for (int i = 0; i < int(bullets.size()); i++) {
         bullets[i].update(dt);
         if (bullets[i].outOfBound()) {
@@ -142,7 +150,7 @@ void Hero::update(double dt) {
 }
 
 int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score &score, double enemyDmg) {
-//    cerr << w << " " << h << " " << x << " " << y << " " << enemyW << " " << enemyH << " " << enemyX << " " << enemyY << " " << intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY) << endl;
+    //    cerr << w << " " << h << " " << x << " " << y << " " << enemyW << " " << enemyH << " " << enemyX << " " << enemyY << " " << intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY) << endl;
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
         bool isFlickering = false;
         double currentTime = SDL_GetTicks() / 1000.0;
