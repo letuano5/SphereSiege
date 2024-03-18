@@ -60,7 +60,7 @@ void Menu::draw(int mouseX, int mouseY) const {
         if (restartBtn.isClicked(mouseX, mouseY)) {
             isPaused = false;
             isStarted = true;
-            //            RESET HERE
+            isLost = false;
         }
         if (exitBtn.isClicked(mouseX, mouseY)) {
             exit(0);

@@ -13,6 +13,7 @@ using namespace std;
 
 class Hero {
    public:
+    Hero(){}
     Hero(int w, int h, int x, int y, const string& image_path);
 
     ~Hero();
