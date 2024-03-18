@@ -45,13 +45,12 @@ bool Enemy::enemyOutOfBound(int leftBound) const {
     return x + w < leftBound || y + h < leftBound || x > MAP_WIDTH || y > MAP_HEIGHT;
 }
 
-void Enemy::update(int heroX, int heroY) {
+void Enemy::update(int heroX, int heroY, double slowRate) {
     if (canShiftAngle) {
         //        angle += randDouble(-0.15, 0.15);
     }
-    //    cerr << "updating " << x << " " << y << " " << cos(angle) << " " << sin(angle) << " "<< x + speed * cos(angle) << " " << y + speed * sin(angle) <<" " << angle << endl;
-    x += speed * cos(angle) * dt * 50;
-    y += speed * sin(angle) * dt * 50;
+    x += speed * cos(angle) * dt * 50 * slowRate;
+    y += speed * sin(angle) * dt * 50 * slowRate;
     rotateAngle += rotateSpeed;
 }
 

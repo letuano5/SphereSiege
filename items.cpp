@@ -4,27 +4,28 @@ Items::Items() {}
 Items::~Items() {
     for (int i = 0; i < int(items.size()); i++) {
         delete items[i];
-        items[i] = NULL;
+        items[i] = nullptr;
     }
     items.clear();
 }
 bool Items::checkTime() {
     clock_t currentTime = clock();
-    int diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
+    double diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
     return diffTime > DIF_SPAWN_TIME;
 }
-void Items::spawnItem(Hero& hero, const Camera& camera) {
+void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy &enemies) {
     if (items.empty() || checkTime()) {
         lastTimeSpawned = clock();
-        int itemType = rand() % 5;
+        int itemType = randInt(0, 4);
         items.push_back(new Item(itemTypes[itemType]));
     }
     for (int i = 0; i < int(items.size()); i++) {
         items[i]->draw(camera);
         items[i]->update();
         if (items[i]->intersect(hero.getX(), hero.getY(), hero.getW(), hero.getH())) {
-            items[i]->applyEffect(hero);
+            items[i]->applyEffect(hero, enemies);
             delete items[i];
+            items[i] = nullptr;
             items.erase(items.begin() + i);
             i--;
             cout << "Item collected\n";
@@ -32,6 +33,7 @@ void Items::spawnItem(Hero& hero, const Camera& camera) {
         }
         if (items[i]->isOutOfBounds()) {
             delete items[i];
+            items[i] = nullptr;
             items.erase(items.begin() + i);
             i--;
             continue;
