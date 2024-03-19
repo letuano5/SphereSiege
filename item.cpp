@@ -5,14 +5,14 @@ Item::Item(string type) : type(type) {
     switch (edge) {
         case 0:  // Top edge
             x = randDouble(0, MAP_WIDTH);
-            y = 0;
+            y = -h - 5;
             break;
         case 1:  // Bottom edge
             x = randDouble(0, MAP_WIDTH);
             y = MAP_HEIGHT;
             break;
         case 2:  // Left edge
-            x = 0;
+            x = -w - 5;
             y = randDouble(0, MAP_HEIGHT);
             break;
         case 3:  // Right edge
@@ -52,7 +52,6 @@ void Item::draw(const Camera &camera) {
     SDL_FRect itemInner = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_FRect itemOuter = {x - 1 - camera.getX(), y - 1 - camera.getY(), w + 2, h + 2};
     Text text(Window::renderer, "res/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
-    // if ()
     SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
     SDL_RenderDrawRectF(Window::renderer, &itemOuter);
     SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);
@@ -69,7 +68,7 @@ bool Item::intersect(double x, double y, double w, double h) {
     return this->x<x + w &&this->x + this->w> x && this->y<y + h &&this->y + this->h> y;
 }
 bool Item::isOutOfBounds() const {
-    return x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT;
+    return x < -w - 5 || x > MAP_WIDTH || y < -h - 5 || y > MAP_HEIGHT;
 }
 void Item::applyEffect(Hero &hero, MultiEnemy &enemies) {
     if (type == "FAST_SHOT") {

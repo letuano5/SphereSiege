@@ -20,8 +20,8 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy &enemies) {
         items.push_back(new Item(itemTypes[itemType]));
     }
     for (int i = 0; i < int(items.size()); i++) {
-        items[i]->draw(camera);
         items[i]->update();
+        items[i]->draw(camera);
         if (items[i]->intersect(hero.getX(), hero.getY(), hero.getW(), hero.getH())) {
             items[i]->applyEffect(hero, enemies);
             delete items[i];

@@ -49,6 +49,8 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
     if (canShiftAngle) {
         //        angle += randDouble(-0.15, 0.15);
     }
+//    x += speed * cos(angle) * slowRate;
+//    y += speed * sin(angle) * slowRate;
     x += speed * cos(angle) * dt * 50 * slowRate;
     y += speed * sin(angle) * dt * 50 * slowRate;
     rotateAngle += rotateSpeed;
