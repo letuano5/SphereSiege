@@ -13,7 +13,7 @@ using namespace std;
 
 class Hero {
    public:
-    Hero(){}
+    Hero() {}
     Hero(int w, int h, int x, int y, const string& image_path);
 
     ~Hero();
@@ -26,7 +26,6 @@ class Hero {
     double maxHealth = 1;
     int shakeDuration = 0;
     int shakeIntensity = 0;
-    const double itemActiveTime = 5;
 
     double enemyDmgRate = 0.1;
     double enemyLastHit = 0.0;
@@ -48,8 +47,6 @@ class Hero {
     void setHealth(double health);
     void setTrippleShot(bool trippleShot);
     void setPierceShot(bool setPierceShot);
-
-    map<string, Uint32> activeItems;
 
    private:
     int w,
