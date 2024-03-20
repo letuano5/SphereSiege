@@ -73,16 +73,13 @@ bool Item::isOutOfBounds() const {
 void Item::applyEffect(Hero &hero, MultiEnemy &enemies) {
     if (type == "FAST_SHOT") {
         hero.setFastShot(true);
-        hero.activeItems[type] = SDL_GetTicks();
     } else if (type == "HP_PACK") {
         hero.setHealth(hero.getHealth() < 0.9 ? hero.getHealth() + 0.1 : 1.0);
     } else if (type == "SLOWDOWN_ENEMIES") {
-        enemies.setSlow();
+        enemies.setSlow(true);
     } else if (type == "TRIPPLE_SHOT") {
-        hero.activeItems[type] = SDL_GetTicks();
         hero.setTrippleShot(true);
     } else if (type == "PIERCE_SHOT") {
-        hero.activeItems[type] = SDL_GetTicks();
         hero.setPierceShot(true);
     }
 }
