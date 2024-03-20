@@ -93,14 +93,13 @@ void MultiEnemy::killEnemy(int& index) {
 
 // https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
 void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
-    updateSlow();
     if (enemies.empty() || checkTime()) {
         pair<int, int> currentPosition;
         do {
             currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH);
             currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT);
         } while (!pointInBound(currentPosition.first, currentPosition.second));
-//        cerr << "spawning at " << currentPosition.first << " " << currentPosition.second << endl;
+        //        cerr << "spawning at " << currentPosition.first << " " << currentPosition.second << endl;
         int typeDir = 0;
         if (currentPosition.first == LEFT_BOUND) {
             typeDir = TOP;
@@ -123,7 +122,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
         do {
             indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
             typeEnemy = TYPE_ENEMY[indexEnemy];
-//            cerr << "sus " << endl;
+            //            cerr << "sus " << endl;
         } while (!canSpawn(typeEnemy, passedSecond()));
         bool canSpilt = false;
         if (typeEnemy == "BIG") {
@@ -181,15 +180,6 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
     }
 }
 
-void MultiEnemy::setSlow() {
-    lastSlow = SDL_GetTicks();
-    isSlow = true;
-//    cerr << "heree " << endl;
-}
-
-void MultiEnemy::updateSlow() {
-    if (lastSlow && SDL_GetTicks() > lastSlow + itemActiveTime * 1000) {
-        lastSlow = 0;
-        isSlow = false;
-    }
+void MultiEnemy::setSlow(bool isSlow) {
+    this->isSlow = isSlow;
 }

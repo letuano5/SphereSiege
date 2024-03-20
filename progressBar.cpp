@@ -8,7 +8,7 @@ ProgressBar::ProgressBar(int w, int h, int x, int y, string label, bool hasOutli
 ProgressBar::~ProgressBar() {}
 
 void ProgressBar::draw() const {
-    Text text(Window::renderer, "res/PressStart2P.ttf", 13, label, {color.r, color.g, color.b, color.a});
+    Text text(Window::renderer, "res/PressStart2P.ttf", h, label, {color.r, color.g, color.b, color.a});
     text.display(x, y, Window::renderer);
     SDL_Rect inner = {x + text.getW() + 10, y, _w, h};
     if (hasOutline) {
