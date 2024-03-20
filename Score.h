@@ -6,6 +6,7 @@ class Score {
    public:
     Score(int scoreNum, string label, int x, int y, bool isBestScoreTxt);
     ~Score();
+    Score(){}
 
     void draw() const;
     void update(const int score);

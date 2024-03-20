@@ -1,18 +1,18 @@
 #include "Item.h"
 Item::Item(string type) : type(type) {
-    int edge = rand() % 4;
+    int edge = randInt(0, 3);
 
     switch (edge) {
         case 0:  // Top edge
             x = randDouble(0, MAP_WIDTH);
-            y = 0;
+            y = -h - 5;
             break;
         case 1:  // Bottom edge
             x = randDouble(0, MAP_WIDTH);
             y = MAP_HEIGHT;
             break;
         case 2:  // Left edge
-            x = 0;
+            x = -w - 5;
             y = randDouble(0, MAP_HEIGHT);
             break;
         case 3:  // Right edge
@@ -40,7 +40,7 @@ void Item::draw(const Camera &camera) {
         innerColor = {128, 128, 128, 255};
         outerColor = {100, 100, 100, 255};
     } else if (type == "TRIPPLE_SHOT") {
-        label = "TRIPPLE SHOT";
+        label = "TRIPLE SHOT";
         innerColor = {0, 180, 216, 255};
         outerColor = {128, 218, 236, 255};
     } else if (type == "PIERCE_SHOT") {
@@ -52,7 +52,6 @@ void Item::draw(const Camera &camera) {
     SDL_FRect itemInner = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_FRect itemOuter = {x - 1 - camera.getX(), y - 1 - camera.getY(), w + 2, h + 2};
     Text text(Window::renderer, "res/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
-    // if ()
     SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
     SDL_RenderDrawRectF(Window::renderer, &itemOuter);
     SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);
@@ -69,17 +68,16 @@ bool Item::intersect(double x, double y, double w, double h) {
     return this->x<x + w &&this->x + this->w> x && this->y<y + h &&this->y + this->h> y;
 }
 bool Item::isOutOfBounds() const {
-    return x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT;
+    return x < -w - 5 || x > MAP_WIDTH || y < -h - 5 || y > MAP_HEIGHT;
 }
-void Item::applyEffect(Hero &hero) {
+void Item::applyEffect(Hero &hero, MultiEnemy &enemies) {
     if (type == "FAST_SHOT") {
         hero.setFastShot(true);
         hero.activeItems[type] = SDL_GetTicks();
     } else if (type == "HP_PACK") {
         hero.setHealth(hero.getHealth() < 0.9 ? hero.getHealth() + 0.1 : 1.0);
     } else if (type == "SLOWDOWN_ENEMIES") {
-        hero.activeItems[type] = SDL_GetTicks();
-        // hero.setSlowdownEnemies(true);
+        enemies.setSlow();
     } else if (type == "TRIPPLE_SHOT") {
         hero.activeItems[type] = SDL_GetTicks();
         hero.setTrippleShot(true);

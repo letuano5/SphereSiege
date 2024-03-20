@@ -12,10 +12,26 @@ MultiEnemy::~MultiEnemy() {
     enemies.clear();
 }
 
-bool MultiEnemy::checkTime() {
+double MultiEnemy::passedSecond() {
     clock_t currentTime = clock();
-    double diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
-    return diffTime > MAX_DIFF_TIME;
+    return (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
+}
+
+bool MultiEnemy::checkTime() {
+    return passedSecond() > MAX_DIFF_TIME;
+}
+
+bool canSpawn(string typeEnemy, double curSec) {
+    if (typeEnemy == "BIG") {
+        return curSec > MIN_BIG;
+    }
+    if (typeEnemy == "SMALL") {
+        return curSec > MIN_SMALL;
+    }
+    if (typeEnemy == "SPILLTER") {
+        return curSec > MIN_SPILLTER;
+    }
+    return typeEnemy == "NORMAL";
 }
 
 const int TOP = 0;
@@ -77,6 +93,7 @@ void MultiEnemy::killEnemy(int& index) {
 
 // https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
 void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
+    updateSlow();
     if (enemies.empty() || checkTime()) {
         pair<int, int> currentPosition;
         do {
@@ -101,8 +118,13 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
         int curH = 32;
         double curSpeed = randDouble(1.5, 2);
         double curHP = 1;
-        int indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
-        string typeEnemy = TYPE_ENEMY[indexEnemy];
+        int indexEnemy;
+        string typeEnemy;
+        do {
+            indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
+            typeEnemy = TYPE_ENEMY[indexEnemy];
+//            cerr << "sus " << endl;
+        } while (!canSpawn(typeEnemy, passedSecond()));
         bool canSpilt = false;
         if (typeEnemy == "BIG") {
             curW = 40;
@@ -129,7 +151,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
         enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, DIRS[indexEnemy]));
     }
     for (int i = 0; i < int(enemies.size()); i++) {
-        enemies[i]->update(hero.getX(), hero.getY());
+        enemies[i]->update(hero.getX(), hero.getY(), isSlow ? 1.0 / SLOW_RATE : 1);
         if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
             killEnemy(i);
             continue;
@@ -156,5 +178,18 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
             continue;
         }
         enemies[i]->draw(camera);
+    }
+}
+
+void MultiEnemy::setSlow() {
+    lastSlow = SDL_GetTicks();
+    isSlow = true;
+//    cerr << "heree " << endl;
+}
+
+void MultiEnemy::updateSlow() {
+    if (lastSlow && SDL_GetTicks() > lastSlow + itemActiveTime * 1000) {
+        lastSlow = 0;
+        isSlow = false;
     }
 }

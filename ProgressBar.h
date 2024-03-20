@@ -7,6 +7,7 @@ using namespace std;
 class ProgressBar {
    public:
     ProgressBar(int w, int h, int x, int y, string label, bool hasOutline, SDL_Color color);
+    ProgressBar();
     ~ProgressBar();
 
     void draw() const;
