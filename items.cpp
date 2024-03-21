@@ -22,6 +22,22 @@ bool Items::checkTime() {
     return diffTime > DIF_SPAWN_TIME;
 }
 void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
+    for (auto it = activeItems.begin(); it != activeItems.end();) {
+        if (SDL_GetTicks() > it->second + itemActiveTime * 1000) {
+            if (it->first == "FAST_SHOT") {
+                hero.setFastShot(false);
+            } else if (it->first == "SLOWDOWN_ENEMIES") {
+                enemies.setSlow(false);
+            } else if (it->first == "TRIPPLE_SHOT") {
+                hero.setTrippleShot(false);
+            } else if (it->first == "PIERCE_SHOT") {
+                hero.setPierceShot(false);
+            }
+            it = activeItems.erase(it);
+        } else {
+            ++it;
+        }
+    }
     for (int i = 0; i < 4; i++) {
         if (itemsProgress[i] != NULL) {
             itemsProgress[i]->update(0);
@@ -37,6 +53,9 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
         items[i]->update();
         items[i]->draw(camera);
         if (items[i]->intersect(hero.getX(), hero.getY(), hero.getW(), hero.getH())) {
+            if (items[i]->getType() != "HP_PACK") {
+                activeItems[items[i]->getType()] = SDL_GetTicks();
+            }
             items[i]->applyEffect(hero, enemies);
             delete items[i];
             items[i] = nullptr;

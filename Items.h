@@ -19,4 +19,5 @@ class Items {
 
    private:
     vector<Item*> items;
+    map<string, Uint32> activeItems;
 };
