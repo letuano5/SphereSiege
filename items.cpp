@@ -15,6 +15,7 @@ Items::~Items() {
         delete itemsProgress[i];
         itemsProgress[i] = nullptr;
     }
+    activeItems.clear();
 }
 bool Items::checkTime() {
     clock_t currentTime = clock();
