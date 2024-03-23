@@ -23,6 +23,6 @@ void ProgressBar::draw() const {
 }
 
 void ProgressBar::update(double progress) {
-    progress = progress;
+    this->progress = progress;
     _w = progress * w;
 }
