@@ -50,8 +50,8 @@ void reset() {
 void init() {
     reset();
     hero = new Hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
-    Health = new ProgressBar(120, 12, 20, 20, "HP", true, {0, 255, 0, 255});
-    Progress = new ProgressBar(120, 12, 220, 20, "progress", true, {150, 150, 150, 255});
+    Health = new ProgressBar(120, 12, 20, 20, "HP", true, {0, 255, 0, 255}, {});
+    Progress = new ProgressBar(120, 12, 220, 20, "progress", true, {150, 150, 150, 255}, {});
     score = new Score(0, "score: ", 520, 20, false);
     best = new Score(0, "best: ", 750, 20, true);
     enemies = new MultiEnemy();

@@ -2,11 +2,10 @@
 #include "Camera.h"
 #include "Hero.h"
 #include "Includes.h"
+#include "MultiEnemy.h"
 #include "Text.h"
 #include "Window.h"
-#include "MultiEnemy.h"
 
-const int activeTime = 5;
 class Item {
    public:
     Item(string type);
