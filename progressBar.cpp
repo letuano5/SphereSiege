@@ -3,12 +3,15 @@
 #include "Text.h"
 #include "Window.h"
 
-ProgressBar::ProgressBar(int w, int h, int x, int y, string label, bool hasOutline, SDL_Color color) : w(w), h(h), x(x), y(y), label(label), hasOutline(hasOutline), color(color) {}
+ProgressBar::ProgressBar(int w, int h, int x, int y, string label, bool hasOutline, SDL_Color color, SDL_Color textColor) : w(w), h(h), x(x), y(y), label(label), hasOutline(hasOutline), color(color), textColor(textColor) {}
 
 ProgressBar::~ProgressBar() {}
 
-void ProgressBar::draw() const {
-    Text text(Window::renderer, "res/PressStart2P.ttf", h, label, {color.r, color.g, color.b, color.a});
+void ProgressBar::draw() {
+    if (!textColor.a) {
+        textColor = {color.r, color.g, color.b, color.a};
+    }
+    Text text(Window::renderer, "res/PressStart2P.ttf", h, label, {textColor.r, textColor.g, textColor.b, textColor.a});
     text.display(x, y, Window::renderer);
     SDL_Rect inner = {x + text.getW() + 10, y, _w, h};
     if (hasOutline) {

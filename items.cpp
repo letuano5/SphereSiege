@@ -1,8 +1,16 @@
 #include "Items.h"
-
+bool replace(string& str, const string& from, const string& to) {
+    size_t start_pos = str.find(from);
+    if (start_pos == string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
 Items::Items() {
     for (int i = 0; i < 4; i++) {
-        itemsProgress[i] = new ProgressBar(120, 8, 20, WINDOW_HEIGHT - 64 + i * 12, itemProgressTypes[i].first, false, itemProgressTypes[i].second);
+        string name = itemProgressTypes[i].first;
+        replace(name, "_", " ");
+        itemsProgress.push_back({itemProgressTypes[i].first, new ProgressBar(120, 8, 20, WINDOW_HEIGHT - 64 + i * 12, name, false, itemProgressTypes[i].second, textColor)});
     }
 }
 Items::~Items() {
@@ -11,9 +19,9 @@ Items::~Items() {
         items[i] = nullptr;
     }
     items.clear();
-    for (int i = 0; i < 4; i++) {
-        delete itemsProgress[i];
-        itemsProgress[i] = nullptr;
+    for (auto& item : itemsProgress) {
+        delete item.second;
+        item.second = nullptr;
     }
     activeItems.clear();
 }
@@ -39,10 +47,21 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
             ++it;
         }
     }
+    for (auto& itemPair : itemsProgress) {
+        auto it = activeItems.find(itemPair.first);
+        if (it != activeItems.end()) {
+            Uint32 currentTime = SDL_GetTicks();
+            float progress = 1.0f - (float)(currentTime - it->second) / (itemActiveTime * 1000);
+            itemPair.second->update(progress);
+            itemPair.second->setTextColor(textActiveColor);
+        } else {
+            itemPair.second->update(0);
+            itemPair.second->setTextColor(textColor);
+        }
+    }
     for (int i = 0; i < 4; i++) {
-        if (itemsProgress[i] != NULL) {
-            itemsProgress[i]->update(0);
-            itemsProgress[i]->draw();
+        if (itemsProgress[i].second != NULL) {
+            itemsProgress[i].second->draw();
         }
     }
     if (items.empty() || checkTime()) {
