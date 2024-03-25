@@ -22,6 +22,8 @@ class MultiEnemy {
     Uint32 lastSlow = 0;
     bool isSlow = false;
     void setSlow(bool isSlow);
+    void saveEnemies();
+    bool setEnemies();
 
    private:
     vector<Enemy*> enemies;

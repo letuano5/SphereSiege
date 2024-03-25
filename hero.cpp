@@ -184,3 +184,72 @@ void Hero::setTrippleShot(bool trippleShot) {
 void Hero::setPierceShot(bool pierceShot) {
     this->pierceShot = pierceShot;
 }
+
+void Hero::saveHero() {
+//    cerr << "saving hero's info..." << endl;
+    ofstream out("res/save/hero.txt");
+    out << x << " " << y << "\n";
+    out << fastShoot << " " << trippleShot << " " << pierceShot << "\n";
+    out << bullets.size() << "\n";
+    for (const auto& bullet : bullets) {
+        out << bullet.getX() << " " << bullet.getY() << " ";
+        out << setprecision(9) << fixed << bullet.getAngle() << "\n";
+    }
+    out << setprecision(9) << fixed << health_point << "\n";
+    out.close();
+}
+
+bool Hero::setHero() {
+    ifstream inp("res/save/hero.txt");
+    if (!inp.is_open()) {
+        return false;
+    }
+    int x = -1, y = -1;
+    inp >> x >> y;
+    if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) {
+        inp.close();
+        return false;
+    }
+    int fastShoot = -1, trippleShot = -1, pierceShot = -1;
+    inp >> fastShoot >> trippleShot >> pierceShot;
+    if (fastShoot < 0 || fastShoot > 1) {
+        inp.close();
+        return false;
+    }
+    if (trippleShot < 0 || trippleShot > 1) {
+        inp.close();
+        return false;
+    }
+    if (pierceShot < 0 || pierceShot > 1) {
+        inp.close();
+        return false;
+    }
+    int numBullet = -1;
+    inp >> numBullet;
+    if (numBullet < 0 || numBullet > 1e6) {
+        inp.close();
+        return false;
+    }
+    vector<Bullet> bullets;
+    for (int i = 0; i < numBullet; i++) {
+        int x = -1, y = -1;
+        double angle = -1e9;
+        inp >> x >> y >> angle;
+        if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) {
+            inp.close();
+            return false;
+        }
+        if (equalF(angle, -1e9)) {
+            inp.close();
+            return false;
+        }
+        bullets.push_back(Bullet(x, y, angle));
+    }
+    if (int(bullets.size()) != numBullet) {
+        inp.close();
+        return false;
+    }
+    this->bullets.swap(bullets);
+    inp.close();
+    return true;
+}

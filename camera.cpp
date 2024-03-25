@@ -14,18 +14,7 @@ void Camera::adjust(int heroX, int heroY, int heroW, int heroH) {
     // Use linear interpolation to gradually move the camera towards the target position
     leftX = (1 - speed) * leftX + speed * targetX;
     leftY = (1 - speed) * leftY + speed * targetY;
-    // if (heroX < leftX) {
-    //     leftX = heroX;
-    // }
-    // if (heroY < leftY) {
-    //     leftY = heroY;
-    // }
-    // if (heroX + heroW > leftX + WINDOW_WIDTH) {
-    //     leftX = heroX + heroW - WINDOW_WIDTH;
-    // }
-    // if (heroY + heroH > leftY + WINDOW_HEIGHT) {
-    //     leftY = heroY + heroH - WINDOW_HEIGHT;
-    // }
+
     if (leftX < 0) {
         leftX = 0;
     }
@@ -38,4 +27,23 @@ void Camera::adjust(int heroX, int heroY, int heroW, int heroH) {
     if (leftY + WINDOW_HEIGHT > MAP_HEIGHT) {
         leftY = MAP_HEIGHT - WINDOW_HEIGHT;
     }
+}
+
+void Camera::saveCamera() {
+    ofstream out("res/save/camera.txt");
+    out << getX() << " " << getY() << "\n";
+    out.close();
+}
+
+bool Camera::setCamera() {
+    ifstream inp("res/save/camera.txt");
+    int x = -1, y = -1;
+    inp >> x >> y;
+    if (x < 0 || x + WINDOW_WIDTH > MAP_WIDTH || y < 0 || y + WINDOW_HEIGHT > MAP_HEIGHT) {
+        return false;
+    }
+    leftX = x;
+    leftY = y;
+    inp.close();
+    return true;
 }

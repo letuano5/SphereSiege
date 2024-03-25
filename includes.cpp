@@ -1,11 +1,14 @@
 #include "Includes.h"
 
 mt19937_64 rng(time(NULL));
+
 bool isStarted = false;
 bool isPaused = false;
 bool isLost = false;
 bool heroAutoShoot = false;
 double dt = 0;
+Uint32 curTick = 0;
+
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
     return x <= ptsX && ptsX <= x + w && y <= ptsY && ptsY <= y + h;
 }
@@ -50,4 +53,8 @@ pair<int, int> getMousePosition() {
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
     return make_pair(mouseX, mouseY);
+}
+
+Uint32 getTick() {
+    return SDL_GetTicks() + curTick;
 }

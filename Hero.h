@@ -47,6 +47,8 @@ class Hero {
     void setHealth(double health);
     void setTrippleShot(bool trippleShot);
     void setPierceShot(bool setPierceShot);
+    void saveHero();
+    bool setHero();
 
    private:
     int w,
