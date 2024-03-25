@@ -36,6 +36,8 @@
 		<Unit filename="Button.h" />
 		<Unit filename="Camera.h" />
 		<Unit filename="Enemy.h" />
+		<Unit filename="Explosion.h" />
+		<Unit filename="Explotion.h" />
 		<Unit filename="Hero.h" />
 		<Unit filename="Includes.h" />
 		<Unit filename="Item.h" />
@@ -52,6 +54,7 @@
 		<Unit filename="button.cpp" />
 		<Unit filename="camera.cpp" />
 		<Unit filename="enemy.cpp" />
+		<Unit filename="explosion.cpp" />
 		<Unit filename="hero.cpp" />
 		<Unit filename="includes.cpp" />
 		<Unit filename="item.cpp" />

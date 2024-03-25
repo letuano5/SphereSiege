@@ -8,6 +8,7 @@ bool isLost = false;
 bool isContinued = false;
 bool heroAutoShoot = false;
 double dt = 0;
+
 Uint32 curTick = 0;
 
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {

@@ -10,6 +10,11 @@ MultiEnemy::~MultiEnemy() {
         enemies[i] = NULL;
     }
     enemies.clear();
+    for (int i = 0; i < explosions.size(); i++) {
+        delete explosions[i];
+        explosions[i] = nullptr;
+    }
+    explosions.clear();
 }
 
 double MultiEnemy::passedSecond() {
@@ -92,7 +97,7 @@ void MultiEnemy::killEnemy(int& index) {
 }
 
 // https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
-void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
     if (enemies.empty() || checkTime()) {
         pair<int, int> currentPosition;
         do {
@@ -172,11 +177,25 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
                     enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, DIRS[0]));
                 }
             }
+            explosions.push_back(new Explosion(enemies[i]->getX(), enemies[i]->getY()));
             killEnemy(i);
+            camera.shake(0.2, 12);
             score.update(1);
             continue;
         }
         enemies[i]->draw(camera);
+    }
+    for (int i = 0; i < explosions.size(); i++) {
+        explosions[i]->update();
+        if (explosions[i]->isDone()) {
+            delete explosions[i];
+            explosions[i] = nullptr;
+            explosions.erase(explosions.begin() + i);
+            i--;
+        }
+    }
+    for (const auto& explosion : explosions) {
+        explosion->draw(camera);
     }
 }
 

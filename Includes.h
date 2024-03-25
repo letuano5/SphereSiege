@@ -2,16 +2,16 @@
 
 #include <SDL.h>
 #include <SDL_Image.h>
-#include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 #include <cassert>
 #include <chrono>
 #include <cmath>
 #include <ctime>
-#include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <random>
 #include <string>
 #include <vector>
@@ -30,10 +30,6 @@ const int MAP_HEIGHT = 720;
 const double EPS = 1e-6;
 const double PI = acos(-1);
 
-struct screen {
-    int x = WINDOW_WIDTH / -2;
-    int y = WINDOW_HEIGHT / -2;
-};
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY);
 bool intersectRectangle(int w, int h, double x, double y, int thatW, int thatH, double thatX, double thatY);
 double calculateAngle(double mouseX, double mouseY, double textureX, double textureY);
