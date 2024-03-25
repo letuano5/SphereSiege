@@ -8,6 +8,7 @@
 
 class Item {
    public:
+    Item(double x, double y, double dir, double speed, string type);
     Item(string type);
     ~Item();
     void draw(const Camera &camera);
@@ -16,6 +17,10 @@ class Item {
     bool isOutOfBounds() const;
     void applyEffect(Hero &hero, MultiEnemy &enemies);
     string getType() const { return type; }
+    double getX() const { return x; }
+    double getY() const { return y; }
+    double getDir() const { return direction; }
+    double getSpeed() const { return speed; }
 
    private:
     double x, y;

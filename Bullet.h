@@ -21,6 +21,9 @@ class Bullet {
     int getY() const { return y; }
     int getH() const { return h; }
     int getW() const { return w; }
+    double getAngle() const { return angle; }
+    void setX(int x) { this->x = x; }
+    void setY(int y) { this->y = y; }
 
     SDL_Color color = {230, 230, 230, 255};
 

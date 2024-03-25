@@ -10,6 +10,8 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 #include <random>
 #include <string>
 #include <vector>
@@ -47,3 +49,5 @@ extern bool isPaused;
 extern bool isLost;
 extern bool heroAutoShoot;
 extern double dt;
+extern Uint32 curTick;
+Uint32 getTick();

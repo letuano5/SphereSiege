@@ -183,3 +183,97 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, const Camera& camera) {
 void MultiEnemy::setSlow(bool isSlow) {
     this->isSlow = isSlow;
 }
+
+void MultiEnemy::saveEnemies() {
+    ofstream out("res/save/enemies.txt");
+    out << enemies.size() << "\n";
+    for (const auto& enemy : enemies) {
+        out << enemy->getW() << " " << enemy->getH() << "\n";
+        out << setprecision(9) << fixed << enemy->getX() << " " << enemy->getY() << "\n";
+        out << setprecision(9) << fixed << enemy->getSpeed() << "\n";
+        out << setprecision(9) << fixed << enemy->getAngle() << "\n";
+        out << enemy->canSpilt << "\n";
+        out << setprecision(9) << fixed << enemy->getHP() << "\n";
+        out << setprecision(9) << fixed << enemy->getDamage() << "\n";
+        out << enemy->getPath() << "\n";
+    }
+    out.close();
+}
+
+bool MultiEnemy::setEnemies() {
+    ifstream inp("res/save/enemies.txt");
+    if (!inp.is_open()) {
+        return false;
+    }
+    int numEnemies = -1;
+    inp >> numEnemies;
+    if (numEnemies < 0 || numEnemies > 1e6) {
+        inp.close();
+        return false;
+    }
+    vector<Enemy*> enemies;
+    for (int i = 0; i < numEnemies; i++) {
+        int w = -1, h = 1;
+        inp >> w >> h;
+        if (w < 0 || w > MAP_WIDTH || h < 0 || h > MAP_HEIGHT) {
+            inp.close();
+            return false;
+        }
+        double x = -1e9, y = -1e9;
+        inp >> x >> y;
+        if (x < LEFT_BOUND || x > MAP_WIDTH || y < LEFT_BOUND || y > MAP_HEIGHT) {
+            inp.close();
+            return false;
+        }
+        double speed = -1;
+        inp >> speed;
+        if (speed < 0 || speed >= 1e9) {
+            inp.close();
+            return false;
+        }
+        double angle = -1e9;
+        inp >> angle;
+        if (equalF(angle, -1e9)) {
+            inp.close();
+            return false;
+        }
+        int canSpilt = -1;
+        inp >> canSpilt;
+        if (canSpilt < 0 || canSpilt > 1) {
+            inp.close();
+            return false;
+        }
+        double hp = -1;
+        inp >> hp;
+        if (hp < 0 || hp > 1) {
+            inp.close();
+            return false;
+        }
+        double dmg = -1;
+        inp >> dmg;
+        if (dmg < 0) {
+            inp.close();
+            return false;
+        }
+        string pathImg;
+        inp >> pathImg;
+        bool truePath = false;
+        for (const auto& path : DIRS) {
+            if (path == pathImg) {
+                truePath = true;
+                break;
+            }
+        }
+        if (!truePath) {
+            inp.close();
+            return false;
+        }
+        enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, pathImg));
+    }
+    inp.close();
+    if (int(enemies.size()) != numEnemies) {
+        return false;
+    }
+    this->enemies.swap(enemies);
+    return true;
+}
