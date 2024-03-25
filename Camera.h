@@ -9,6 +9,8 @@ public:
     int getX() const { return leftX; }
     int getY() const { return leftY; }
     void adjust(int heroX, int heroY, int heroW, int heroH);
+    void saveCamera();
+    bool setCamera();
 private:
     int leftX = 0, leftY = 0;
 };

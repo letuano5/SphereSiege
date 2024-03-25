@@ -17,6 +17,8 @@ class Items {
     bool checkTime();
     pair<string, SDL_Color> itemProgressTypes[4] = {{"FAST_SHOT", {138, 201, 38, 255}}, {"TRIPPLE_SHOT", {0, 180, 216, 255}}, {"PIERCE_SHOT", {243, 144, 44, 255}}, {"SLOWDOWN_ENEMIES", {128, 128, 128, 255}}};
     vector<pair<string, ProgressBar*>> itemsProgress;
+    void saveItem();
+    bool setItem();
 
    private:
     vector<Item*> items;

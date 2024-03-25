@@ -59,6 +59,12 @@ void init() {
     items = new Items();
 }
 
+void saveScore(string dir, Score* score) {
+    ofstream out(dir.c_str());
+    out << score->getScore();
+    out.close();
+}
+
 void play() {
     pair<int, int> mousePos = {-1, -1};
     window.clear();
@@ -98,7 +104,14 @@ void play() {
         hero->draw(*camera);
         hero->pollEvents(*camera);
         hero->update();
+        hero->saveHero();
 
+        enemies->saveEnemies();
+        camera->saveCamera();
+        items->saveItem();
+
+        saveScore("res/save/score.txt", score);
+        saveScore("res/save/best.txt", best);
     } else {
         start.draw(mousePos.first, mousePos.second);
     }
@@ -111,6 +124,10 @@ int main(int argv, char** args) {
     while (!window.isClosed()) {
         play();
     }
+
+    ofstream inp("res/save/time.txt");
+    inp << SDL_GetTicks() + curTick << "\n";
+    inp.close();
 
     reset();
 

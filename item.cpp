@@ -1,4 +1,7 @@
 #include "Item.h"
+
+Item::Item(double x, double y, double dir, double speed, string type) : x(x), y(y), direction(dir), speed(speed), type(type) {}
+
 Item::Item(string type) : type(type) {
     int edge = randInt(0, 3);
 
@@ -21,6 +24,7 @@ Item::Item(string type) : type(type) {
             break;
     }
 }
+
 Item::~Item() {}
 
 void Item::draw(const Camera &camera) {
