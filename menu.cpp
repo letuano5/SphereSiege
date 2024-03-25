@@ -21,13 +21,19 @@ void Menu::draw(int mouseX, int mouseY) const {
         credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8, Window::renderer);
 
         Button startBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "PLAY");
-        Button statsBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "STATS");
+        Button continueBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "CONTINUE");
+        Button statsBtn(200, 40, WINDOW_WIDTH / 2 - 100, continueBtn.getY() + continueBtn.getH() + 10, "STATS");
         startBtn.updateHover(mX, mY);
+        continueBtn.updateHover(mX, mY);
         statsBtn.updateHover(mX, mY);
         startBtn.draw();
+        continueBtn.draw();
         statsBtn.draw();
         if (startBtn.isClicked(mouseX, mouseY)) {
             isStarted = 1;
+        }
+        if (continueBtn.isClicked(mouseX, mouseY)) {
+            isContinued = 1;
         }
     } else if (menuType == "pause") {
         Text title(Window::renderer, "res/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});

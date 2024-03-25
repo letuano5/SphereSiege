@@ -21,7 +21,7 @@
 	"Includes.h"
 	"Window.h"
 
-1710670737 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
+1711335121 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
 	"Window.h"
 	"Includes.h"
 
@@ -140,7 +140,7 @@
 1711299013 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
-1711333122 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+1711335494 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_ttf.h>
@@ -162,7 +162,7 @@
 1711334322 d:\code\cpp\bai_tap_lon\spheresiege\text.h
 	"Includes.h"
 
-1711334285 source:d:\code\cpp\bai_tap_lon\spheresiege\text.cpp
+1711334686 source:d:\code\cpp\bai_tap_lon\spheresiege\text.cpp
 	"Text.h"
 	<iostream>
 	"Window.h"
