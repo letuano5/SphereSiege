@@ -34,7 +34,11 @@ SDL_Texture *Text::loadFont(SDL_Renderer *renderer, const string &font_path, int
         cerr << "Failed to create text texture.\n";
     }
     SDL_FreeSurface(text_surface);
+    TTF_CloseFont(font);
     return text_texture;
+}
+Text::~Text() {
+    SDL_DestroyTexture(text_texture);
 }
 
 int Text::getW() const {

@@ -4,7 +4,7 @@
 class Text {
    public:
     Text(SDL_Renderer *renderer, const string &font_path, int font_size, const string &message_text, const SDL_Color &color);
-
+    ~Text();
     void display(double x, double y, SDL_Renderer *renderer) const;
 
     static SDL_Texture *loadFont(SDL_Renderer *renderer, const string &font_path, int font_size, const string &message_text, const SDL_Color &color);
