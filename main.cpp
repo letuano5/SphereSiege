@@ -45,7 +45,7 @@ void reset() {
     camera = NULL;
     delete items;
     items = NULL;
-}
+ }
 
 void init() {
     reset();
@@ -112,6 +112,7 @@ void play() {
         hero->pollEvents(*camera);
         hero->update();
         hero->saveHero();
+        camera->update(dt);
 
         enemies->saveEnemies();
         camera->saveCamera();
