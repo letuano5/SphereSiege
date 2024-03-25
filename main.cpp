@@ -64,13 +64,20 @@ void saveScore(string dir, Score* score) {
     out << score->getScore();
     out.close();
 }
-
+void loadGame() {
+    cout << "Loading data..." << endl;
+}
 void play() {
     pair<int, int> mousePos = {-1, -1};
     window.clear();
     SDL_Event event;
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
+    }
+    if (isContinued) {
+        loadGame();
+        isStarted = 1;
+        isContinued = 0;
     }
     if (isStarted) {
         currTime = SDL_GetPerformanceCounter();

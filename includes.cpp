@@ -5,6 +5,7 @@ mt19937_64 rng(time(NULL));
 bool isStarted = false;
 bool isPaused = false;
 bool isLost = false;
+bool isContinued = false;
 bool heroAutoShoot = false;
 double dt = 0;
 Uint32 curTick = 0;

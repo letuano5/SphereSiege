@@ -47,6 +47,7 @@ pair<int, int> getMousePosition();
 extern bool isStarted;
 extern bool isPaused;
 extern bool isLost;
+extern bool isContinued;
 extern bool heroAutoShoot;
 extern double dt;
 extern Uint32 curTick;
