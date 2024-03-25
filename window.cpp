@@ -31,11 +31,10 @@ bool Window::init() {
         cerr << "Failed to init SDL_ttf.\n";
         return 0;
     }
-    if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ) {
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         cerr << "Failed to init SDL_mixer.\n";
         return 0;
     }
-
 
     _window = SDL_CreateWindow(
         _title.c_str(),
