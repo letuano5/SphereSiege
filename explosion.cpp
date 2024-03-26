@@ -15,16 +15,19 @@ Explosion::~Explosion() {
         SDL_DestroyTexture(frame);
     }
 }
-Explosion::update() {
+
+void Explosion::update() {
     currentFrame = (currentFrame + 1) % frames.size();
 }
-Explosion::draw(Camera& camera) const {
+
+void Explosion::draw(Camera& camera) const {
     int w, h;
     SDL_QueryTexture(frames[currentFrame], NULL, NULL, &w, &h);
     SDL_Rect dstRect = {x - camera.getX(), y - camera.getY(), w, h};
 
     SDL_RenderCopy(Window::renderer, frames[currentFrame], NULL, &dstRect);
 }
-Explosion::isDone() const {
+
+bool Explosion::isDone() const {
     return currentFrame == frames.size() - 1;
 }
