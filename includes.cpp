@@ -2,13 +2,14 @@
 
 mt19937_64 rng(time(NULL));
 
-bool isStarted = false;
-bool isPaused = false;
-bool isLost = false;
-bool isContinued = false;
-bool heroAutoShoot = false;
+int isStarted = false;
+int isPaused = false;
+int isLost = false;
+int isContinued = false;
+int heroAutoShoot = false;
 double dt = 0;
-Uint32 curTick = 0;
+Uint32 lastTick = 0;
+Uint32 startTick = 0;
 
 bool inRectangle(int w, int h, double x, double y, double ptsX, double ptsY) {
     return x <= ptsX && ptsX <= x + w && y <= ptsY && ptsY <= y + h;
@@ -57,5 +58,5 @@ pair<int, int> getMousePosition() {
 }
 
 Uint32 getTick() {
-    return SDL_GetTicks() + curTick;
+    return SDL_GetTicks() - startTick + lastTick;
 }

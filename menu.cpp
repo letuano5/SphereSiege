@@ -30,7 +30,8 @@ void Menu::draw(int mouseX, int mouseY) const {
         continueBtn.draw();
         statsBtn.draw();
         if (startBtn.isClicked(mouseX, mouseY)) {
-            isStarted = 1;
+            isStarted = 2;
+            isContinued = 0;
         }
         if (continueBtn.isClicked(mouseX, mouseY)) {
             isContinued = 1;

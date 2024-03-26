@@ -52,21 +52,47 @@ void init() {
     hero = new Hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
     Health = new ProgressBar(120, 12, 20, 20, "HP", true, {0, 255, 0, 255}, {});
     Progress = new ProgressBar(120, 12, 220, 20, "progress", true, {150, 150, 150, 255}, {});
-    score = new Score(0, "score: ", 520, 20, false);
-    best = new Score(0, "best: ", 750, 20, true);
+    score = new Score(0, "score: ", 520, 20, false, "res/save/score.txt");
+    best = new Score(0, "best: ", 750, 20, true, "res/save/best.txt");
     enemies = new MultiEnemy();
     camera = new Camera();
     items = new Items();
+    best->readScore();
+    lastTick = 0;
 }
 
-void saveScore(string dir, Score* score) {
-    ofstream out(dir.c_str());
-    out << score->getScore();
-    out.close();
+bool canLoad() {
+    if (!hero->setHero()) {
+        cerr << "cant reinit hero" << endl;
+        return false;
+    }
+    if (!enemies->setEnemies()) {
+        cerr << "cant reinit enemies" << endl;
+        return false;
+    }
+    if (!camera->setCamera()) {
+        cerr << "cant reinit camera" << endl;
+        return false;
+    }
+    if (!items->setItem()) {
+        cerr << "cant reinit items" << endl;
+        return false;
+    }
+    if (!score->readScore()) {
+        cerr << "cant reinit score" << endl;
+        return false;
+    }
+    ifstream inp("res/save/time.txt");
+    inp >> lastTick;
+//    cerr << lastTick << endl;
+    inp.close();
+    return true;
 }
+
 void loadGame() {
-    cout << "Loading data..." << endl;
+
 }
+
 void play() {
     pair<int, int> mousePos = {-1, -1};
     window.clear();
@@ -74,27 +100,46 @@ void play() {
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
     }
+//    cerr << isContinued << endl;
     if (isContinued) {
-        loadGame();
+        bool db = canLoad();
+//        cout << db << endl;
+//        SDL_Delay(100);
+//        loadGame();
         isStarted = 1;
         isContinued = 0;
+        currTime = SDL_GetPerformanceCounter();
+        deltaTime = currTime - prevTime;
+        dt = (double)deltaTime / SDL_GetPerformanceFrequency();
+        prevTime = currTime;
     }
+//    cout << "? " << isContinued << endl;
     if (isStarted) {
         currTime = SDL_GetPerformanceCounter();
         deltaTime = currTime - prevTime;
         dt = (double)deltaTime / SDL_GetPerformanceFrequency();
         prevTime = currTime;
 
+        if (isStarted == 2) {
+            init();
+            isStarted = 1;
+        }
+
         if (isPaused) {
             pause.draw(mousePos.first, mousePos.second);
             return;
         }
+
         if (isLost) {
             lost.draw(mousePos.first, mousePos.second);
             if (!isLost) {
                 init();
             }
             return;
+        }
+
+        if (!startTick) {
+            startTick = SDL_GetTicks();
         }
 
         enemies->generateEnemy(*hero, *score, *camera);
@@ -111,15 +156,18 @@ void play() {
         hero->draw(*camera);
         hero->pollEvents(*camera);
         hero->update();
-        hero->saveHero();
 
+        hero->saveHero();
         enemies->saveEnemies();
         camera->saveCamera();
         items->saveItem();
+        score->writeScore();
+        best->writeScore();
 
-        saveScore("res/save/score.txt", score);
-        saveScore("res/save/best.txt", best);
+//        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
+//        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
     } else {
+//        cerr << isStarted << endl;
         start.draw(mousePos.first, mousePos.second);
     }
 }
@@ -132,9 +180,9 @@ int main(int argv, char** args) {
         play();
     }
 
-    ofstream inp("res/save/time.txt");
-    inp << SDL_GetTicks() + curTick << "\n";
-    inp.close();
+    ofstream out("res/save/time.txt");
+    out << getTick() << "\n";
+    out.close();
 
     reset();
 

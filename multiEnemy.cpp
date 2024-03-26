@@ -12,6 +12,14 @@ MultiEnemy::~MultiEnemy() {
     enemies.clear();
 }
 
+void MultiEnemy::clearE() {
+    for (int i = 0; i < int(enemies.size()); i++) {
+        delete enemies[i];
+        enemies[i] = NULL;
+    }
+    enemies.clear();
+}
+
 double MultiEnemy::passedSecond() {
     clock_t currentTime = clock();
     return (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
@@ -213,39 +221,40 @@ bool MultiEnemy::setEnemies() {
     }
     vector<Enemy*> enemies;
     for (int i = 0; i < numEnemies; i++) {
-        int w = -1, h = 1;
+        int w = -1, h = -1;
         inp >> w >> h;
         if (w < 0 || w > MAP_WIDTH || h < 0 || h > MAP_HEIGHT) {
+            cerr << "fail at reading height or width" << endl;
             inp.close();
             return false;
         }
         double x = -1e9, y = -1e9;
         inp >> x >> y;
-        if (x < LEFT_BOUND || x > MAP_WIDTH || y < LEFT_BOUND || y > MAP_HEIGHT) {
-            inp.close();
-            return false;
-        }
         double speed = -1;
         inp >> speed;
         if (speed < 0 || speed >= 1e9) {
+            cerr << "fail at reading speed" << endl;
             inp.close();
             return false;
         }
         double angle = -1e9;
         inp >> angle;
         if (equalF(angle, -1e9)) {
+            cerr << "fail at reading angle" << endl;
             inp.close();
             return false;
         }
         int canSpilt = -1;
         inp >> canSpilt;
         if (canSpilt < 0 || canSpilt > 1) {
+            cerr << "fail at reading spilting ability" << endl;
             inp.close();
             return false;
         }
         double hp = -1;
         inp >> hp;
         if (hp < 0 || hp > 1) {
+            cerr << "fail at reading healthpoint" << endl;
             inp.close();
             return false;
         }
@@ -265,15 +274,22 @@ bool MultiEnemy::setEnemies() {
             }
         }
         if (!truePath) {
+            cerr << "fail at reading image's path" << endl;
             inp.close();
             return false;
         }
         enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, pathImg));
+        if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
+            cerr << "fail" << endl;
+            return false;
+            inp.close();
+        }
     }
     inp.close();
     if (int(enemies.size()) != numEnemies) {
         return false;
     }
+    clearE();
     this->enemies.swap(enemies);
     return true;
 }
