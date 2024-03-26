@@ -3,8 +3,10 @@
 #include "Text.h"
 #include "Window.h"
 
-Button::Button(int w, int h, int x, int y, string label) : w(w), h(h), x(x), y(y), label(label) {}
-Button::~Button() {}
+Button::Button(int w, int h, int x, int y, string label) : w(w), h(h), x(x), y(y), label(label) {
+}
+Button::~Button() {
+}
 void Button::draw() {
     SDL_Rect btnInner = {x, y, w, h};
     SDL_Rect btnOuter = {x - 1, y - 1, w + 2, h + 2};

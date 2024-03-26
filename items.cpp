@@ -82,7 +82,6 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
             items[i] = nullptr;
             items.erase(items.begin() + i);
             i--;
-            cout << "Item collected\n";
             continue;
         }
         if (items[i]->isOutOfBounds()) {

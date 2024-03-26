@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Enemy.h"
+#include "Explosion.h"
 #include "Hero.h"
 #include "Includes.h"
 #include "Score.h"
@@ -18,7 +19,7 @@ class MultiEnemy {
    public:
     MultiEnemy();
     ~MultiEnemy();
-    void generateEnemy(Hero& hero, Score& score, const Camera& camera);
+    void generateEnemy(Hero& hero, Score& score, Camera& camera);
     Uint32 lastSlow = 0;
     bool isSlow = false;
     void setSlow(bool isSlow);
@@ -27,6 +28,7 @@ class MultiEnemy {
 
    private:
     vector<Enemy*> enemies;
+    vector<Explosion*> explosions;
     void killEnemy(int& index);
     void clearE();
     double passedSecond();

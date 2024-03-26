@@ -4,26 +4,22 @@
 
 Bullet::Bullet(int x, int y, double angle)
     : x(x), y(y), angle(angle) {
-    //    auto surface = IMG_Load("res/bullet.png");
-    //    if (!surface) {
-    //        cerr << "Failed to create surface.\n";
-    //    }
-    //    bullet_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
-    //    if (!bullet_texture) {
-    //        cerr << "Failed to create texture.\n";
-    //    }
-    //    SDL_FreeSurface(surface);
 }
 
 void Bullet::draw(const Camera& camera) const {
+    int length = 12;
+    int thickness = 2;
     if (outOfCamera(camera)) {
         return;
     }
-    //    cerr << "draw bullet at " << getX(camera) << " " << getY(camera) << endl;
-    SDL_Rect bulletRect = {getX(camera), getY(camera), w, h};
     SDL_SetRenderDrawColor(Window::renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(Window::renderer, &bulletRect);
-    //    SDL_RenderCopyEx(Window::renderer, bullet_texture, nullptr, &bulletRect, angle, nullptr, SDL_FLIP_NONE);
+    for (int j = 0; j < thickness; ++j) {
+        int x1 = x - j * sin(angle);
+        int y1 = y + j * cos(angle);
+        int x2 = x + length * cos(angle) - j * sin(angle);
+        int y2 = y + length * sin(angle) + j * cos(angle);
+        SDL_RenderDrawLine(Window::renderer, x1 - camera.getX(), y1 - camera.getY(), x2 - camera.getX(), y2 - camera.getY());
+    }
 }
 void Bullet::update(double dt) {
     double dx = cos(angle) * speed * dt;
@@ -38,6 +34,4 @@ bool Bullet::outOfCamera(const Camera& camera) const {
     return rectOutOfCamera(getW(), getH(), getX(camera), getY(camera));
 }
 
-Bullet::~Bullet() {
-    //    SDL_DestroyTexture(bullet_texture);
-}
+Bullet::~Bullet() {}
