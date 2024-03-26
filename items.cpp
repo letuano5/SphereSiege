@@ -33,6 +33,7 @@ bool Items::checkTime() {
 void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
     for (auto it = activeItems.begin(); it != activeItems.end();) {
         if (getTick() > it->second + itemActiveTime * 1000) {
+//            cerr << "kill " << it->first << ": " << getTick() << " " << it->second << endl;
             if (it->first == "FAST_SHOT") {
                 hero.setFastShot(false);
             } else if (it->first == "SLOWDOWN_ENEMIES") {
@@ -135,17 +136,18 @@ bool Items::setItem() {
             inp.close();
             return false;
         }
-
         if (!checkType(curType)) {
             inp.close();
             return false;
         }
+//        cerr << "add " << curType << " " << lastTime << endl;
         curActive[curType] = lastTime;
     }
     if (int(curActive.size()) != numActive) {
         inp.close();
         return false;
     }
+    activeItems.swap(curActive);
     int numRemain = -1;
     inp >> numRemain;
     if (numRemain < 0 || numRemain > 1e6) {

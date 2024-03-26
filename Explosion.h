@@ -1,5 +1,7 @@
-#include <vector>
+#pragma once
 
+#include "Includes.h"
+#include "Window.h"
 #include "Camera.h"
 
 class Explosion {
@@ -11,6 +13,7 @@ class Explosion {
 
    public:
     Explosion(int x, int y);
+    ~Explosion();
 
     void update();
 

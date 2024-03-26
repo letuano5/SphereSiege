@@ -210,6 +210,7 @@ bool Hero::setHero() {
         inp.close();
         return false;
     }
+    this->x = x, this->y = y;
     int fastShoot = -1, trippleShot = -1, pierceShot = -1;
     inp >> fastShoot >> trippleShot >> pierceShot;
     if (fastShoot < 0 || fastShoot > 1) {
@@ -224,6 +225,9 @@ bool Hero::setHero() {
         inp.close();
         return false;
     }
+    this->fastShoot = fastShoot;
+    this->trippleShot = trippleShot;
+    this->pierceShot = pierceShot;
     int numBullet = -1;
     inp >> numBullet;
     if (numBullet < 0 || numBullet > 1e6) {
@@ -250,6 +254,12 @@ bool Hero::setHero() {
         return false;
     }
     this->bullets.swap(bullets);
+    double hp = -1;
+    inp >> hp;
+    if (hp < 0 || hp > 1) {
+        return false;
+    }
+    health_point = hp;
     inp.close();
     return true;
 }
