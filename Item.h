@@ -24,7 +24,7 @@ class Item {
 
    private:
     double x, y;
-    int w = 100, h = 24;
+    int w = 200, h = 24;
     double direction = randDouble(0, 2 * PI);
     double speed = randDouble(20, 100);
     const string type;

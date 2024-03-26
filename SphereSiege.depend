@@ -69,7 +69,7 @@
 	"Includes.h"
 	"Window.h"
 
-1711280818 source:d:\uet\int2215 51\spheresiege\hero.cpp
+1711439180 source:d:\uet\int2215 51\spheresiege\hero.cpp
 	"Hero.h"
 	"Includes.h"
 
@@ -88,7 +88,7 @@
 	<string>
 	"Includes.h"
 
-1711332855 source:d:\uet\int2215 51\spheresiege\main.cpp
+1711442279 source:d:\uet\int2215 51\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -108,11 +108,11 @@
 	"Includes.h"
 	"Window.h"
 
-1710756107 source:d:\uet\int2215 51\spheresiege\window.cpp
+1711335907 source:d:\uet\int2215 51\spheresiege\window.cpp
 	"Window.h"
 	"Includes.h"
 
-1711287221 source:d:\uet\int2215 51\spheresiege\enemy.cpp
+1711440902 source:d:\uet\int2215 51\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
@@ -121,7 +121,7 @@
 	"Window.h"
 	"Camera.h"
 
-1711299001 d:\uet\int2215 51\spheresiege\includes.h
+1711440650 d:\uet\int2215 51\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_ttf.h>
@@ -137,7 +137,7 @@
 	<string>
 	<vector>
 
-1711299013 source:d:\uet\int2215 51\spheresiege\includes.cpp
+1711440664 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
 1711376011 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
@@ -186,16 +186,16 @@
 
 1709219155 
 
-1711288302 source:d:\uet\int2215 51\spheresiege\multienemy.cpp
+1711440529 source:d:\uet\int2215 51\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 
-1711280606 d:\uet\int2215 51\spheresiege\multienemy.h
+1711440537 d:\uet\int2215 51\spheresiege\multienemy.h
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
 	"Score.h"
 
-1710773085 d:\uet\int2215 51\spheresiege\score.h
+1711375749 d:\uet\int2215 51\spheresiege\score.h
 	"Includes.h"
 
 1711249073 source:d:\uet\int2215 51\spheresiege\progressbar.cpp
@@ -206,16 +206,16 @@
 1711249073 d:\uet\int2215 51\spheresiege\progressbar.h
 	"Includes.h"
 
-1710563474 d:\uet\int2215 51\spheresiege\text.h
+1711335907 d:\uet\int2215 51\spheresiege\text.h
 	"Includes.h"
 
-1709391734 source:d:\uet\int2215 51\spheresiege\score.cpp
+1711374727 source:d:\uet\int2215 51\spheresiege\score.cpp
 	"Score.h"
 	<string>
 	"Text.h"
 	"Window.h"
 
-1710563474 source:d:\uet\int2215 51\spheresiege\text.cpp
+1711335907 source:d:\uet\int2215 51\spheresiege\text.cpp
 	"Text.h"
 	<iostream>
 	"Window.h"
@@ -258,7 +258,7 @@
 	"Includes.h"
 	<string>
 
-1711332649 source:d:\uet\int2215 51\spheresiege\button.cpp
+1711332884 source:d:\uet\int2215 51\spheresiege\button.cpp
 	"Button.h"
 	"Text.h"
 	"Window.h"
@@ -266,7 +266,7 @@
 1710756107 d:\uet\int2215 51\spheresiege\button.h
 	"Includes.h"
 
-1711332822 source:d:\uet\int2215 51\spheresiege\menu.cpp
+1711375833 source:d:\uet\int2215 51\spheresiege\menu.cpp
 	"Menu.h"
 	"Button.h"
 	"Text.h"
@@ -301,7 +301,7 @@
 1711329868 source:d:\uet\int2215 51\spheresiege\item.cpp
 	"Item.h"
 
-1711331132 d:\uet\int2215 51\spheresiege\item.h
+1711377298 d:\uet\int2215 51\spheresiege\item.h
 	"Camera.h"
 	"Hero.h"
 	"Includes.h"
@@ -309,7 +309,7 @@
 	"Text.h"
 	"Window.h"
 
-1711331142 source:d:\uet\int2215 51\spheresiege\items.cpp
+1711442453 source:d:\uet\int2215 51\spheresiege\items.cpp
 	"Items.h"
 
 1711299301 d:\uet\int2215 51\spheresiege\items.h

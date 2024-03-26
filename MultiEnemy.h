@@ -30,6 +30,7 @@ class MultiEnemy {
     vector<Enemy*> enemies;
     vector<Explosion*> explosions;
     void killEnemy(int& index);
+    void clearE();
     double passedSecond();
     bool checkTime();
     clock_t lastTimeSpawned = clock();
