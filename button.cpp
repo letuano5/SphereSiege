@@ -10,17 +10,18 @@ Button::~Button() {
 void Button::draw() {
     SDL_Rect btnInner = {x, y, w, h};
     SDL_Rect btnOuter = {x - 1, y - 1, w + 2, h + 2};
-    Text text(Window::renderer, "res/PressStart2P.ttf", 16, label, {200, 200, 200, 255});
+    Text text(Window::renderer, "res/font/PressStart2P.ttf", 16, label, labelColor);
+    SDL_Color inC, outC;
     if (isMouseOver) {
-        innerColor = {60, 60, 60, 255};
-        outerColor = {120, 120, 120, 255};
+        inC = {60, 60, 60, 255};
+        outC = {120, 120, 120, 255};
     } else {
-        innerColor = {45, 45, 45, 255};
-        outerColor = {100, 100, 100, 255};
+        inC = innerColor;
+        outC = outerColor;
     }
-    SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
+    SDL_SetRenderDrawColor(Window::renderer, outC.r, outC.g, outC.b, outC.a);
     SDL_RenderDrawRect(Window::renderer, &btnOuter);
-    SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);
+    SDL_SetRenderDrawColor(Window::renderer, inC.r, inC.g, inC.b, inC.a);
     SDL_RenderFillRect(Window::renderer, &btnInner);
 
     text.display(x + w / 2 - text.getW() / 2, y + h / 2 - text.getH() / 2, Window::renderer);

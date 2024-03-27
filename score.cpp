@@ -8,12 +8,12 @@
 using namespace std;
 
 Score::Score(int scoreNum, string label, int x, int y, bool isBestScoreTxt, string dir)
-: scoreNum(scoreNum), label(label), x(x), y(y), isBestScoreTxt(isBestScoreTxt), dir(dir) {}
+    : scoreNum(scoreNum), label(label), x(x), y(y), isBestScoreTxt(isBestScoreTxt), dir(dir) {}
 
 Score::~Score() {}
 
 void Score::draw() const {
-    Text text(Window::renderer, "res/PressStart2P.ttf", 13, label + to_string(scoreNum), {200, 200, 200, 255});
+    Text text(Window::renderer, "res/font/PressStart2P.ttf", 13, label + to_string(scoreNum), {200, 200, 200, 255});
     text.display(x, y, Window::renderer);
 }
 
@@ -41,4 +41,3 @@ bool Score::readScore() {
     scoreNum = score;
     return true;
 }
-

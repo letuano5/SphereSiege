@@ -48,4 +48,5 @@ extern int heroAutoShoot;
 extern double dt;
 extern Uint32 lastTick;
 extern Uint32 startTick;
+extern int canContinue;
 Uint32 getTick();

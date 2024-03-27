@@ -7,6 +7,7 @@ int isPaused = false;
 int isLost = false;
 int isContinued = false;
 int heroAutoShoot = false;
+int canContinue = false;
 double dt = 0;
 Uint32 lastTick = 0;
 Uint32 startTick = 0;
