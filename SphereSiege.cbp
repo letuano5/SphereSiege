@@ -37,7 +37,6 @@
 		<Unit filename="Camera.h" />
 		<Unit filename="Enemy.h" />
 		<Unit filename="Explosion.h" />
-		<Unit filename="Explotion.h" />
 		<Unit filename="Hero.h" />
 		<Unit filename="Includes.h" />
 		<Unit filename="Item.h" />

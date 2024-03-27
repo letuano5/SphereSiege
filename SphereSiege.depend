@@ -61,7 +61,7 @@
 	"Window.h"
 	"Camera.h"
 
-1711442960 source:d:\uet\int2215 51\spheresiege\bullet.cpp
+1711507875 source:d:\uet\int2215 51\spheresiege\bullet.cpp
 	"Bullet.h"
 	"Includes.h"
 
@@ -70,7 +70,7 @@
 	"Includes.h"
 	"Window.h"
 
-1711439180 source:d:\uet\int2215 51\spheresiege\hero.cpp
+1711465843 source:d:\uet\int2215 51\spheresiege\hero.cpp
 	"Hero.h"
 	"Includes.h"
 
@@ -339,6 +339,8 @@
 	"Window.h"
 	"Camera.h"
 
+1711443047 source:d:\uet\int2215 51\spheresiege\explosion.cpp
+	"Explosion.h"
 1711460938 source:d:\code\cpp\bai_tap_lon\spheresiege\minimap.cpp
 
 1711512560 d:\code\cpp\bai_tap_lon\spheresiege\minimap.h
