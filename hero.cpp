@@ -47,8 +47,8 @@ void Hero::draw(Camera &camera) {
         double dy = mouseY - (y + h / 2);
         double angle = atan2(dy, dx) * 180 / M_PI;
         if (shakeDuration > 0) {
-            hero.x += rand() % (2 * shakeIntensity) - shakeIntensity;
-            hero.y += rand() % (2 * shakeIntensity) - shakeIntensity;
+            hero.x += randInt(-shakeIntensity, shakeIntensity);
+            hero.y += randInt(-shakeIntensity, shakeIntensity);
             shakeDuration--;
         }
 
@@ -189,7 +189,7 @@ void Hero::saveHero() {
 //    cerr << "saving hero's info..." << endl;
     ofstream out("res/save/hero.txt");
     out << x << " " << y << "\n";
-    out << fastShoot << " " << trippleShot << " " << pierceShot << "\n";
+    out << fastShoot << " " << trippleShot << " " << pierceShot << " " << heroAutoShoot << "\n";
     out << bullets.size() << "\n";
     for (const auto& bullet : bullets) {
         out << bullet.getX() << " " << bullet.getY() << " ";
@@ -212,7 +212,8 @@ bool Hero::setHero() {
     }
     this->x = x, this->y = y;
     int fastShoot = -1, trippleShot = -1, pierceShot = -1;
-    inp >> fastShoot >> trippleShot >> pierceShot;
+    int autoShoot = -1;
+    inp >> fastShoot >> trippleShot >> pierceShot >> autoShoot;
     if (fastShoot < 0 || fastShoot > 1) {
         inp.close();
         return false;
@@ -225,6 +226,11 @@ bool Hero::setHero() {
         inp.close();
         return false;
     }
+    if (autoShoot < 0 || autoShoot > 1) {
+        inp.close();
+        return false;
+    }
+    heroAutoShoot = autoShoot;
     this->fastShoot = fastShoot;
     this->trippleShot = trippleShot;
     this->pierceShot = pierceShot;
