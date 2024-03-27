@@ -57,7 +57,7 @@ const int LEFT = 2;
 const int RIGHT = 3;
 
 const vector<string> OPTION_ANGLE = {"CHASE", "HORIZONTAL", "DIAGONAL", "RANDOM"};
-const vector<string> DIRS = {"res/enemy.png", "res/enemybig.png", "res/enemysmall.png", "res/enemyspiltter.png"};
+const vector<string> DIRS = {"res/image/enemy.png", "res/image/enemybig.png", "res/image/enemysmall.png", "res/image/enemyspiltter.png"};
 const vector<string> TYPE_ENEMY = {"NORMAL", "BIG", "SMALL", "SPILTTER"};
 
 double randomAngle(int typeDir, const Hero& hero, pair<int, int> currentPosition) {

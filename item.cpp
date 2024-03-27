@@ -54,7 +54,7 @@ void Item::draw(const Camera &camera) {
     w = label.size() * 10;
     SDL_FRect itemInner = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_FRect itemOuter = {x - 1 - camera.getX(), y - 1 - camera.getY(), w + 2, h + 2};
-    Text text(Window::renderer, "res/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
+    Text text(Window::renderer, "res/font/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
     SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
     SDL_RenderDrawRectF(Window::renderer, &itemOuter);
     SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);

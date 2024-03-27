@@ -19,6 +19,10 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!shoot_sound) {
         cerr << "Failed to load shoot sound.\n";
     }
+    hit_sound = Mix_LoadWAV("res/audio/hitHurt.wav");
+    if (!hit_sound) {
+        cerr << "Failed to load hit sound.\n";
+    }
     SDL_FreeSurface(surface);
 }
 
@@ -26,6 +30,7 @@ Hero::~Hero() {
     SDL_DestroyTexture(triangle_texture);
     SDL_DestroyTexture(vignette_texture);
     Mix_FreeChunk(shoot_sound);
+    Mix_FreeChunk(hit_sound);
 }
 
 void Hero::draw(Camera &camera) {
@@ -142,10 +147,10 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             health_point -= enemyDmg;
             enemyLastHit = currentTime;
             isFlickering = true;
-            shakeDuration = 7;   // Shake for 10 frames
-            shakeIntensity = 2;  // Shake intensity
+            shakeDuration = 7;  // 7 frames
+            shakeIntensity = 2;
         }
-        if (health_point <= 0) {
+        if (health_point <= EPS) {
             isLost = 1;
         }
         if (isFlickering) {
@@ -162,6 +167,9 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             if (!pierceShot) {
                 bullets.erase(bullets.begin() + i);
                 i--;
+            }
+            if (Mix_PlayChannel(-1, hit_sound, 0) == -1) {
+                cerr << "Failed to play hit sound: " << Mix_GetError() << "\n";
             }
             return WIN;
         }

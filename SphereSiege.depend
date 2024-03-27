@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1711511859 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+1711531978 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -22,7 +22,7 @@
 	"Includes.h"
 	"Window.h"
 
-1711511829 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
+1711532942 source:d:\code\cpp\bai_tap_lon\spheresiege\window.cpp
 	"Window.h"
 	"Includes.h"
 
@@ -30,11 +30,11 @@
 	"Rect.h"
 	"Includes.h"
 
-1711459718 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1711531831 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
 	"Includes.h"
 
-1711466156 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
+1711531860 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
 	<map>
 	"Bullet.h"
 	"Camera.h"
@@ -141,7 +141,7 @@
 1711440664 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
-1711458605 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+1711530294 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_mixer.h>
@@ -157,7 +157,7 @@
 	<string>
 	<vector>
 
-1711458605 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
+1711530305 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
 	"Includes.h"
 
 1711334322 d:\code\cpp\bai_tap_lon\spheresiege\text.h
@@ -171,7 +171,7 @@
 1711242554 d:\code\cpp\bai_tap_lon\spheresiege\progressbar.h
 	"Includes.h"
 
-1711207727 source:d:\code\cpp\bai_tap_lon\spheresiege\progressbar.cpp
+1711530203 source:d:\code\cpp\bai_tap_lon\spheresiege\progressbar.cpp
 	"ProgressBar.h"
 	"Text.h"
 	"Window.h"
@@ -179,7 +179,7 @@
 1711458605 d:\code\cpp\bai_tap_lon\spheresiege\score.h
 	"Includes.h"
 
-1711458606 source:d:\code\cpp\bai_tap_lon\spheresiege\score.cpp
+1711530212 source:d:\code\cpp\bai_tap_lon\spheresiege\score.cpp
 	"Score.h"
 	<string>
 	"Text.h"
@@ -235,21 +235,21 @@
 	"Includes.h"
 	"Score.h"
 
-1711460291 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
+1711530151 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 
-1711458605 source:d:\code\cpp\bai_tap_lon\spheresiege\menu.cpp
+1711532049 source:d:\code\cpp\bai_tap_lon\spheresiege\menu.cpp
 	"Menu.h"
 	"Button.h"
 	"Text.h"
 	"Window.h"
 
-1711376565 source:d:\code\cpp\bai_tap_lon\spheresiege\button.cpp
+1711531554 source:d:\code\cpp\bai_tap_lon\spheresiege\button.cpp
 	"Button.h"
 	"Text.h"
 	"Window.h"
 
-1711376559 d:\code\cpp\bai_tap_lon\spheresiege\button.h
+1711531534 d:\code\cpp\bai_tap_lon\spheresiege\button.h
 	"Includes.h"
 
 1709781321 d:\code\cpp\bai_tap_lon\spheresiege\menu.h
@@ -280,7 +280,7 @@
 1711339615 d:\code\cpp\bai_tap_lon\spheresiege\camera.h
 	"Includes.h"
 
-1711469450 source:d:\code\cpp\bai_tap_lon\spheresiege\item.cpp
+1711530188 source:d:\code\cpp\bai_tap_lon\spheresiege\item.cpp
 	"Item.h"
 
 1711469323 d:\code\cpp\bai_tap_lon\spheresiege\item.h
@@ -339,7 +339,8 @@
 	"Window.h"
 	"Camera.h"
 
-1711460938 source:d:\code\cpp\bai_tap_lon\spheresiege\minimap.cpp
+1711530097 source:d:\code\cpp\bai_tap_lon\spheresiege\minimap.cpp
+	"Minimap.h"
 
 1711512560 d:\code\cpp\bai_tap_lon\spheresiege\minimap.h
 	"Hero.h"

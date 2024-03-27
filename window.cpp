@@ -55,7 +55,7 @@ bool Window::init() {
         cerr << "Failed to create renderer!";
         return 0;
     }
-    SDL_Surface *mapSurface = IMG_Load("res/map.png");
+    SDL_Surface *mapSurface = IMG_Load("res/image/map.png");
     if (!mapSurface) {
         cerr << "Failed to load image: " << IMG_GetError() << endl;
         return 0;

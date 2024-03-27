@@ -14,8 +14,8 @@ void Menu::draw(int mouseX, int mouseY) const {
     int mX, mY;
     SDL_GetMouseState(&mX, &mY);
     if (menuType == "start") {
-        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
-        Text credit(Window::renderer, "res/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
+        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
+        Text credit(Window::renderer, "res/font/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
 
         title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
         credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8, Window::renderer);
@@ -24,8 +24,12 @@ void Menu::draw(int mouseX, int mouseY) const {
         Button continueBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "CONTINUE");
         Button statsBtn(200, 40, WINDOW_WIDTH / 2 - 100, continueBtn.getY() + continueBtn.getH() + 10, "STATS");
         startBtn.updateHover(mX, mY);
-        continueBtn.updateHover(mX, mY);
+        if (canContinue) continueBtn.updateHover(mX, mY);
         statsBtn.updateHover(mX, mY);
+        if (!canContinue) {
+            continueBtn.setColor({45, 45, 45, 30}, {55, 55, 55, 30});
+            continueBtn.setLabelColor({120, 120, 120, 30});
+        }
         startBtn.draw();
         continueBtn.draw();
         statsBtn.draw();
@@ -33,11 +37,11 @@ void Menu::draw(int mouseX, int mouseY) const {
             isStarted = 2;
             isContinued = 0;
         }
-        if (continueBtn.isClicked(mouseX, mouseY)) {
+        if (continueBtn.isClicked(mouseX, mouseY) && canContinue) {
             isContinued = 1;
         }
     } else if (menuType == "pause") {
-        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
+        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
 
         title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
 
@@ -54,7 +58,7 @@ void Menu::draw(int mouseX, int mouseY) const {
             exit(0);
         }
     } else if (menuType == "lost") {
-        Text title(Window::renderer, "res/PressStart2P.ttf", 42, "YOU LOST", {200, 200, 200, 255});
+        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "YOU LOST", {200, 200, 200, 255});
 
         title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
 
