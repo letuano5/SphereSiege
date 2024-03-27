@@ -19,10 +19,12 @@ class Items {
     vector<pair<string, ProgressBar*>> itemsProgress;
     void saveItem();
     bool setItem();
+    vector<Item*>& getItems() { return items; }
 
    private:
     vector<Item*> items;
     map<string, Uint32> activeItems;
     SDL_Color textColor = {100, 100, 100, 255};
     SDL_Color textActiveColor = {188, 188, 188, 255};
+    Mix_Chunk* powerUp_sound = nullptr;
 };

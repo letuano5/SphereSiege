@@ -3,6 +3,7 @@
 #include "Includes.h"
 #include "Items.h"
 #include "Menu.h"
+#include "Minimap.h"
 #include "MultiEnemy.h"
 #include "ProgressBar.h"
 #include "Score.h"
@@ -20,6 +21,7 @@ Score* best = NULL;
 MultiEnemy* enemies = NULL;
 Camera* camera = NULL;
 Items* items = NULL;
+Minimap minimap;
 
 Menu start("start");
 Menu pause("pause");
@@ -45,7 +47,7 @@ void reset() {
     camera = NULL;
     delete items;
     items = NULL;
- }
+}
 
 void init() {
     reset();
@@ -84,13 +86,12 @@ bool canLoad() {
     }
     ifstream inp("res/save/time.txt");
     inp >> lastTick;
-//    cerr << lastTick << endl;
+    //    cerr << lastTick << endl;
     inp.close();
     return true;
 }
 
 void loadGame() {
-
 }
 
 void play() {
@@ -100,12 +101,12 @@ void play() {
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
     }
-//    cerr << isContinued << endl;
+    //    cerr << isContinued << endl;
     if (isContinued) {
         bool db = canLoad();
-//        cout << db << endl;
-//        SDL_Delay(100);
-//        loadGame();
+        //        cout << db << endl;
+        //        SDL_Delay(100);
+        //        loadGame();
         isStarted = 1;
         isContinued = 0;
         currTime = SDL_GetPerformanceCounter();
@@ -113,7 +114,7 @@ void play() {
         dt = (double)deltaTime / SDL_GetPerformanceFrequency();
         prevTime = currTime;
     }
-//    cout << "? " << isContinued << endl;
+    //    cout << "? " << isContinued << endl;
     if (isStarted) {
         currTime = SDL_GetPerformanceCounter();
         deltaTime = currTime - prevTime;
@@ -164,13 +165,15 @@ void play() {
         items->saveItem();
         score->writeScore();
         best->writeScore();
-
-//        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
-//        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
+        minimap.update(*camera);
+        minimap.draw(*hero, *enemies, *items);
+        //        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
+        //        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
     } else {
-//        cerr << isStarted << endl;
+        //        cerr << isStarted << endl;
         start.draw(mousePos.first, mousePos.second);
     }
+    window.present();
 }
 
 int main(int argv, char** args) {

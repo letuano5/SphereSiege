@@ -21,6 +21,7 @@ public:
     double getSpeed() const { return speed; }
     string getPath() const { return imagePath; }
     void takeDmg(double dmg);
+    bool enemyOutOfMap() const;
     bool enemyOutOfBound(int leftBound) const;
     bool canSpilt;
     double dmg = 0.1;

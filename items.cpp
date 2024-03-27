@@ -12,6 +12,10 @@ Items::Items() {
         replace(name, "_", " ");
         itemsProgress.push_back({itemProgressTypes[i].first, new ProgressBar(120, 8, 20, WINDOW_HEIGHT - 64 + i * 12, name, false, itemProgressTypes[i].second, textColor)});
     }
+    powerUp_sound = Mix_LoadWAV("res/audio/powerUp.wav");
+    if (!powerUp_sound) {
+        cerr << "Failed to load item sound effect! SDL_mixer Error: " << Mix_GetError() << endl;
+    }
 }
 Items::~Items() {
     for (int i = 0; i < int(items.size()); i++) {
@@ -24,6 +28,7 @@ Items::~Items() {
         item.second = nullptr;
     }
     activeItems.clear();
+    Mix_FreeChunk(powerUp_sound);
 }
 bool Items::checkTime() {
     clock_t currentTime = clock();
@@ -33,7 +38,7 @@ bool Items::checkTime() {
 void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
     for (auto it = activeItems.begin(); it != activeItems.end();) {
         if (getTick() > it->second + itemActiveTime * 1000) {
-//            cerr << "kill " << it->first << ": " << getTick() << " " << it->second << endl;
+            //            cerr << "kill " << it->first << ": " << getTick() << " " << it->second << endl;
             if (it->first == "FAST_SHOT") {
                 hero.setFastShot(false);
             } else if (it->first == "SLOWDOWN_ENEMIES") {
@@ -82,6 +87,9 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
             items[i] = nullptr;
             items.erase(items.begin() + i);
             i--;
+            if (Mix_PlayChannel(-1, powerUp_sound, 0) == -1) {
+                cerr << "Failed to play item sound effect! SDL_mixer Error: " << Mix_GetError() << endl;
+            }
             continue;
         }
         if (items[i]->isOutOfBounds()) {
@@ -140,7 +148,7 @@ bool Items::setItem() {
             inp.close();
             return false;
         }
-//        cerr << "add " << curType << " " << lastTime << endl;
+        //        cerr << "add " << curType << " " << lastTime << endl;
         curActive[curType] = lastTime;
     }
     if (int(curActive.size()) != numActive) {

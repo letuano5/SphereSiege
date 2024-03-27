@@ -25,6 +25,7 @@ class MultiEnemy {
     void setSlow(bool isSlow);
     void saveEnemies();
     bool setEnemies();
+    vector<Enemy*>& getEnemies() { return enemies; }
 
    private:
     vector<Enemy*> enemies;
@@ -34,4 +35,5 @@ class MultiEnemy {
     double passedSecond();
     bool checkTime();
     clock_t lastTimeSpawned = clock();
+    Mix_Chunk* explosion_sound = nullptr;
 };

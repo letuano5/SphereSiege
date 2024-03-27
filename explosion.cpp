@@ -1,6 +1,6 @@
 #include "Explosion.h"
 
-Explosion::Explosion(int x, int y)
+Explosion::Explosion(double x, double y)
     : x(x), y(y) {
     for (int i = 0; i < numFrames; i++) {
         std::string imagePath = framePath + "explosion-" + std::to_string(i) + ".png";
@@ -23,7 +23,7 @@ void Explosion::update() {
 void Explosion::draw(Camera& camera) const {
     int w, h;
     SDL_QueryTexture(frames[currentFrame], NULL, NULL, &w, &h);
-    SDL_Rect dstRect = {x - camera.getX(), y - camera.getY(), w, h};
+    SDL_Rect dstRect = {x - camera.getX() - w / 2, y - camera.getY() - h / 2, w, h};
 
     SDL_RenderCopy(Window::renderer, frames[currentFrame], NULL, &dstRect);
 }
