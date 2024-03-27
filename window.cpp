@@ -16,6 +16,7 @@ Window::~Window() {
     IMG_Quit();
     SDL_Quit();
     Mix_CloseAudio();
+    SDL_DestroyTexture(mapTexture);
 }
 
 bool Window::init() {
@@ -54,6 +55,13 @@ bool Window::init() {
         cerr << "Failed to create renderer!";
         return 0;
     }
+    SDL_Surface *mapSurface = IMG_Load("res/map.png");
+    if (!mapSurface) {
+        cerr << "Failed to load image: " << IMG_GetError() << endl;
+        return 0;
+    }
+    mapTexture = SDL_CreateTextureFromSurface(renderer, mapSurface);
+    SDL_FreeSurface(mapSurface);
 
     return true;
 }
@@ -88,7 +96,12 @@ pair<int, int> Window::pollEvents(SDL_Event &event) {
 }
 
 void Window::clear() const {
-    SDL_RenderPresent(renderer);
     SDL_SetRenderDrawColor(renderer, 35, 35, 35, 255);
     SDL_RenderClear(renderer);
+    if (mapTexture) {
+        SDL_RenderCopy(renderer, mapTexture, NULL, NULL);
+    }
+}
+void Window::present() const {
+    SDL_RenderPresent(renderer);
 }

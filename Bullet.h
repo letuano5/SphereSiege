@@ -13,6 +13,7 @@ class Bullet {
     void draw(const Camera& camera) const;
     void update(double dt);
     bool outOfBound();
+    bool bulletOutOfMap() const;
     bool outOfCamera(const Camera& camera) const;
 
     int getX(const Camera& camera) const { return x - camera.getX(); }

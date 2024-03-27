@@ -1,7 +1,10 @@
 #include "MultiEnemy.h"
 
 MultiEnemy::MultiEnemy() {
-    ;
+    explosion_sound = Mix_LoadWAV("res/audio/explosion.wav");
+    if (!explosion_sound) {
+        cerr << "Failed to load explosion sound.\n";
+    }
 }
 
 MultiEnemy::~MultiEnemy() {
@@ -15,6 +18,7 @@ MultiEnemy::~MultiEnemy() {
         explosions[i] = nullptr;
     }
     explosions.clear();
+    Mix_FreeChunk(explosion_sound);
 }
 
 void MultiEnemy::clearE() {
@@ -185,7 +189,12 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
                     enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, DIRS[0]));
                 }
             }
-            explosions.push_back(new Explosion(enemies[i]->getX(), enemies[i]->getY()));
+            double centerEnemyX = enemies[i]->getX() + enemies[i]->getW() / 2;
+            double centerEnemyY = enemies[i]->getY() + enemies[i]->getH() / 2;
+            explosions.push_back(new Explosion(centerEnemyX, centerEnemyY));
+            if (Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
+                cerr << "Failed to play explosion sound: " << Mix_GetError() << "\n";
+            }
             killEnemy(i);
             camera.shake(0.2, 12);
             score.update(1);

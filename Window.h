@@ -18,6 +18,7 @@ class Window {
 
     pair<int, int> pollEvents(SDL_Event &event);
     void clear() const;
+    void present() const;
     bool isClosed() const { return _close; }
 
    private:
@@ -34,6 +35,7 @@ class Window {
 
    public:
     static SDL_Renderer *renderer;
+    SDL_Texture *mapTexture = nullptr;
     static int height;
     static int width;
 };
