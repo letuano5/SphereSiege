@@ -2,7 +2,7 @@
 
 Minimap::Minimap() {
     minimapRect = {X, Y, WIDTH, HEIGHT};
-    SDL_Surface* minimap_surface = IMG_Load("res/minimap.png");
+    SDL_Surface* minimap_surface = IMG_Load("res/image/minimap.png");
     if (!minimap_surface) {
         cerr << "Failed to load minimap image.\n";
     }
@@ -10,7 +10,7 @@ Minimap::Minimap() {
     if (!minimap_texture) {
         cerr << "Failed to create vignette texture.\n";
     }
-    SDL_Surface* camera_surface = IMG_Load("res/minicamera.png");
+    SDL_Surface* camera_surface = IMG_Load("res/image/minicamera.png");
     if (!camera_surface) {
         cerr << "Failed to load camera image.\n";
     }

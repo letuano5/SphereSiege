@@ -11,8 +11,14 @@ class Button {
     int getH() { return h; };
     int getX() { return x; };
     int getY() { return y; };
+    void setColor(SDL_Color innerColor, SDL_Color outerColor) {
+        this->innerColor = innerColor;
+        this->outerColor = outerColor;
+    }
+    void setLabelColor(SDL_Color labelColor) { this->labelColor = labelColor; }
     SDL_Color innerColor = {45, 45, 45, 255};
     SDL_Color outerColor = {100, 100, 100, 255};
+    SDL_Color labelColor = {200, 200, 200, 255};
     bool isMouseOver = false;
 
    private:

@@ -51,7 +51,7 @@ void reset() {
 
 void init() {
     reset();
-    hero = new Hero(20, 20, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/triangle.png");
+    hero = new Hero(24, 24, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/image/hero.png");
     Health = new ProgressBar(120, 12, 20, 20, "HP", true, {0, 255, 0, 255}, {});
     Progress = new ProgressBar(120, 12, 220, 20, "progress", true, {150, 150, 150, 255}, {});
     score = new Score(0, "score: ", 520, 20, false, "res/save/score.txt");
@@ -98,51 +98,49 @@ void play() {
     pair<int, int> mousePos = {-1, -1};
     window.clear();
     SDL_Event event;
+    currTime = SDL_GetPerformanceCounter();
+    deltaTime = currTime - prevTime;
+    dt = (double)deltaTime / SDL_GetPerformanceFrequency();
+    prevTime = currTime;
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
     }
     //    cerr << isContinued << endl;
     if (isContinued) {
-        bool db = canLoad();
         //        cout << db << endl;
         //        SDL_Delay(100);
         //        loadGame();
         isStarted = 1;
         isContinued = 0;
-        currTime = SDL_GetPerformanceCounter();
-        deltaTime = currTime - prevTime;
-        dt = (double)deltaTime / SDL_GetPerformanceFrequency();
-        prevTime = currTime;
+        // currTime = SDL_GetPerformanceCounter();
+        // deltaTime = currTime - prevTime;
+        // dt = (double)deltaTime / SDL_GetPerformanceFrequency();
+        // prevTime = currTime;
     }
     //    cout << "? " << isContinued << endl;
-    if (isStarted) {
-        currTime = SDL_GetPerformanceCounter();
-        deltaTime = currTime - prevTime;
-        dt = (double)deltaTime / SDL_GetPerformanceFrequency();
-        prevTime = currTime;
+    if (isStarted && isPaused) {
+        pause.draw(mousePos.first, mousePos.second);
+        SDL_RenderPresent(Window::renderer);
+        return;
+    }
 
+    if (isStarted && isLost) {
+        lost.draw(mousePos.first, mousePos.second);
+        SDL_RenderPresent(Window::renderer);
+        if (!isLost) {
+            init();
+        }
+        return;
+    }
+    if (isStarted) {
         if (isStarted == 2) {
             init();
             isStarted = 1;
         }
 
-        if (isPaused) {
-            pause.draw(mousePos.first, mousePos.second);
-            return;
-        }
-
-        if (isLost) {
-            lost.draw(mousePos.first, mousePos.second);
-            if (!isLost) {
-                init();
-            }
-            return;
-        }
-
         if (!startTick) {
             startTick = SDL_GetTicks();
         }
-
         enemies->generateEnemy(*hero, *score, *camera);
         items->spawnItem(*hero, *camera, *enemies);
         Progress->draw();
@@ -178,8 +176,8 @@ void play() {
 
 int main(int argv, char** args) {
     srand(time(NULL));
-
     init();
+    canContinue = canLoad();
     while (!window.isClosed()) {
         play();
     }

@@ -63,5 +63,6 @@ class Hero {
     SDL_Texture* triangle_texture = nullptr;
     SDL_Texture* vignette_texture = nullptr;
     Mix_Chunk* shoot_sound = nullptr;
+    Mix_Chunk* hit_sound = nullptr;
     vector<Bullet> bullets;
 };
