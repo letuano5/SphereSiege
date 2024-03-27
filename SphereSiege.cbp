@@ -42,6 +42,7 @@
 		<Unit filename="Item.h" />
 		<Unit filename="Items.h" />
 		<Unit filename="Menu.h" />
+		<Unit filename="Minimap.h" />
 		<Unit filename="MultiEnemy.h" />
 		<Unit filename="ProgressBar.h" />
 		<Unit filename="README.md" />
@@ -60,6 +61,7 @@
 		<Unit filename="items.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
+		<Unit filename="minimap.cpp" />
 		<Unit filename="multiEnemy.cpp" />
 		<Unit filename="progressBar.cpp" />
 		<Unit filename="rect.cpp" />

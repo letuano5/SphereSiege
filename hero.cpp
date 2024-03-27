@@ -104,9 +104,9 @@ void Hero::pollEvents(const Camera &camera) {
 }
 
 void Hero::shoot(int mouseX, int mouseY) {
-//    if (Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
-//        cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
-//    }
+    if (Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
+        cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
+    }
     int dx = mouseX - (x + w / 2);
     int dy = mouseY - (y + h / 2);
     double angle = atan2(dy, dx);
@@ -142,7 +142,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             health_point -= enemyDmg;
             enemyLastHit = currentTime;
             isFlickering = true;
-            shakeDuration = 7;  // Shake for 10 frames
+            shakeDuration = 7;   // Shake for 10 frames
             shakeIntensity = 2;  // Shake intensity
         }
         if (health_point <= 0) {
@@ -186,12 +186,12 @@ void Hero::setPierceShot(bool pierceShot) {
 }
 
 void Hero::saveHero() {
-//    cerr << "saving hero's info..." << endl;
+    //    cerr << "saving hero's info..." << endl;
     ofstream out("res/save/hero.txt");
     out << x << " " << y << "\n";
     out << fastShoot << " " << trippleShot << " " << pierceShot << " " << heroAutoShoot << "\n";
     out << bullets.size() << "\n";
-    for (const auto& bullet : bullets) {
+    for (const auto &bullet : bullets) {
         out << bullet.getX() << " " << bullet.getY() << " ";
         out << setprecision(9) << fixed << bullet.getAngle() << "\n";
     }

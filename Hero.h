@@ -49,6 +49,7 @@ class Hero {
     void setPierceShot(bool setPierceShot);
     void saveHero();
     bool setHero();
+    vector<Bullet>& getBullets() { return bullets; }
 
    private:
     int w,

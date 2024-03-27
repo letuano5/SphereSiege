@@ -41,6 +41,10 @@ void Enemy::draw(const Camera& camera) {
     }
 }
 
+bool Enemy::enemyOutOfMap() const {
+    return x < 0 || y < 0 || x + w > MAP_WIDTH || y + h > MAP_HEIGHT;
+}
+
 bool Enemy::enemyOutOfBound(int leftBound) const {
     return x + w < leftBound || y + h < leftBound || x > MAP_WIDTH || y > MAP_HEIGHT;
 }
@@ -49,8 +53,8 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
     if (canShiftAngle) {
         //        angle += randDouble(-0.15, 0.15);
     }
-//    x += speed * cos(angle) * slowRate;
-//    y += speed * sin(angle) * slowRate;
+    //    x += speed * cos(angle) * slowRate;
+    //    y += speed * sin(angle) * slowRate;
     x += speed * cos(angle) * dt * 50 * slowRate;
     y += speed * sin(angle) * dt * 50 * slowRate;
     rotateAngle += rotateSpeed;

@@ -30,7 +30,6 @@ Item::~Item() {}
 void Item::draw(const Camera &camera) {
     //    cout << direction << " " << speed << "\n";
     string label;
-    SDL_Color innerColor, outerColor;
     if (type == "FAST_SHOT") {
         label = "FAST SHOT";
         innerColor = {138, 201, 38, 255};
@@ -73,6 +72,9 @@ bool Item::intersect(double x, double y, double w, double h) {
 }
 bool Item::isOutOfBounds() const {
     return x < -w - 5 || x > MAP_WIDTH || y < -h - 5 || y > MAP_HEIGHT;
+}
+bool Item::isOutOfMap() const {
+    return x < 0 || x + w > MAP_WIDTH || y < 0 || y + h > MAP_HEIGHT;
 }
 void Item::applyEffect(Hero &hero, MultiEnemy &enemies) {
     if (type == "FAST_SHOT") {

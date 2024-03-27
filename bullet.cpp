@@ -30,6 +30,9 @@ void Bullet::update(double dt) {
 bool Bullet::outOfBound() {
     return rectOutOfBound(getW(), getH(), getX(), getY());
 }
+bool Bullet::bulletOutOfMap() const {
+    return x < 0 || y < 0 || x + w > MAP_WIDTH || y + h > MAP_HEIGHT;
+}
 bool Bullet::outOfCamera(const Camera& camera) const {
     return rectOutOfCamera(getW(), getH(), getX(camera), getY(camera));
 }

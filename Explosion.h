@@ -1,18 +1,18 @@
 #pragma once
 
+#include "Camera.h"
 #include "Includes.h"
 #include "Window.h"
-#include "Camera.h"
 
 class Explosion {
-    std::vector<SDL_Texture*> frames;
-    int x, y;
+    vector<SDL_Texture*> frames;
+    double x, y;
     int currentFrame = 0;
     const int numFrames = 31;
-    const std::string framePath = "res/explosion/";
+    const string framePath = "res/explosion/";
 
    public:
-    Explosion(int x, int y);
+    Explosion(double x, double y);
     ~Explosion();
 
     void update();
