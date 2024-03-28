@@ -35,7 +35,7 @@ void Minimap::draw(Hero& hero, MultiEnemy& enemies, Items& items) {
     }
     // Draw the hero on the minimap
     SDL_Rect rect = {X + (hero.getX() * RATIO), Y + (hero.getY() * RATIO), (hero.getW() * RATIO), (hero.getH() * RATIO)};
-    SDL_SetRenderDrawColor(Window::renderer, 200, 200, 200, 255);
+    SDL_SetRenderDrawColor(Window::renderer, 69, 123, 157, 255);
     SDL_RenderFillRect(Window::renderer, &rect);
 
     // Draw the enemies on the minimap
@@ -57,7 +57,7 @@ void Minimap::draw(Hero& hero, MultiEnemy& enemies, Items& items) {
             continue;
         }
         SDL_FRect rect = {X + item->getX() * RATIO, Y + item->getY() * RATIO, item->getW() * RATIO, item->getH() * RATIO};
-        SDL_SetRenderDrawColor(Window::renderer, item->getInnerColor().r, item->getInnerColor().g, item->getInnerColor().b, item->getInnerColor().a);
+        SDL_SetRenderDrawColor(Window::renderer, item->getAccentColor().r, item->getAccentColor().g, item->getAccentColor().b, item->getAccentColor().a);
         SDL_RenderFillRectF(Window::renderer, &rect);
     }
     // Draw the bullets on the minimap
