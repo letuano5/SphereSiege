@@ -7,6 +7,7 @@
 const double DIF_SPAWN_TIME = 1;
 const int activeTime = 5;
 const string itemTypes[] = {"FAST_SHOT", "HP_PACK", "SLOWDOWN_ENEMIES", "TRIPPLE_SHOT", "PIERCE_SHOT", "SHIELD"};
+const string itemDirPath[] = {"res/image/item_fastshot.png", "res/image/item_hppack.png", "res/image/item_slowdownenemies.png", "res/image/item_tripleshot.png", "res/image/item_pierceshot.png", "res/image/item_shield.png"};
 
 class Items {
    public:
