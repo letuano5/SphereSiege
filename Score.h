@@ -6,11 +6,11 @@ class Score {
    public:
     Score(int scoreNum, string label, int x, int y, bool isBestScoreTxt, string dir);
     ~Score();
-    Score(){}
+    Score() {}
 
     void draw() const;
     void update(const int score);
-    int getScore() { return scoreNum; }
+    int getScore() const { return scoreNum; }
     bool readScore();
     void writeScore();
 

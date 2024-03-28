@@ -7,10 +7,10 @@ bool replace(string& str, const string& from, const string& to) {
     return true;
 }
 Items::Items() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         string name = itemProgressTypes[i].first;
         replace(name, "_", " ");
-        itemsProgress.push_back({itemProgressTypes[i].first, new ProgressBar(120, 8, 20, WINDOW_HEIGHT - 64 + i * 12, name, false, itemProgressTypes[i].second, textColor)});
+        itemsProgress.push_back({itemProgressTypes[i].first, new ProgressBar(120, 8, 20, WINDOW_HEIGHT - 76 + i * 12, name, false, itemProgressTypes[i].second, textColor)});
     }
     powerUp_sound = Mix_LoadWAV("res/audio/powerUp.wav");
     if (!powerUp_sound) {
@@ -47,6 +47,8 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
                 hero.setTrippleShot(false);
             } else if (it->first == "PIERCE_SHOT") {
                 hero.setPierceShot(false);
+            } else if (it->first == "SHIELD") {
+                hero.setShield(false);
             }
             it = activeItems.erase(it);
         } else {
@@ -65,14 +67,14 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
             itemPair.second->setTextColor(textColor);
         }
     }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         if (itemsProgress[i].second != NULL) {
             itemsProgress[i].second->draw();
         }
     }
     if (items.empty() || checkTime()) {
         lastTimeSpawned = clock();
-        int itemType = randInt(0, 4);
+        int itemType = randInt(0, 5);
         items.push_back(new Item(itemTypes[itemType]));
     }
     for (int i = 0; i < int(items.size()); i++) {
@@ -87,8 +89,8 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
             items[i] = nullptr;
             items.erase(items.begin() + i);
             i--;
-            if (Mix_PlayChannel(-1, powerUp_sound, 0) == -1) {
-                cerr << "Failed to play item sound effect! SDL_mixer Error: " << Mix_GetError() << endl;
+            if (!isMuted && Mix_PlayChannel(-1, powerUp_sound, 0) == -1) {
+                cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
             }
             continue;
         }

@@ -49,4 +49,5 @@ extern double dt;
 extern Uint32 lastTick;
 extern Uint32 startTick;
 extern int canContinue;
+extern int isMuted;
 Uint32 getTick();

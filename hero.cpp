@@ -3,17 +3,25 @@
 #include "Includes.h"
 
 Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x(x), y(y) {
-    auto surface = IMG_Load(image_path.c_str());
-    if (!surface) {
+    auto hero_surface = IMG_Load(image_path.c_str());
+    if (!hero_surface) {
         cerr << "Failed to create surface.\n";
     }
-    triangle_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
-    if (!triangle_texture) {
+    hero_texture = SDL_CreateTextureFromSurface(Window::renderer, hero_surface);
+    if (!hero_texture) {
         cerr << "Failed to create texture.\n";
     }
     vignette_texture = SDL_CreateTexture(Window::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!vignette_texture) {
         cerr << "Failed to create vignette texture.\n";
+    }
+    auto shield_surface = IMG_Load("res/image/shield.png");
+    if (!shield_surface) {
+        cerr << "Failed to create shield surface.\n";
+    }
+    shield_texture = SDL_CreateTextureFromSurface(Window::renderer, shield_surface);
+    if (!shield_texture) {
+        cerr << "Failed to create shield texture.\n";
     }
     shoot_sound = Mix_LoadWAV("res/audio/shoot.wav");
     if (!shoot_sound) {
@@ -23,14 +31,21 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!hit_sound) {
         cerr << "Failed to load hit sound.\n";
     }
-    SDL_FreeSurface(surface);
+    lost_sound = Mix_LoadWAV("res/audio/chaydeloroi.wav");
+    if (!lost_sound) {
+        cerr << "Failed to load lost sound.\n";
+    }
+    SDL_FreeSurface(hero_surface);
+    SDL_FreeSurface(shield_surface);
 }
 
 Hero::~Hero() {
-    SDL_DestroyTexture(triangle_texture);
+    SDL_DestroyTexture(hero_texture);
     SDL_DestroyTexture(vignette_texture);
+    SDL_DestroyTexture(shield_texture);
     Mix_FreeChunk(shoot_sound);
     Mix_FreeChunk(hit_sound);
+    Mix_FreeChunk(lost_sound);
 }
 
 void Hero::draw(Camera &camera) {
@@ -42,7 +57,7 @@ void Hero::draw(Camera &camera) {
     camera.adjust(getX(), getY(), getW(), getH());
     SDL_Rect hero = {getX(camera), getY(camera), w, h};
 
-    if (triangle_texture) {
+    if (hero_texture) {
         pair<int, int> mousePos = getMousePosition();
         int mouseX = mousePos.first;
         int mouseY = mousePos.second;
@@ -57,7 +72,11 @@ void Hero::draw(Camera &camera) {
             shakeDuration--;
         }
 
-        SDL_RenderCopyEx(Window::renderer, triangle_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(Window::renderer, hero_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
+        if (hasShield) {
+            SDL_Rect shield = {getX(camera) - 10, getY(camera) - 10, w + 20, h + 20};
+            SDL_RenderCopy(Window::renderer, shield_texture, nullptr, &shield);
+        }
         for (const auto &bullet : bullets) {
             bullet.draw(camera);
         }
@@ -109,7 +128,7 @@ void Hero::pollEvents(const Camera &camera) {
 }
 
 void Hero::shoot(int mouseX, int mouseY) {
-    if (Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
+    if (!isMuted && Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
         cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
     }
     int dx = mouseX - (x + w / 2);
@@ -143,7 +162,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
     if (intersectRectangle(w, h, x, y, enemyW, enemyH, enemyX, enemyY)) {
         bool isFlickering = false;
         double currentTime = SDL_GetTicks() / 1000.0;
-        if (currentTime - enemyLastHit >= enemyDmgRate) {
+        if (!hasShield && currentTime - enemyLastHit >= enemyDmgRate) {
             health_point -= enemyDmg;
             enemyLastHit = currentTime;
             isFlickering = true;
@@ -152,6 +171,9 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
         }
         if (health_point <= EPS) {
             isLost = 1;
+            if (!isMuted && Mix_PlayChannel(-1, lost_sound, 0) == -1) {
+                cerr << "Failed to play lost sound: " << Mix_GetError() << "\n";
+            }
         }
         if (isFlickering) {
             SDL_SetTextureAlphaMod(vignette_texture, 128);
@@ -168,7 +190,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
                 bullets.erase(bullets.begin() + i);
                 i--;
             }
-            if (Mix_PlayChannel(-1, hit_sound, 0) == -1) {
+            if (!isMuted && Mix_PlayChannel(-1, hit_sound, 0) == -1) {
                 cerr << "Failed to play hit sound: " << Mix_GetError() << "\n";
             }
             return WIN;
@@ -192,12 +214,15 @@ void Hero::setTrippleShot(bool trippleShot) {
 void Hero::setPierceShot(bool pierceShot) {
     this->pierceShot = pierceShot;
 }
+void Hero::setShield(bool shield) {
+    hasShield = shield;
+}
 
 void Hero::saveHero() {
     //    cerr << "saving hero's info..." << endl;
     ofstream out("res/save/hero.txt");
     out << x << " " << y << "\n";
-    out << fastShoot << " " << trippleShot << " " << pierceShot << " " << heroAutoShoot << "\n";
+    out << fastShoot << " " << trippleShot << " " << pierceShot << " " << heroAutoShoot << " " << hasShield << " " << isMuted << "\n";
     out << bullets.size() << "\n";
     for (const auto &bullet : bullets) {
         out << bullet.getX() << " " << bullet.getY() << " ";
@@ -221,7 +246,9 @@ bool Hero::setHero() {
     this->x = x, this->y = y;
     int fastShoot = -1, trippleShot = -1, pierceShot = -1;
     int autoShoot = -1;
-    inp >> fastShoot >> trippleShot >> pierceShot >> autoShoot;
+    int settingIsMuted = -1;
+    int shield = -1;
+    inp >> fastShoot >> trippleShot >> pierceShot >> autoShoot >> shield >> settingIsMuted;
     if (fastShoot < 0 || fastShoot > 1) {
         inp.close();
         return false;
@@ -239,9 +266,12 @@ bool Hero::setHero() {
         return false;
     }
     heroAutoShoot = autoShoot;
+    isMuted = settingIsMuted;
+
     this->fastShoot = fastShoot;
     this->trippleShot = trippleShot;
     this->pierceShot = pierceShot;
+    this->hasShield = shield;
     int numBullet = -1;
     inp >> numBullet;
     if (numBullet < 0 || numBullet > 1e6) {
