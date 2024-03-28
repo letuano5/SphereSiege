@@ -39,17 +39,18 @@ bool MultiEnemy::checkTime() {
 }
 
 bool canSpawn(string typeEnemy, int curLevel) {
+//    cerr << "Checking if we can spawn... " << curLevel << endl;
     if (typeEnemy == "BIG") {
         // return curSec > MIN_BIG;
-        return curLevel >= 3;
+        return curLevel >= 2;
     }
     if (typeEnemy == "SMALL") {
         // return curSec > MIN_SMALL;
-        return curLevel >= 2;
+        return curLevel >= 1;
     }
     if (typeEnemy == "SPILLTER") {
         // return curSec > MIN_SPILLTER;
-        return curLevel >= 4;
+        return curLevel >= 3;
     }
     return typeEnemy == "NORMAL";
 }

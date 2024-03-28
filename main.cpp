@@ -22,7 +22,7 @@ MultiEnemy* enemies = NULL;
 Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
-Level level;
+Level* level = NULL;
 
 Menu start("start");
 Menu pause("pause");
@@ -48,6 +48,8 @@ void reset() {
     camera = NULL;
     delete items;
     items = NULL;
+    delete level;
+    level = NULL;
 }
 
 void init() {
@@ -61,7 +63,7 @@ void init() {
     camera = new Camera();
     items = new Items();
     best->readScore();
-    // level = Level();
+    level = new Level();
     lastTick = 0;
 }
 
@@ -86,7 +88,7 @@ bool canLoad() {
         cerr << "cant reinit score" << endl;
         return false;
     }
-    if (!level.readLevel()) {
+    if (!level->readLevel()) {
         cerr << "cant reinit level" << endl;
         return false;
     }
@@ -147,7 +149,7 @@ void play() {
         if (!startTick) {
             startTick = SDL_GetTicks();
         }
-        enemies->generateEnemy(*hero, *score, *camera, level.getLevel());
+        enemies->generateEnemy(*hero, *score, *camera, level->getLevel());
         items->spawnItem(*hero, *camera, *enemies);
         Progress->draw();
         Health->draw();
@@ -157,14 +159,14 @@ void play() {
             best->update(score->getScore());
         }
         Health->update(hero->health_point);
-        Progress->update(level.getLevelProgress());
+        Progress->update(level->getLevelProgress());
         hero->draw(*camera);
         hero->pollEvents(*camera);
         hero->update();
         camera->update(dt);
         minimap.update(*camera);
         minimap.draw(*hero, *enemies, *items);
-        level.update(score->getScore());
+        level->update(score->getScore());
 
         hero->saveHero();
         enemies->saveEnemies();
@@ -172,7 +174,7 @@ void play() {
         items->saveItem();
         score->writeScore();
         best->writeScore();
-        level.writeLevel();
+        level->writeLevel();
 
         //        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
         //        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
