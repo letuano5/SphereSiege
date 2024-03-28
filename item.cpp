@@ -1,8 +1,35 @@
 #include "Item.h"
 
-Item::Item(double x, double y, double dir, double speed, string type) : x(x), y(y), direction(dir), speed(speed), type(type) {}
+Item::Item(double x, double y, double dir, double speed, string type, string path) : x(x), y(y), direction(dir), speed(speed), type(type), path(path) {
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    if (surface == nullptr) {
+        cerr << "Error loading item texture: " << IMG_GetError() << " " << type << endl;
+        exit(1);
+    }
+    item_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
+    if (item_texture == nullptr) {
+        cerr << "Error creating item texture: " << SDL_GetError() << endl;
+        exit(1);
+    }
+    SDL_FreeSurface(surface);
+}
 
-Item::Item(string type) : type(type) {
+Item::~Item() {
+    SDL_DestroyTexture(item_texture);
+}
+
+Item::Item(string type, string path) : type(type), path(path) {
+    SDL_Surface *surface = IMG_Load(path.c_str());
+    if (surface == nullptr) {
+        cerr << "Error loading item texture: " << IMG_GetError() << " " << type << endl;
+        exit(1);
+    }
+    item_texture = SDL_CreateTextureFromSurface(Window::renderer, surface);
+    if (item_texture == nullptr) {
+        cerr << "Error creating item texture: " << SDL_GetError() << endl;
+        exit(1);
+    }
+    SDL_FreeSurface(surface);
     int edge = randInt(0, 3);
 
     switch (edge) {
@@ -25,46 +52,23 @@ Item::Item(string type) : type(type) {
     }
 }
 
-Item::~Item() {}
-
 void Item::draw(const Camera &camera) {
     //    cout << direction << " " << speed << "\n";
-    string label;
     if (type == "FAST_SHOT") {
-        label = "FAST SHOT";
-        innerColor = {138, 201, 38, 255};
-        outerColor = {161, 212, 81, 255};
+        accentColor = {158, 0, 89, 255};
     } else if (type == "HP_PACK") {
-        label = "HP PACK";
-        innerColor = {214, 40, 40, 255};
-        outerColor = {222, 83, 83, 255};
+        accentColor = {214, 40, 40, 255};
     } else if (type == "SLOWDOWN_ENEMIES") {
-        label = "SLOWDOWN ENEMIES";
-        innerColor = {128, 128, 128, 255};
-        outerColor = {100, 100, 100, 255};
+        accentColor = {30, 150, 252, 255};
     } else if (type == "TRIPPLE_SHOT") {
-        label = "TRIPLE SHOT";
-        innerColor = {0, 180, 216, 255};
-        outerColor = {128, 218, 236, 255};
+        accentColor = {255, 243, 0, 255};
     } else if (type == "PIERCE_SHOT") {
-        label = "PIERCE SHOT";
-        innerColor = {243, 144, 44, 255};
-        outerColor = {245, 142, 86, 255};
+        accentColor = {255, 183, 3, 255};
     } else if (type == "SHIELD") {
-        label = "SHIELD";
-        innerColor = {175, 175, 175, 255};
-        outerColor = {200, 200, 200, 255};
+        accentColor = {199, 198, 197, 255};
     }
-    w = label.size() * 10;
-    SDL_FRect itemInner = {x - camera.getX(), y - camera.getY(), w, h};
-    SDL_FRect itemOuter = {x - 1 - camera.getX(), y - 1 - camera.getY(), w + 2, h + 2};
-    Text text("res/font/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
-    SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
-    SDL_RenderDrawRectF(Window::renderer, &itemOuter);
-    SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);
-    SDL_RenderFillRectF(Window::renderer, &itemInner);
-
-    text.display(x + w / 2 - text.getW() / 2 - camera.getX(), y + h / 2 - text.getH() / 2 - camera.getY());
+    SDL_FRect dst = {x - camera.getX(), y - camera.getY(), w, h};
+    SDL_RenderCopyF(Window::renderer, item_texture, nullptr, &dst);
 }
 void Item::update() {
     x += speed * cos(direction) * dt;

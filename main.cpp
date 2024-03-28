@@ -54,7 +54,7 @@ void reset() {
 
 void init() {
     reset();
-    hero = new Hero(24, 24, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/image/hero.png");
+    hero = new Hero(24, 32, WINDOW_WIDTH / 2 - 100, WINDOW_HEIGHT / 2 - 100, "res/image/hero.png");
     Health = new ProgressBar(120, 12, 20, 20, "HP", true, {0, 255, 0, 255}, {});
     Progress = new ProgressBar(120, 12, 220, 20, "progress", true, {150, 150, 150, 255}, {});
     score = new Score(0, "score: ", 520, 20, false, "res/save/score.txt");

@@ -75,7 +75,7 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
     if (items.empty() || checkTime()) {
         lastTimeSpawned = clock();
         int itemType = randInt(0, 5);
-        items.push_back(new Item(itemTypes[itemType]));
+        items.push_back(new Item(itemTypes[itemType], itemDirPath[itemType]));
     }
     for (int i = 0; i < int(items.size()); i++) {
         items[i]->update();
@@ -116,6 +116,7 @@ void Items::saveItem() {
         out << setprecision(9) << fixed << item->getDir() << "\n";
         out << setprecision(9) << fixed << item->getSpeed() << "\n";
         out << item->getType() << "\n";
+        out << item->getPath() << "\n";
     }
     out.close();
 }
@@ -189,7 +190,13 @@ bool Items::setItem() {
             inp.close();
             return false;
         }
-        curItems.push_back(new Item(x, y, dir, speed, type));
+        string path;
+        inp >> path;
+        if (path.empty()) {
+            inp.close();
+            return false;
+        }
+        curItems.push_back(new Item(x, y, dir, speed, type, path));
     }
     if (int(curItems.size()) != numRemain) {
         return false;

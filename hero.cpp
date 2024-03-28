@@ -11,7 +11,11 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!hero_texture) {
         cerr << "Failed to create texture.\n";
     }
-    vignette_texture = SDL_CreateTexture(Window::renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+    auto vignette_surface = IMG_Load("res/image/red_vignette.png");
+    if (!vignette_surface) {
+        cerr << "Failed to create vignette surface.\n";
+    }
+    vignette_texture = SDL_CreateTextureFromSurface(Window::renderer, vignette_surface);
     if (!vignette_texture) {
         cerr << "Failed to create vignette texture.\n";
     }
@@ -37,6 +41,7 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     }
     SDL_FreeSurface(hero_surface);
     SDL_FreeSurface(shield_surface);
+    SDL_FreeSurface(vignette_surface);
 }
 
 Hero::~Hero() {
@@ -75,7 +80,7 @@ void Hero::draw(Camera &camera) {
         SDL_RenderCopyEx(Window::renderer, hero_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
         if (hasShield) {
             SDL_Rect shield = {getX(camera) - 10, getY(camera) - 10, w + 20, h + 20};
-            SDL_RenderCopy(Window::renderer, shield_texture, nullptr, &shield);
+            SDL_RenderCopyEx(Window::renderer, shield_texture, nullptr, &shield, angle, nullptr, SDL_FLIP_NONE);
         }
         for (const auto &bullet : bullets) {
             bullet.draw(camera);
@@ -135,8 +140,8 @@ void Hero::shoot(int mouseX, int mouseY) {
     int dy = mouseY - (y + h / 2);
     double angle = atan2(dy, dx);
 
-    int bulletX = x + w / 2 + cos(angle) * (w / 2);
-    int bulletY = y + h / 2 + sin(angle) * (h / 2);
+    int bulletX = x + w / 2;
+    int bulletY = y + h / 2;
 
     if (trippleShot) {
         bullets.push_back(Bullet(bulletX, bulletY, angle - PI / 15));
@@ -176,7 +181,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             }
         }
         if (isFlickering) {
-            SDL_SetTextureAlphaMod(vignette_texture, 128);
+            SDL_SetTextureAlphaMod(vignette_texture, 255);
             SDL_Rect vignette_rect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
             SDL_RenderCopy(Window::renderer, vignette_texture, nullptr, &vignette_rect);
         }
