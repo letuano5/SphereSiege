@@ -50,17 +50,21 @@ void Item::draw(const Camera &camera) {
         label = "PIERCE SHOT";
         innerColor = {243, 144, 44, 255};
         outerColor = {245, 142, 86, 255};
+    } else if (type == "SHIELD") {
+        label = "SHIELD";
+        innerColor = {175, 175, 175, 255};
+        outerColor = {200, 200, 200, 255};
     }
     w = label.size() * 10;
     SDL_FRect itemInner = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_FRect itemOuter = {x - 1 - camera.getX(), y - 1 - camera.getY(), w + 2, h + 2};
-    Text text(Window::renderer, "res/font/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
+    Text text("res/font/Silkscreen.ttf", 12, label, {200, 200, 200, 255});
     SDL_SetRenderDrawColor(Window::renderer, outerColor.r, outerColor.g, outerColor.b, outerColor.a);
     SDL_RenderDrawRectF(Window::renderer, &itemOuter);
     SDL_SetRenderDrawColor(Window::renderer, innerColor.r, innerColor.g, innerColor.b, innerColor.a);
     SDL_RenderFillRectF(Window::renderer, &itemInner);
 
-    text.display(x + w / 2 - text.getW() / 2 - camera.getX(), y + h / 2 - text.getH() / 2 - camera.getY(), Window::renderer);
+    text.display(x + w / 2 - text.getW() / 2 - camera.getX(), y + h / 2 - text.getH() / 2 - camera.getY());
 }
 void Item::update() {
     x += speed * cos(direction) * dt;
@@ -87,5 +91,7 @@ void Item::applyEffect(Hero &hero, MultiEnemy &enemies) {
         hero.setTrippleShot(true);
     } else if (type == "PIERCE_SHOT") {
         hero.setPierceShot(true);
+    } else if (type == "SHIELD") {
+        hero.setShield(true);
     }
 }

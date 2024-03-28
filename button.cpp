@@ -10,7 +10,7 @@ Button::~Button() {
 void Button::draw() {
     SDL_Rect btnInner = {x, y, w, h};
     SDL_Rect btnOuter = {x - 1, y - 1, w + 2, h + 2};
-    Text text(Window::renderer, "res/font/PressStart2P.ttf", 16, label, labelColor);
+    Text text("res/font/PressStart2P.ttf", 16, label, labelColor);
     SDL_Color inC, outC;
     if (isMouseOver) {
         inC = {60, 60, 60, 255};
@@ -24,7 +24,7 @@ void Button::draw() {
     SDL_SetRenderDrawColor(Window::renderer, inC.r, inC.g, inC.b, inC.a);
     SDL_RenderFillRect(Window::renderer, &btnInner);
 
-    text.display(x + w / 2 - text.getW() / 2, y + h / 2 - text.getH() / 2, Window::renderer);
+    text.display(x + w / 2 - text.getW() / 2, y + h / 2 - text.getH() / 2);
 }
 
 bool Button::isClicked(int mouseX, int mouseY) const {

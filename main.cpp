@@ -2,12 +2,12 @@
 #include "Hero.h"
 #include "Includes.h"
 #include "Items.h"
+#include "Level.h"
 #include "Menu.h"
 #include "Minimap.h"
 #include "MultiEnemy.h"
 #include "ProgressBar.h"
 #include "Score.h"
-#include "Text.h"
 #include "Window.h"
 
 using namespace std;
@@ -22,6 +22,7 @@ MultiEnemy* enemies = NULL;
 Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
+Level level;
 
 Menu start("start");
 Menu pause("pause");
@@ -60,6 +61,7 @@ void init() {
     camera = new Camera();
     items = new Items();
     best->readScore();
+    // level = Level();
     lastTick = 0;
 }
 
@@ -82,6 +84,10 @@ bool canLoad() {
     }
     if (!score->readScore()) {
         cerr << "cant reinit score" << endl;
+        return false;
+    }
+    if (!level.readLevel()) {
+        cerr << "cant reinit level" << endl;
         return false;
     }
     ifstream inp("res/save/time.txt");
@@ -141,7 +147,7 @@ void play() {
         if (!startTick) {
             startTick = SDL_GetTicks();
         }
-        enemies->generateEnemy(*hero, *score, *camera);
+        enemies->generateEnemy(*hero, *score, *camera, level.getLevel());
         items->spawnItem(*hero, *camera, *enemies);
         Progress->draw();
         Health->draw();
@@ -151,11 +157,14 @@ void play() {
             best->update(score->getScore());
         }
         Health->update(hero->health_point);
-        Progress->update(0);
+        Progress->update(level.getLevelProgress());
         hero->draw(*camera);
         hero->pollEvents(*camera);
         hero->update();
         camera->update(dt);
+        minimap.update(*camera);
+        minimap.draw(*hero, *enemies, *items);
+        level.update(score->getScore());
 
         hero->saveHero();
         enemies->saveEnemies();
@@ -163,8 +172,8 @@ void play() {
         items->saveItem();
         score->writeScore();
         best->writeScore();
-        minimap.update(*camera);
-        minimap.draw(*hero, *enemies, *items);
+        level.writeLevel();
+
         //        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
         //        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
     } else {

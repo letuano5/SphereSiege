@@ -1,20 +1,20 @@
 #pragma once
 
+#include "Camera.h"
 #include "Includes.h"
 #include "Window.h"
-#include "Camera.h"
 
 class Enemy {
-
-public:
-    Enemy(int w, int h, double x, double y, double speed, double angle, bool canSpilt, double hp, double dmg, const string &image_path);
+   public:
+    Enemy(int w, int h, double x, double y, double speed, double angle, bool canSpilt, double hp, double dmg, int score, const string &image_path);
     ~Enemy();
-    void draw(const Camera& camera);
+    void draw(const Camera &camera);
     void update(int heroX, int heroY, double slowRate);
     double getX() const { return x; }
     double getY() const { return y; }
     int getW() const { return w; }
     int getH() const { return h; }
+    int getScore() const { return score; }
     double getAngle() const { return angle; }
     double getHP() const { return health_point; }
     double getDamage() const { return dmg; }
@@ -25,6 +25,8 @@ public:
     bool enemyOutOfBound(int leftBound) const;
     bool canSpilt;
     double dmg = 0.1;
+    int score = 1;
+
    private:
     int w, h;
     double x, y;
@@ -35,7 +37,7 @@ public:
     double max_health_point = 1;
     double rotateSpeed = randInt(1, 2);
     double rotateAngle = 0;
-    bool canShiftAngle = randInt(0, 1);
+    int canShiftAngle = randInt(0, 25);
     string imagePath;
     SDL_Texture *triangle_texture = nullptr;
     double randomAngle();

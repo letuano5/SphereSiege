@@ -2,8 +2,8 @@
 
 #include "Includes.h"
 
-Enemy::Enemy(int w, int h, double x, double y, double speed, double angle, bool canSpilt, double hp, double dmg, const string& image_path)
-    : w(w), h(h), x(x), y(y), speed(speed), angle(angle), health_point(hp), max_health_point(hp), dmg(dmg), canSpilt(canSpilt), imagePath(image_path) {
+Enemy::Enemy(int w, int h, double x, double y, double speed, double angle, bool canSpilt, double hp, double dmg, int score, const string& image_path)
+    : w(w), h(h), x(x), y(y), speed(speed), angle(angle), health_point(hp), max_health_point(hp), dmg(dmg), score(score), canSpilt(canSpilt), imagePath(image_path) {
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
         cerr << "Failed to create surface.\n";
@@ -50,8 +50,8 @@ bool Enemy::enemyOutOfBound(int leftBound) const {
 }
 
 void Enemy::update(int heroX, int heroY, double slowRate) {
-    if (canShiftAngle) {
-        //        angle += randDouble(-0.15, 0.15);
+    if (canShiftAngle == 0) {
+        angle = calculateAngle(heroX, heroY, x, y);
     }
     //    x += speed * cos(angle) * slowRate;
     //    y += speed * sin(angle) * slowRate;
