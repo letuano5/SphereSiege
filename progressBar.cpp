@@ -11,8 +11,8 @@ void ProgressBar::draw() {
     if (!textColor.a) {
         textColor = {color.r, color.g, color.b, color.a};
     }
-    Text text(Window::renderer, "res/font/PressStart2P.ttf", h, label, {textColor.r, textColor.g, textColor.b, textColor.a});
-    text.display(x, y, Window::renderer);
+    Text text("res/font/PressStart2P.ttf", h, label, {textColor.r, textColor.g, textColor.b, textColor.a});
+    text.display(x, y);
     SDL_Rect inner = {x + text.getW() + 10, y, _w, h};
     if (hasOutline) {
         SDL_Rect outer = {x + text.getW() + 10, y, w, h};

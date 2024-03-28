@@ -47,6 +47,8 @@ class Hero {
     void setHealth(double health);
     void setTrippleShot(bool trippleShot);
     void setPierceShot(bool setPierceShot);
+    void setShield(bool shield);
+    bool isHavingShield() const { return hasShield; }
     void saveHero();
     bool setHero();
     vector<Bullet>& getBullets() { return bullets; }
@@ -59,10 +61,13 @@ class Hero {
     bool fastShoot = false;
     bool trippleShot = false;
     bool pierceShot = false;
+    bool hasShield = false;
 
-    SDL_Texture* triangle_texture = nullptr;
+    SDL_Texture* hero_texture = nullptr;
     SDL_Texture* vignette_texture = nullptr;
+    SDL_Texture* shield_texture = nullptr;
     Mix_Chunk* shoot_sound = nullptr;
     Mix_Chunk* hit_sound = nullptr;
+    Mix_Chunk* lost_sound = nullptr;
     vector<Bullet> bullets;
 };

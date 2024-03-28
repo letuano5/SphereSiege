@@ -38,15 +38,18 @@ bool MultiEnemy::checkTime() {
     return passedSecond() > MAX_DIFF_TIME;
 }
 
-bool canSpawn(string typeEnemy, double curSec) {
+bool canSpawn(string typeEnemy, int curLevel) {
     if (typeEnemy == "BIG") {
-        return curSec > MIN_BIG;
+        // return curSec > MIN_BIG;
+        return curLevel >= 3;
     }
     if (typeEnemy == "SMALL") {
-        return curSec > MIN_SMALL;
+        // return curSec > MIN_SMALL;
+        return curLevel >= 2;
     }
     if (typeEnemy == "SPILLTER") {
-        return curSec > MIN_SPILLTER;
+        // return curSec > MIN_SPILLTER;
+        return curLevel >= 4;
     }
     return typeEnemy == "NORMAL";
 }
@@ -108,15 +111,13 @@ void MultiEnemy::killEnemy(int& index) {
     --index;
 }
 
-// https://stackoverflow.com/questions/42634068/sdl-using-a-stdvector-with-sdl-texture-does-not-work-array-works-fine
-void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, int curLevel) {
     if (enemies.empty() || checkTime()) {
         pair<int, int> currentPosition;
         do {
             currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH);
             currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT);
         } while (!pointInBound(currentPosition.first, currentPosition.second));
-        //        cerr << "spawning at " << currentPosition.first << " " << currentPosition.second << endl;
         int typeDir = 0;
         if (currentPosition.first == LEFT_BOUND) {
             typeDir = TOP;
@@ -127,20 +128,19 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
         } else if (currentPosition.first == MAP_WIDTH) {
             typeDir = BOT;
         }
-        lastTimeSpawned = clock();
         double curAngle = randomAngle(typeDir, hero, currentPosition);
         double curDamage = 0.01;
         int curW = 32;
         int curH = 32;
         double curSpeed = randDouble(1.5, 2);
         double curHP = 1;
+        int curScore = 5;
         int indexEnemy;
         string typeEnemy;
         do {
             indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
             typeEnemy = TYPE_ENEMY[indexEnemy];
-            //            cerr << "sus " << endl;
-        } while (!canSpawn(typeEnemy, passedSecond()));
+        } while (!canSpawn(typeEnemy, curLevel));
         bool canSpilt = false;
         if (typeEnemy == "BIG") {
             curW = 40;
@@ -148,13 +148,15 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
             curHP = 3;
             curDamage = 0.02;
             curSpeed = randDouble(0.5, 1.2);
+            curScore = 30;
         }
         if (typeEnemy == "SMALL") {
             curW = 24;
             curH = 24;
             curHP = 0.5;
-            curDamage = 0.005;
+            curDamage = 0.01;
             curSpeed = randDouble(2, 2.5);
+            curScore = 5;
         }
         if (typeEnemy == "SPILTTER") {
             curW = 60;
@@ -163,8 +165,10 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
             curDamage = 0.03;
             canSpilt = true;
             curSpeed = randDouble(1, 1.3);
+            curScore = 5;
         }
-        enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, DIRS[indexEnemy]));
+        lastTimeSpawned = clock();
+        enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
     }
     for (int i = 0; i < int(enemies.size()); i++) {
         enemies[i]->update(hero.getX(), hero.getY(), isSlow ? 1.0 / SLOW_RATE : 1);
@@ -178,6 +182,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
             }
         }
         if (enemies[i]->getHP() <= EPS) {
+            score.update(enemies[i]->getScore());
             if (enemies[i]->canSpilt) {
                 for (int j = 0; j < 4; j++) {
                     int nextX = enemies[i]->getX();
@@ -186,18 +191,17 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera) {
                     if (j == 1) nextX += 45;
                     if (j == 2) nextY -= 45;
                     if (j == 3) nextY += 45;
-                    enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, DIRS[0]));
+                    enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, 5, DIRS[0]));
                 }
             }
             double centerEnemyX = enemies[i]->getX() + enemies[i]->getW() / 2;
             double centerEnemyY = enemies[i]->getY() + enemies[i]->getH() / 2;
             explosions.push_back(new Explosion(centerEnemyX, centerEnemyY));
-            if (Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
+            if (!isMuted && Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
                 cerr << "Failed to play explosion sound: " << Mix_GetError() << "\n";
             }
             killEnemy(i);
             camera.shake(0.2, 12);
-            score.update(1);
             continue;
         }
         enemies[i]->draw(camera);
@@ -232,6 +236,7 @@ void MultiEnemy::saveEnemies() {
         out << setprecision(9) << fixed << enemy->getHP() << "\n";
         out << setprecision(9) << fixed << enemy->getDamage() << "\n";
         out << enemy->getPath() << "\n";
+        out << enemy->getScore() << "\n";
     }
     out.close();
 }
@@ -281,8 +286,9 @@ bool MultiEnemy::setEnemies() {
         }
         double hp = -1;
         inp >> hp;
-        if (hp < 0 || hp > 1) {
+        if (hp < 0 || hp > 3) {
             cerr << "fail at reading healthpoint" << endl;
+            cerr << hp << endl;
             inp.close();
             return false;
         }
@@ -306,7 +312,14 @@ bool MultiEnemy::setEnemies() {
             inp.close();
             return false;
         }
-        enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, pathImg));
+        int score;
+        inp >> score;
+        if (score < 0) {
+            cerr << "fail at reading score" << endl;
+            inp.close();
+            return false;
+        }
+        enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, score, pathImg));
         if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
             cerr << "fail" << endl;
             return false;

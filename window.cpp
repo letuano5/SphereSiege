@@ -82,6 +82,9 @@ pair<int, int> Window::pollEvents(SDL_Event &event) {
                 case SDLK_f:
                     heroAutoShoot = !heroAutoShoot;
                     break;
+                case SDLK_m:
+                    isMuted = !isMuted;
+                    break;
                 default:
                     break;
             }

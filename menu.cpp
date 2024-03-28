@@ -14,11 +14,11 @@ void Menu::draw(int mouseX, int mouseY) const {
     int mX, mY;
     SDL_GetMouseState(&mX, &mY);
     if (menuType == "start") {
-        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
-        Text credit(Window::renderer, "res/font/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
+        Text title("res/font/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
+        Text credit("res/font/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
 
-        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
-        credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8, Window::renderer);
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2);
+        credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8);
 
         Button startBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "PLAY");
         Button continueBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "CONTINUE");
@@ -41,9 +41,9 @@ void Menu::draw(int mouseX, int mouseY) const {
             isContinued = 1;
         }
     } else if (menuType == "pause") {
-        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
+        Text title("res/font/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
 
-        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2);
 
         Button resumeBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESUME");
         Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, resumeBtn.getY() + resumeBtn.getH() + 10, "EXIT");
@@ -58,9 +58,9 @@ void Menu::draw(int mouseX, int mouseY) const {
             exit(0);
         }
     } else if (menuType == "lost") {
-        Text title(Window::renderer, "res/font/PressStart2P.ttf", 42, "YOU LOST", {200, 200, 200, 255});
+        Text title("res/font/PressStart2P.ttf", 42, "YOU LOST", {200, 200, 200, 255});
 
-        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2, Window::renderer);
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2);
 
         Button restartBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "RESTART");
         Button exitBtn(200, 40, WINDOW_WIDTH / 2 - 100, restartBtn.getY() + restartBtn.getH() + 10, "EXIT");
