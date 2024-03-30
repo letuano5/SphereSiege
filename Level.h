@@ -8,13 +8,21 @@ class Level {
     void update(int curScore);
     int getLevel() const { return level; }
     double getLevelProgress();
-    pair<int, int> levelData[5] = {{1, 50}, {2, 80}, {3, 150}, {4, 200}, {5, 250}};
 
     bool readLevel();
     void writeLevel();
+    bool donePhase() { --numPhase; numMonster = 0; return numPhase == 0; }
+    int getNumMonster() const { return numMonster; }
+    int getKilledMonster() const { return killedMonster; }
+    void upLevel();
 
    private:
+    void printLevel();
     int level = 0;
     int curScore = 0;
+    int numPhase = 0;
+    int numMonster = 0;
+    int killedMonster = 0;
+    int limitMonster = 0;
     Mix_Chunk* levelup_sound = nullptr;
 };

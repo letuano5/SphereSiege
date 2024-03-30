@@ -15,6 +15,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 using namespace chrono;
@@ -39,6 +40,7 @@ bool rectOutOfBound(int w, int h, double x, double y);
 bool rectOutOfCamera(int w, int h, double x, double y);
 bool pointInBound(double x, double y);
 bool equalF(double x, double y);
+bool enemyCanReachMap(double posX, double posY, double angle);
 pair<int, int> getMousePosition();
 extern int isStarted;
 extern int isPaused;
