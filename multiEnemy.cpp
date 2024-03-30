@@ -84,7 +84,6 @@ double randomAngle(int typeDir, const Hero& hero, pair<int, int> currentPosition
         }
         assert(false);
     }
-    /// ?????
     if (OPTION_ANGLE[option] == "DIAGONAL") {
         int sign = randInt(0, 1) ? 1 : -1;
         double rot = sign * PI / 4;
@@ -112,71 +111,77 @@ void MultiEnemy::killEnemy(int& index) {
     --index;
 }
 
-void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, int curLevel) {
-    if (enemies.empty() || checkTime()) {
-        pair<int, int> currentPosition;
-        do {
-            currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH);
-            currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT);
-        } while (!pointInBound(currentPosition.first, currentPosition.second));
-        int typeDir = 0;
-        if (currentPosition.first == LEFT_BOUND) {
-            typeDir = TOP;
-        } else if (currentPosition.second == LEFT_BOUND) {
-            typeDir = LEFT;
-        } else if (currentPosition.second == MAP_HEIGHT) {
-            typeDir = RIGHT;
-        } else if (currentPosition.first == MAP_WIDTH) {
-            typeDir = BOT;
+void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, Level& level) {
+    pair<int, int> currentPosition;
+    do {
+        currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH + LEFT_BOUND);
+        currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT + LEFT_BOUND);
+    } while (!pointInBound(currentPosition.first, currentPosition.second));
+    int typeDir = 0;
+    if (currentPosition.first == LEFT_BOUND) {
+        typeDir = TOP;
+    } else if (currentPosition.second == LEFT_BOUND) {
+        typeDir = LEFT;
+    } else if (currentPosition.second == MAP_HEIGHT) {
+        typeDir = RIGHT;
+    } else if (currentPosition.first == MAP_WIDTH) {
+        typeDir = BOT;
+    }
+    double curAngle;
+    do {
+        curAngle = randomAngle(typeDir, hero, currentPosition);
+    } while (!enemyCanReachMap(currentPosition.first, currentPosition.second, curAngle));
+    double curDamage = 0.01;
+    int curW = 32;
+    int curH = 32;
+    double curSpeed = randDouble(1.5, 2);
+    double curHP = 1;
+    int curScore = 5;
+    int indexEnemy;
+    string typeEnemy;
+    do {
+        indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
+        typeEnemy = TYPE_ENEMY[indexEnemy];
+    } while (!canSpawn(typeEnemy, level.getLevel()));
+    bool canSpilt = false;
+    if (typeEnemy == "BIG") {
+        curW = 40;
+        curH = 40;
+        curHP = 3;
+        curDamage = 0.02;
+        curSpeed = randDouble(0.5, 1.2);
+        curScore = 30;
+    }
+    if (typeEnemy == "SMALL") {
+        curW = 24;
+        curH = 24;
+        curHP = 0.5;
+        curDamage = 0.01;
+        curSpeed = randDouble(2, 2.5);
+        curScore = 5;
+    }
+    if (typeEnemy == "SPILTTER") {
+        curW = 60;
+        curH = 60;
+        curHP = 2;
+        curDamage = 0.03;
+        canSpilt = true;
+        curSpeed = randDouble(1, 1.3);
+        curScore = 5;
+    }
+    enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
+}
+
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level) {
+    if (enemies.empty()) {
+        for (int i = 0; i < level.getNumMonster(); i++) {
+            generateSingleEnemy(hero, score, camera, level);
         }
-        double curAngle = randomAngle(typeDir, hero, currentPosition);
-        double curDamage = 0.01;
-        int curW = 32;
-        int curH = 32;
-        double curSpeed = randDouble(1.5, 2);
-        double curHP = 1;
-        int curScore = 5;
-        int indexEnemy;
-        string typeEnemy;
-        do {
-            indexEnemy = randInt(0, int(TYPE_ENEMY.size()) - 1);
-            typeEnemy = TYPE_ENEMY[indexEnemy];
-        } while (!canSpawn(typeEnemy, curLevel));
-        bool canSpilt = false;
-        if (typeEnemy == "BIG") {
-            curW = 40;
-            curH = 40;
-            curHP = 3;
-            curDamage = 0.02;
-            curSpeed = randDouble(0.5, 1.2);
-            curScore = 30;
-        }
-        if (typeEnemy == "SMALL") {
-            curW = 24;
-            curH = 24;
-            curHP = 0.5;
-            curDamage = 0.01;
-            curSpeed = randDouble(2, 2.5);
-            curScore = 5;
-        }
-        if (typeEnemy == "SPILTTER") {
-            curW = 60;
-            curH = 60;
-            curHP = 2;
-            curDamage = 0.03;
-            canSpilt = true;
-            curSpeed = randDouble(1, 1.3);
-            curScore = 5;
-        }
-        lastTimeSpawned = clock();
-        enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
+        assert(int(enemies.size()) == level.getNumMonster());
     }
     for (int i = 0; i < int(enemies.size()); i++) {
+        // reversion might be hold here ...
         enemies[i]->update(hero.getX(), hero.getY(), isSlow ? 1.0 / SLOW_RATE : 1);
-        if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
-            killEnemy(i);
-            continue;
-        }
         if (!enemies[i]->enemyOutOfBound(0)) {
             if (hero.intersect(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY(), score, enemies[i]->dmg) == WIN) {
                 enemies[i]->takeDmg(hero.dmg);
@@ -322,9 +327,10 @@ bool MultiEnemy::setEnemies() {
         }
         enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, score, pathImg));
         if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
-            cerr << "fail" << endl;
-            return false;
-            inp.close();
+            // can come back now, so we dont really care
+//            cerr << "fail at enemies #" << i << endl;
+//            return false;
+//            inp.close();
         }
     }
     inp.close();

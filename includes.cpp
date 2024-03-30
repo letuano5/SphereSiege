@@ -50,7 +50,23 @@ bool equalF(double x, double y) {
 }
 
 bool pointInBound(double x, double y) {
-    return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT));
+    return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH + LEFT_BOUND) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT + LEFT_BOUND));
+}
+
+bool enemyCanReachMap(double posX, double posY, double angle) {
+    if (posX < 0 && cos(angle) <= 0) {
+        return false;
+    }
+    if (posX > MAP_WIDTH && cos(angle) >= 0) {
+        return false;
+    }
+    if (posY < 0 && sin(angle) <= 0) {
+        return false;
+    }
+    if (posY > MAP_HEIGHT && sin(angle) >= 0) {
+        return false;
+    }
+    return true;
 }
 
 pair<int, int> getMousePosition() {

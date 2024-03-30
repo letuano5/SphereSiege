@@ -33,6 +33,9 @@ class Window {
 
     SDL_Window *_window = nullptr;
 
+    // in progress...
+    const string cheatcode = "iwannawin";
+
    public:
     static SDL_Renderer *renderer;
     SDL_Texture *mapTexture = nullptr;

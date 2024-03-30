@@ -99,9 +99,6 @@ bool canLoad() {
     return true;
 }
 
-void loadGame() {
-}
-
 void play() {
     pair<int, int> mousePos = {-1, -1};
     window.clear();
@@ -113,19 +110,10 @@ void play() {
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
     }
-    //    cerr << isContinued << endl;
     if (isContinued) {
-        //        cout << db << endl;
-        //        SDL_Delay(100);
-        //        loadGame();
         isStarted = 1;
         isContinued = 0;
-        // currTime = SDL_GetPerformanceCounter();
-        // deltaTime = currTime - prevTime;
-        // dt = (double)deltaTime / SDL_GetPerformanceFrequency();
-        // prevTime = currTime;
     }
-    //    cout << "? " << isContinued << endl;
     if (isStarted && isPaused) {
         pause.draw(mousePos.first, mousePos.second);
         SDL_RenderPresent(Window::renderer);
@@ -149,7 +137,7 @@ void play() {
         if (!startTick) {
             startTick = SDL_GetTicks();
         }
-        enemies->generateEnemy(*hero, *score, *camera, level->getLevel());
+        enemies->generateEnemy(*hero, *score, *camera, *level);
         items->spawnItem(*hero, *camera, *enemies);
         Progress->draw();
         Health->draw();
@@ -175,11 +163,7 @@ void play() {
         score->writeScore();
         best->writeScore();
         level->writeLevel();
-
-        //        cerr << "cam: " << camera->getX() << " " << camera->getY() << endl;
-        //        cerr << "hero: " << hero->getX() << " " << hero->getY() << endl;
     } else {
-        //        cerr << isStarted << endl;
         start.draw(mousePos.first, mousePos.second);
     }
     window.present();
