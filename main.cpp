@@ -171,6 +171,7 @@ void play() {
 
 int main(int argv, char** args) {
     srand(time(NULL));
+
     init();
     canContinue = canLoad();
     while (!window.isClosed()) {
