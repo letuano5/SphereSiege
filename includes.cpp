@@ -56,16 +56,16 @@ bool pointInBound(double x, double y) {
 }
 
 bool enemyCanReachMap(double posX, double posY, double angle) {
-    if (posX < 0 && cos(angle) <= 0) {
+    if (posX < 0 && cos(angle) <= EPS) {
         return false;
     }
-    if (posX > MAP_WIDTH && cos(angle) >= 0) {
+    if (posX > MAP_WIDTH && cos(angle) >= -EPS) {
         return false;
     }
-    if (posY < 0 && sin(angle) <= 0) {
+    if (posY < 0 && sin(angle) <= EPS) {
         return false;
     }
-    if (posY > MAP_HEIGHT && sin(angle) >= 0) {
+    if (posY > MAP_HEIGHT && sin(angle) >= -EPS) {
         return false;
     }
     return true;

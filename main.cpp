@@ -173,7 +173,6 @@ int main(int argv, char** args) {
     srand(time(NULL));
 
 //    cerr << enemyCanReachMap(696, 1318.16, 2.49577) << endl;
-
     init();
     canContinue = canLoad();
     while (!window.isClosed()) {
