@@ -1,7 +1,5 @@
 #include "Hero.h"
 
-#include "Includes.h"
-
 Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x(x), y(y) {
     auto hero_surface = IMG_Load(image_path.c_str());
     if (!hero_surface) {
@@ -85,6 +83,9 @@ void Hero::draw(Camera &camera) {
         for (const auto &bullet : bullets) {
             bullet.draw(camera);
         }
+        for (auto &emitter : emitters) {
+            emitter.draw(camera);
+        }
 
     } else {
         cout << "No texture.\n";
@@ -142,7 +143,7 @@ void Hero::shoot(int mouseX, int mouseY) {
 
     int bulletX = x + w / 2;
     int bulletY = y + h / 2;
-
+    emitters.push_back(ParticleEmitter(bulletX + cos(angle) * w / 2, bulletY + sin(angle) * h / 2, trippleShot ? randInt(2, 3) : 1, 50, 150, 280, 0.75, 0, 2 * PI, {255, 209, 0, 255}));
     if (trippleShot) {
         bullets.push_back(Bullet(bulletX, bulletY, angle - PI / 15));
         bullets.push_back(Bullet(bulletX, bulletY, angle));
@@ -160,6 +161,13 @@ void Hero::update() {
             i--;
         }
     }
+    for (int i = 0; i < int(emitters.size()); i++) {
+        emitters[i].update();
+        if (emitters[i].isDead()) {
+            emitters.erase(emitters.begin() + i);
+            i--;
+        }
+    }
 }
 
 int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score &score, double enemyDmg) {
@@ -173,6 +181,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             isFlickering = true;
             shakeDuration = 7;  // 7 frames
             shakeIntensity = 2;
+            emitters.push_back(ParticleEmitter(x + w / 2, y + h / 2, 2, 100, 150, 250, 0.85, 0, 2 * PI, {232, 93, 95, 255}));
         }
         if (health_point <= EPS) {
             isLost = 1;
@@ -198,6 +207,9 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             if (!isMuted && Mix_PlayChannel(-1, hit_sound, 0) == -1) {
                 cerr << "Failed to play hit sound: " << Mix_GetError() << "\n";
             }
+            double emitterX = enemyX + enemyW / 2 + cos(bullet.getAngle() - PI) * enemyW / 2;
+            double emitterY = enemyY + enemyH / 2 + sin(bullet.getAngle() - PI) * enemyH / 2;
+            emitters.push_back(ParticleEmitter(emitterX, emitterY, randInt(1, 3), 100, 150, 200, 0.8, bullet.getAngle() - PI - PI / 3, bullet.getAngle() - PI + PI / 3, {255, 209, 0, 255}));
             return WIN;
         }
     }

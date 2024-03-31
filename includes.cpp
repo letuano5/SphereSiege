@@ -50,7 +50,9 @@ bool equalF(double x, double y) {
 }
 
 bool pointInBound(double x, double y) {
-    return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH + LEFT_BOUND) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT + LEFT_BOUND));
+//    cerr << x << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND << endl;
+//    cerr << y << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND;
+    return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH - LEFT_BOUND) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT - LEFT_BOUND));
 }
 
 bool enemyCanReachMap(double posX, double posY, double angle) {
