@@ -5,6 +5,8 @@
 #include "Hero.h"
 #include "Includes.h"
 #include "Score.h"
+#include "Level.h"
+
 // seconds
 const double MAX_DIFF_TIME = 1;
 const double MIN_BIG = 1;
@@ -18,7 +20,7 @@ class MultiEnemy {
    public:
     MultiEnemy();
     ~MultiEnemy();
-    void generateEnemy(Hero& hero, Score& score, Camera& camera, int curLevel);
+    void generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level);
     Uint32 lastSlow = 0;
     bool isSlow = false;
     void setSlow(bool isSlow);
@@ -29,10 +31,12 @@ class MultiEnemy {
    private:
     vector<Enemy*> enemies;
     vector<Explosion*> explosions;
+    void generateSingleEnemy(Hero& hero, Score& score, Camera& camera, Level& level);
     void killEnemy(int& index);
     void clearE();
     double passedSecond();
     bool checkTime();
+    bool canReachMap(double posX, double posY, double angle) const;
     clock_t lastTimeSpawned = clock();
     Mix_Chunk* explosion_sound = nullptr;
 };

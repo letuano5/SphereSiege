@@ -23,6 +23,7 @@ class Enemy {
     void takeDmg(double dmg);
     bool enemyOutOfMap() const;
     bool enemyOutOfBound(int leftBound) const;
+
     bool canSpilt;
     double dmg = 0.1;
     int score = 1;
