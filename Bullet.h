@@ -26,7 +26,7 @@ class Bullet {
     void setX(int x) { this->x = x; }
     void setY(int y) { this->y = y; }
 
-    SDL_Color color = {230, 230, 230, 255};
+    SDL_Color color = {255, 209, 0, 255};
 
    private:
     int x, y;

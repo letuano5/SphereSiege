@@ -27,6 +27,7 @@ class Enemy {
     bool canSpilt;
     double dmg = 0.1;
     int score = 1;
+    int isOut = 1;
 
    private:
     int w, h;

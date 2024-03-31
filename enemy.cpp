@@ -19,9 +19,9 @@ Enemy::~Enemy() {
 }
 
 void Enemy::draw(const Camera& camera) {
-//    cerr << "enemy at " << x << " " << y << " draw at " << x-camera.getX() << " " << y-camera.getY() << " " << angle << endl;
-//    cerr << "possibility: " << x + 1e9 * cos(angle) << " " << x - 1e9 * cos(angle) << " " << y + 1e9 * sin(angle) << " " << y-1e9 * sin(angle)<<endl;
-//    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
+    //    cerr << "enemy at " << x << " " << y << " draw at " << x-camera.getX() << " " << y-camera.getY() << " " << angle << endl;
+    //    cerr << "possibility: " << x + 1e9 * cos(angle) << " " << x - 1e9 * cos(angle) << " " << y + 1e9 * sin(angle) << " " << y-1e9 * sin(angle)<<endl;
+    //    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
     SDL_FRect enemy = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_Rect inner = {x + (w - hp_w) / 2 - camera.getX(), y + h + 8 - camera.getY(), hp_w * (health_point / max_health_point), hp_h};
 
@@ -51,23 +51,27 @@ bool Enemy::enemyOutOfBound(int leftBound) const {
     return x + w < leftBound || y + h < leftBound || x > MAP_WIDTH || y > MAP_HEIGHT;
 }
 
-// https://stackoverflow.com/questions/5254838/calculating-distance-between-a-point-and-a-rectangular-box-nearest-point
-// not really need, just some stupid thought ...
-double calDistance(double x, double y) {
-    double dx = max<double>({-x, 0, x - MAP_WIDTH});
-    double dy = max<double>({-y, 0, y - MAP_HEIGHT});
-    return dx * dx + dy * dy;
-}
-
 void Enemy::update(int heroX, int heroY, double slowRate) {
     if (canShiftAngle == 0) {
         angle = calculateAngle(heroX, heroY, x, y);
     }
-    double nx, ny;
-    nx = x + speed * cos(PI + angle) * dt * 50 * slowRate;
-    ny = y + speed * sin(PI + angle) * dt * 50 * slowRate;
     x += speed * cos(angle) * dt * 50 * slowRate;
     y += speed * sin(angle) * dt * 50 * slowRate;
+    if (x > 0 && y > 0 && x + w < MAP_WIDTH && y + h < MAP_HEIGHT) {
+        isOut = 0;
+    } else {
+        if (isOut) {
+            // ...
+
+        } else {
+            if (x <= 0 || x + w >= MAP_WIDTH) {
+                angle = PI - angle;
+            } else if (y <= 0 || y + h >= MAP_HEIGHT) {
+                angle = -angle;
+            }
+            if (angle < 0) {
+                angle += 2 * PI;
+            }
 //    cerr << "enemy at " << x << " " << y << " " << angle << " " << enemyOutOfBound(LEFT_BOUND) << endl;
     if (enemyOutOfBound(LEFT_BOUND)) {
         if (enemyCanReachMap(x, y, angle)) {
@@ -84,6 +88,7 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
             }
         }
     }
+//    cerr << x << " " << y << " " << angle << endl;
     rotateAngle += rotateSpeed;
 }
 

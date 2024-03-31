@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1711640896 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+1711904944 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -12,7 +12,7 @@
 	"Score.h"
 	"Window.h"
 
-1711511867 d:\code\cpp\bai_tap_lon\spheresiege\window.h
+1711864774 d:\code\cpp\bai_tap_lon\spheresiege\window.h
 	<SDL.h>
 	<SDL_image.h>
 	<string>
@@ -30,16 +30,16 @@
 	"Rect.h"
 	"Includes.h"
 
-1711645540 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1711901814 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
-	"Includes.h"
 
-1711556897 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
+1711893952 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
 	<map>
 	"Bullet.h"
 	"Camera.h"
 	"Enemy.h"
 	"Includes.h"
+	"ParticleEmitter.h"
 	"Score.h"
 	"Window.h"
 
@@ -47,16 +47,16 @@
 	"Bullet.h"
 	"Includes.h"
 
-1711469826 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
+1711891137 d:\code\cpp\bai_tap_lon\spheresiege\bullet.h
 	"Camera.h"
 	"Includes.h"
 	"Window.h"
 
-1711549844 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
+1711904980 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
-1711549989 d:\code\cpp\bai_tap_lon\spheresiege\enemy.h
+1711901283 d:\code\cpp\bai_tap_lon\spheresiege\enemy.h
 	"Camera.h"
 	"Includes.h"
 	"Window.h"
@@ -143,7 +143,7 @@
 1711892112 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
-1711555022 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+1711864774 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_mixer.h>
@@ -158,8 +158,9 @@
 	<random>
 	<string>
 	<vector>
+	<algorithm>
 
-1711555013 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
+1711904651 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
 	"Includes.h"
 
 1711549464 d:\code\cpp\bai_tap_lon\spheresiege\text.h
@@ -233,14 +234,16 @@
 1711551615 d:\uet\int2215 51\spheresiege\camera.h
 	"Includes.h"
 
-1711549120 d:\code\cpp\bai_tap_lon\spheresiege\multienemy.h
+1711899327 d:\code\cpp\bai_tap_lon\spheresiege\multienemy.h
 	"Enemy.h"
 	"Explosion.h"
 	"Hero.h"
 	"Includes.h"
+	"Level.h"
+	"ParticleEmitter.h"
 	"Score.h"
 
-1711633796 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
+1711904806 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 
 1711548595 source:d:\code\cpp\bai_tap_lon\spheresiege\menu.cpp
@@ -285,7 +288,7 @@
 1711633796 d:\code\cpp\bai_tap_lon\spheresiege\camera.h
 	"Includes.h"
 
-1711639280 source:d:\code\cpp\bai_tap_lon\spheresiege\item.cpp
+1711646043 source:d:\code\cpp\bai_tap_lon\spheresiege\item.cpp
 	"Item.h"
 
 1711639292 d:\code\cpp\bai_tap_lon\spheresiege\item.h
@@ -296,10 +299,10 @@
 	"Text.h"
 	"Window.h"
 
-1711638734 source:d:\code\cpp\bai_tap_lon\spheresiege\items.cpp
+1711814363 source:d:\code\cpp\bai_tap_lon\spheresiege\items.cpp
 	"Items.h"
 
-1711638426 d:\code\cpp\bai_tap_lon\spheresiege\items.h
+1711865261 d:\code\cpp\bai_tap_lon\spheresiege\items.h
 	"Hero.h"
 	"Includes.h"
 	"Item.h"
@@ -344,7 +347,7 @@
 	"Includes.h"
 	"Window.h"
 
-1711639310 source:d:\code\cpp\bai_tap_lon\spheresiege\minimap.cpp
+1711891185 source:d:\code\cpp\bai_tap_lon\spheresiege\minimap.cpp
 	"Minimap.h"
 
 1711540448 source:d:\uet\int2215 51\spheresiege\explosion.cpp
@@ -356,10 +359,10 @@
 	"Items.h"
 	"MultiEnemy.h"
 
-1711559312 d:\code\cpp\bai_tap_lon\spheresiege\level.h
+1711864774 d:\code\cpp\bai_tap_lon\spheresiege\level.h
 	"Includes.h"
 
-1711633796 source:d:\code\cpp\bai_tap_lon\spheresiege\level.cpp
+1711904296 source:d:\code\cpp\bai_tap_lon\spheresiege\level.cpp
 	"Level.h"
 
 1711646505 source:d:\uet\int2215 51\spheresiege\minimap.cpp
@@ -383,4 +386,20 @@
 	<iostream>
 	<string>
 	<sys/stat.h>
+
+1711896395 d:\code\cpp\bai_tap_lon\spheresiege\particleemitter.h
+	"Camera.h"
+	"Includes.h"
+	"Particle.h"
+
+1711895141 d:\code\cpp\bai_tap_lon\spheresiege\particle.h
+	"Camera.h"
+	"Includes.h"
+	"Window.h"
+
+1711895154 source:d:\code\cpp\bai_tap_lon\spheresiege\particle.cpp
+	"Particle.h"
+
+1711896675 source:d:\code\cpp\bai_tap_lon\spheresiege\particleemitter.cpp
+	"ParticleEmitter.h"
 
