@@ -6,11 +6,11 @@ void Level::printLevel() {
 }
 
 Level::Level() {
-    numPhase = randInt(1, 5);
-    numMonster = randInt(1, 15);
+    numPhase = randInt(1, 1);
+    numMonster = randInt(1, 1);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
-//    printLevel();
+    //    printLevel();
     levelup_sound = Mix_LoadWAV("res/audio/levelUp.wav");
     if (levelup_sound == NULL) {
         cerr << "Failed to load levelup sound.\n";
@@ -29,18 +29,18 @@ void Level::upLevel() {
         }
     }
     level++;
-    numPhase = numPhase + randInt(1, 4);
-    numMonster = randInt(1, 15);
+    numPhase = numPhase + randInt(1, 1);
+    numMonster = randInt(1, 1);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
-//    printLevel();
-//    cerr << "Upgraded to level " << level << " with " << numPhase << " phases and " << numMonster << " monsters" << endl;
+    //    printLevel();
+    //    cerr << "Upgraded to level " << level << " with " << numPhase << " phases and " << numMonster << " monsters" << endl;
 }
 
 void Level::update(int curScore) {
     if (this->curScore != curScore) {
         this->curScore = curScore;
-//        cerr << "Killed a new enemy!" << endl;
+        //        cerr << "Killed a new enemy!" << endl;
         ++killedMonster;
         if (killedMonster % numMonster == 0) {
             --numPhase;
@@ -48,12 +48,16 @@ void Level::update(int curScore) {
                 upLevel();
             }
         }
-//        printLevel();
+        //        printLevel();
     }
 }
 
 double Level::getLevelProgress() {
-//    cerr << "Ratio: " << killedMonster << "/ " << limitMonster << endl;
+//    int last = 0;
+//    for (int i = 0; i < level; i++) last += levelData[i].second;
+    //    cerr << "? " << curScore << " " << last << " " << level << endl;
+//    return (double)(curScore - last) / levelData[level].second;
+    //    cerr << "Ratio: " << killedMonster << "/ " << limitMonster << endl;
     return double(killedMonster) / limitMonster;
 }
 

@@ -66,7 +66,7 @@ void Minimap::draw(Hero& hero, MultiEnemy& enemies, Items& items) {
             continue;
         }
         SDL_FRect rect = {X + bullet.getX() * RATIO, Y + bullet.getY() * RATIO, 1, 1};
-        SDL_SetRenderDrawColor(Window::renderer, 180, 180, 180, 255);
+        SDL_SetRenderDrawColor(Window::renderer, 255, 209, 0, 255);
         SDL_RenderFillRectF(Window::renderer, &rect);
     }
     // Draw the camera on the minimap

@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "Includes.h"
+#include "ParticleEmitter.h"
 #include "Score.h"
 #include "Window.h"
 
@@ -70,4 +71,5 @@ class Hero {
     Mix_Chunk* hit_sound = nullptr;
     Mix_Chunk* lost_sound = nullptr;
     vector<Bullet> bullets;
+    vector<ParticleEmitter> emitters;
 };
