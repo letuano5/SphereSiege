@@ -9,6 +9,7 @@
 #include "ProgressBar.h"
 #include "Score.h"
 #include "Window.h"
+#include "Stats.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
 Level* level = NULL;
+Stats stats;
 
 Menu start("start");
 Menu pause("pause");
@@ -94,12 +96,12 @@ bool canLoad() {
     }
     ifstream inp("res/save/time.txt");
     inp >> lastTick;
-    //    cerr << lastTick << endl;
     inp.close();
     return true;
 }
 
 void play() {
+//    stats.printStats();
     pair<int, int> mousePos = {-1, -1};
     window.clear();
     SDL_Event event;
@@ -121,15 +123,21 @@ void play() {
     }
 
     if (isStarted && isLost) {
+        if (isLost == 2) {
+            stats.timeElapsed += getTick();
+            isLost = 1;
+        }
         lost.draw(mousePos.first, mousePos.second);
         SDL_RenderPresent(Window::renderer);
         if (!isLost) {
             init();
         }
+        stats.writeStats();
         return;
     }
     if (isStarted) {
         if (isStarted == 2) {
+            ++stats.playedRound;
             init();
             isStarted = 1;
         }
@@ -137,8 +145,8 @@ void play() {
         if (!startTick) {
             startTick = SDL_GetTicks();
         }
-        enemies->generateEnemy(*hero, *score, *camera, *level);
-        items->spawnItem(*hero, *camera, *enemies);
+        enemies->generateEnemy(*hero, *score, *camera, *level, stats);
+        items->spawnItem(*hero, *camera, *enemies, stats);
         Progress->draw();
         Health->draw();
         score->draw();
@@ -149,7 +157,7 @@ void play() {
         Health->update(hero->health_point);
         Progress->update(level->getLevelProgress());
         hero->draw(*camera);
-        hero->pollEvents(*camera);
+        hero->pollEvents(*camera, stats);
         hero->update();
         camera->update(dt);
         minimap.update(*camera);
@@ -163,6 +171,12 @@ void play() {
         score->writeScore();
         best->writeScore();
         level->writeLevel();
+
+        stats.bestScore = best->getScore();
+        if (stats.bestLevel < level->getLevel()) {
+            stats.bestLevel = level->getLevel();
+        }
+        stats.writeStats();
     } else {
         start.draw(mousePos.first, mousePos.second);
     }
@@ -172,7 +186,8 @@ void play() {
 int main(int argv, char** args) {
     srand(time(NULL));
 
-//    cerr << enemyCanReachMap(696, 1318.16, 2.49577) << endl;
+    stats.readStats();
+
     init();
     canContinue = canLoad();
     while (!window.isClosed()) {
@@ -180,7 +195,7 @@ int main(int argv, char** args) {
     }
 
     ofstream out("res/save/time.txt");
-    out << getTick() << "\n";
+    out << getTick();
     out.close();
 
     reset();

@@ -52,4 +52,5 @@ extern Uint32 lastTick;
 extern Uint32 startTick;
 extern int canContinue;
 extern int isMuted;
+// bool parseInt(ifstream& inp, int& x);
 Uint32 getTick();

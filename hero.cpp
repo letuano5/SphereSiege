@@ -91,7 +91,7 @@ void Hero::draw(Camera &camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(const Camera &camera) {
+void Hero::pollEvents(const Camera &camera, Stats& stats) {
     double dx = 0;
     double dy = 0;
 
@@ -121,19 +121,20 @@ void Hero::pollEvents(const Camera &camera) {
     x += camera.getX();
     y += camera.getY();
     if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT) || heroAutoShoot) {
-        double currentTime = SDL_GetTicks() / 1000.0;
+        double currentTime = getTick() / 1000.0;
         double effectiveFireRate = fireRate;
         if (fastShoot) {
             effectiveFireRate /= 2;
         }
         if (currentTime - lastShot >= effectiveFireRate) {
-            shoot(x, y);
+            shoot(x, y, stats);
             lastShot = currentTime;
         }
     }
+//    cerr << bullets.size() << endl;
 }
 
-void Hero::shoot(int mouseX, int mouseY) {
+void Hero::shoot(int mouseX, int mouseY, Stats& stats) {
     if (!isMuted && Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
         cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
     }
@@ -145,10 +146,12 @@ void Hero::shoot(int mouseX, int mouseY) {
     int bulletY = y + h / 2;
     emitters.push_back(ParticleEmitter(bulletX + cos(angle) * w / 2, bulletY + sin(angle) * h / 2, trippleShot ? randInt(2, 3) : 1, 50, 150, 280, 0.75, 0, 2 * PI, {255, 209, 0, 255}));
     if (trippleShot) {
+        stats.firedBullets += 3;
         bullets.push_back(Bullet(bulletX, bulletY, angle - PI / 15));
         bullets.push_back(Bullet(bulletX, bulletY, angle));
         bullets.push_back(Bullet(bulletX, bulletY, angle + PI / 15));
     } else {
+        stats.firedBullets += 1;
         bullets.push_back(Bullet(bulletX, bulletY, angle));
     }
 }
@@ -184,7 +187,7 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             emitters.push_back(ParticleEmitter(x + w / 2, y + h / 2, 2, 100, 150, 250, 0.85, 0, 2 * PI, {232, 93, 95, 255}));
         }
         if (health_point <= EPS) {
-            isLost = 1;
+            isLost = 2;
             if (!isMuted && Mix_PlayChannel(-1, lost_sound, 0) == -1) {
                 cerr << "Failed to play lost sound: " << Mix_GetError() << "\n";
             }

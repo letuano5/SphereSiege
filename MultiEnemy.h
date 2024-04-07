@@ -7,6 +7,7 @@
 #include "Level.h"
 #include "ParticleEmitter.h"
 #include "Score.h"
+#include "Stats.h"
 
 // seconds
 const double MAX_DIFF_TIME = 1;
@@ -21,7 +22,7 @@ class MultiEnemy {
    public:
     MultiEnemy();
     ~MultiEnemy();
-    void generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level);
+    void generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level, Stats& stats);
     Uint32 lastSlow = 0;
     bool isSlow = false;
     void setSlow(bool isSlow);

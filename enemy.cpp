@@ -72,23 +72,8 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
             if (angle < 0) {
                 angle += 2 * PI;
             }
-//    cerr << "enemy at " << x << " " << y << " " << angle << " " << enemyOutOfBound(LEFT_BOUND) << endl;
-    if (enemyOutOfBound(LEFT_BOUND)) {
-        if (enemyCanReachMap(x, y, angle)) {
-//            cerr << "no shifted" << endl;
-//            cerr << x << " " << y << " " << angle << endl;
-        } else if (enemyCanReachMap(nx, ny, PI + angle)) {
-            x = nx;
-            y = ny;
-            angle += PI;
-//            cerr << "shifted" << endl;
-//            cerr << x << " " << y << " " << angle + PI << endl;
-            if (angle >= 2 * PI) {
-                angle -= 2 * PI;
-            }
         }
     }
-//    cerr << x << " " << y << " " << angle << endl;
     rotateAngle += rotateSpeed;
 }
 
