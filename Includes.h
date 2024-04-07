@@ -5,6 +5,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <cmath>
@@ -15,7 +16,6 @@
 #include <random>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 using namespace chrono;
@@ -46,6 +46,7 @@ extern int isStarted;
 extern int isPaused;
 extern int isLost;
 extern int isContinued;
+extern int isStatsShow;
 extern int heroAutoShoot;
 extern double dt;
 extern Uint32 lastTick;

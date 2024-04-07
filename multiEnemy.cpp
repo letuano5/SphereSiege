@@ -113,24 +113,22 @@ void MultiEnemy::killEnemy(int& index) {
 
 void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, Level& level) {
     pair<int, int> currentPosition;
+    double curAngle;
+    int typeDir = 0;
     do {
         currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH - LEFT_BOUND);
         currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT - LEFT_BOUND);
-    } while (!pointInBound(currentPosition.first, currentPosition.second));
-    int typeDir = 0;
-    if (currentPosition.first == LEFT_BOUND) {
-        typeDir = TOP;
-    } else if (currentPosition.second == LEFT_BOUND) {
-        typeDir = LEFT;
-    } else if (currentPosition.second == MAP_HEIGHT - LEFT_BOUND) {
-        typeDir = RIGHT;
-    } else if (currentPosition.first == MAP_WIDTH - LEFT_BOUND) {
-        typeDir = BOT;
-    }
-    double curAngle;
-    do {
+        if (currentPosition.first == LEFT_BOUND) {
+            typeDir = TOP;
+        } else if (currentPosition.second == LEFT_BOUND) {
+            typeDir = LEFT;
+        } else if (currentPosition.second == MAP_HEIGHT - LEFT_BOUND) {
+            typeDir = RIGHT;
+        } else if (currentPosition.first == MAP_WIDTH - LEFT_BOUND) {
+            typeDir = BOT;
+        }
         curAngle = randomAngle(typeDir, hero, currentPosition);
-    } while (!enemyCanReachMap(currentPosition.first, currentPosition.second, curAngle));
+    } while (!pointInBound(currentPosition.first, currentPosition.second) || !enemyCanReachMap(currentPosition.first, currentPosition.second, curAngle));
     double curDamage = 0.01;
     int curW = 32;
     int curH = 32;
@@ -169,7 +167,6 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
         curSpeed = randDouble(1, 1.3);
         curScore = 5;
     }
-//    cerr << currentPosition.first << " " << currentPosition.second << " " << curAngle << endl;
     enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
 }
 
@@ -204,7 +201,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
             double centerEnemyX = enemies[i]->getX() + enemies[i]->getW() / 2;
             double centerEnemyY = enemies[i]->getY() + enemies[i]->getH() / 2;
             explosions.push_back(new Explosion(centerEnemyX, centerEnemyY));
-            emitters.push_back(ParticleEmitter(centerEnemyX, centerEnemyY, randInt(3, 7), 150, 100, 200, 0.75, 0, 2 * PI, {10, 180, 242, 255}));
+            emitters.push_back(ParticleEmitter(centerEnemyX, centerEnemyY, randInt(3, 7), 150, 100, 200, 0.75, 0, 2 * PI, enemies[i]->getAccentColor()));
             if (!isMuted && Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
                 cerr << "Failed to play explosion sound: " << Mix_GetError() << "\n";
             }
@@ -340,9 +337,6 @@ bool MultiEnemy::setEnemies() {
         enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, score, pathImg));
         if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
             // can come back now, so we dont really care
-            //            cerr << "fail at enemies #" << i << endl;
-            //            return false;
-            //            inp.close();
         }
     }
     inp.close();

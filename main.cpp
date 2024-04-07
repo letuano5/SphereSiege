@@ -29,6 +29,7 @@ Stats stats;
 Menu start("start");
 Menu pause("pause");
 Menu lost("lost");
+Menu stats("stats");
 
 Uint64 prevTime = SDL_GetPerformanceCounter();
 Uint64 currTime, deltaTime;
@@ -178,7 +179,11 @@ void play() {
         }
         stats.writeStats();
     } else {
-        start.draw(mousePos.first, mousePos.second);
+        if (isStatsShow) {
+            stats.draw(mousePos.first, mousePos.second);
+        } else {
+            start.draw(mousePos.first, mousePos.second);
+        }
     }
     window.present();
 }

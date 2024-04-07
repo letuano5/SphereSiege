@@ -7,6 +7,16 @@
 Menu::Menu(string menuType) : menuType(menuType) {}
 Menu::~Menu() {}
 
+string formatNumber(int num) {
+    string str = to_string(num);
+    reverse(str.begin(), str.end());
+    for (int i = 3; i < str.length(); i += 4) {
+        str.insert(i, " ");
+    }
+    reverse(str.begin(), str.end());
+    return str;
+}
+
 void Menu::draw(int mouseX, int mouseY) const {
     SDL_Rect overlay = {x, y, w, h};
     SDL_SetRenderDrawColor(Window::renderer, 30, 30, 30, 255);
@@ -39,6 +49,9 @@ void Menu::draw(int mouseX, int mouseY) const {
         }
         if (continueBtn.isClicked(mouseX, mouseY) && canContinue) {
             isContinued = 1;
+        }
+        if (statsBtn.isClicked(mouseX, mouseY)) {
+            isStatsShow = true;
         }
     } else if (menuType == "pause") {
         Text title("res/font/PressStart2P.ttf", 42, "PAUSE", {200, 200, 200, 255});
@@ -76,6 +89,30 @@ void Menu::draw(int mouseX, int mouseY) const {
         if (exitBtn.isClicked(mouseX, mouseY)) {
             exit(0);
         }
-    } else {
+    } else if (menuType == "stats") {
+        Text title("res/font/PressStart2P.ttf", 42, "STATS", {200, 200, 200, 255});
+
+        title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2);
+
+        int lastPlaceholderY;
+        for (int i = 0; i < 7; i++) {
+            Text stat("res/font/Silkscreen.ttf", 12, statPlaceholders[i], {130, 130, 130, 255});
+            stat.display(WINDOW_WIDTH / 2 - stat.getW() - 10, title.getY() + title.getH() + 30 + i * 20);
+            Text value("res/font/Silkscreen.ttf", 12, formatNumber(9999999), {180, 180, 180, 255});
+            value.display(WINDOW_WIDTH / 2 + 10, title.getY() + title.getH() + 30 + i * 20);
+            lastPlaceholderY = stat.getY();
+        }
+
+        Button clearDataBtn(200, 40, WINDOW_WIDTH / 2 - 100, lastPlaceholderY + 50, "CLEAR DATA");
+        Button menuBtn(200, 40, WINDOW_WIDTH / 2 - 100, clearDataBtn.getY() + clearDataBtn.getH() + 10, "MENU");
+        menuBtn.updateHover(mX, mY);
+        clearDataBtn.updateHover(mX, mY);
+        menuBtn.draw();
+        clearDataBtn.draw();
+        if (clearDataBtn.isClicked(mouseX, mouseY)) {
+        }
+        if (menuBtn.isClicked(mouseX, mouseY)) {
+            isStatsShow = false;
+        }
     }
 }
