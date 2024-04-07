@@ -77,7 +77,7 @@ void Hero::draw(Camera &camera) {
 
         SDL_RenderCopyEx(Window::renderer, hero_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
         if (hasShield) {
-            SDL_Rect shield = {getX(camera) - 10, getY(camera) - 10, w + 20, h + 20};
+            SDL_Rect shield = {getX(camera) - 10 - 3 * cos(angle * PI / 180), getY(camera) - 10, w + 20, h + 20};
             SDL_RenderCopyEx(Window::renderer, shield_texture, nullptr, &shield, angle, nullptr, SDL_FLIP_NONE);
         }
         for (const auto &bullet : bullets) {

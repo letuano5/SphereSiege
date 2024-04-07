@@ -48,7 +48,7 @@ void Minimap::draw(Hero& hero, MultiEnemy& enemies, Items& items) {
             continue;
         }
         SDL_FRect rect = {X + enemy->getX() * RATIO, Y + enemy->getY() * RATIO, 2, 2};
-        SDL_SetRenderDrawColor(Window::renderer, 40, 158, 176, 255);
+        SDL_SetRenderDrawColor(Window::renderer, enemy->getAccentColor().r, enemy->getAccentColor().g, enemy->getAccentColor().b, enemy->getAccentColor().a);
         SDL_RenderFillRectF(Window::renderer, &rect);
     }
     // Draw the items on the minimap

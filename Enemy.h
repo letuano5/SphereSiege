@@ -23,6 +23,7 @@ class Enemy {
     void takeDmg(double dmg);
     bool enemyOutOfMap() const;
     bool enemyOutOfBound(int leftBound) const;
+    SDL_Color getAccentColor() const { return accentColor; }
 
     bool canSpilt;
     double dmg = 0.1;
@@ -42,5 +43,6 @@ class Enemy {
     int canShiftAngle = randInt(0, 25);
     string imagePath;
     SDL_Texture *triangle_texture = nullptr;
+    SDL_Color accentColor = {67, 155, 213, 255};
     double randomAngle();
 };
