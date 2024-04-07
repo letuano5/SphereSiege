@@ -88,3 +88,9 @@ pair<int, int> getMousePosition() {
 Uint32 getTick() {
     return SDL_GetTicks() - startTick + lastTick;
 }
+
+// bool parseInt(ifstream& inp, int& x) {
+//     x = -1;
+//     inp >> x;
+//     return x >= 0 && x < 1e9;
+// }

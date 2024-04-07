@@ -35,7 +35,7 @@ bool Items::checkTime() {
     double diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
     return diffTime > DIF_SPAWN_TIME;
 }
-void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
+void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies, Stats& stats) {
     for (auto it = activeItems.begin(); it != activeItems.end();) {
         if (getTick() > it->second + itemActiveTime * 1000) {
             //            cerr << "kill " << it->first << ": " << getTick() << " " << it->second << endl;
@@ -81,6 +81,7 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies) {
         items[i]->update();
         items[i]->draw(camera);
         if (items[i]->intersect(hero.getX(), hero.getY(), hero.getW(), hero.getH())) {
+            ++stats.collectedItems;
             if (items[i]->getType() != "HP_PACK") {
                 activeItems[items[i]->getType()] = getTick();
             }

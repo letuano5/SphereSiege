@@ -89,7 +89,6 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
             }
         }
     }
-    //    cerr << x << " " << y << " " << angle << endl;
     rotateAngle += rotateSpeed;
 }
 

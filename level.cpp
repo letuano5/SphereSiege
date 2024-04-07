@@ -10,7 +10,6 @@ Level::Level() {
     numMonster = randInt(1, 15);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
-    //    printLevel();
     levelup_sound = Mix_LoadWAV("res/audio/levelUp.wav");
     if (levelup_sound == NULL) {
         cerr << "Failed to load levelup sound.\n";
@@ -33,14 +32,11 @@ void Level::upLevel() {
     numMonster = randInt(1, 15);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
-    //    printLevel();
-    //    cerr << "Upgraded to level " << level << " with " << numPhase << " phases and " << numMonster << " monsters" << endl;
 }
 
 void Level::update(int curScore) {
     if (this->curScore != curScore) {
         this->curScore = curScore;
-        //        cerr << "Killed a new enemy!" << endl;
         ++killedMonster;
         if (killedMonster % numMonster == 0) {
             --numPhase;
@@ -48,16 +44,13 @@ void Level::update(int curScore) {
                 upLevel();
             }
         }
-        //        printLevel();
+    }
+    if (maxLevel < level) {
+        maxLevel = level;
     }
 }
 
 double Level::getLevelProgress() {
-    //    int last = 0;
-    //    for (int i = 0; i < level; i++) last += levelData[i].second;
-    //    cerr << "? " << curScore << " " << last << " " << level << endl;
-    //    return (double)(curScore - last) / levelData[level].second;
-    //    cerr << "Ratio: " << killedMonster << "/ " << limitMonster << endl;
     return double(killedMonster) / limitMonster;
 }
 
@@ -65,7 +58,8 @@ bool Level::readLevel() {
     ifstream inp("res/save/level.txt");
     int level = -1, curScore = -1;
     int numPhase = -1, numMonster = -1, killedMonster = -1, limitMonster = -1;
-    inp >> level >> curScore >> numPhase >> numMonster >> killedMonster >> limitMonster;
+    int maxLevel = -1;
+    inp >> level >> curScore >> numPhase >> numMonster >> killedMonster >> limitMonster >> maxLevel;
     if (level < 0 || level >= 1e9) {
         return false;
     }
@@ -84,12 +78,16 @@ bool Level::readLevel() {
     if (limitMonster < 0 || limitMonster >= 1e9) {
         return false;
     }
+    if (maxLevel < 0 || limitMonster >= 1e9) {
+        return false;
+    }
     this->level = level;
     this->curScore = curScore;
     this->numPhase = numPhase;
     this->numMonster = numMonster;
     this->killedMonster = killedMonster;
     this->limitMonster = limitMonster;
+    this->maxLevel = maxLevel;
     inp.close();
     return true;
 }
@@ -97,5 +95,6 @@ bool Level::readLevel() {
 void Level::writeLevel() {
     ofstream out("res/save/level.txt");
     out << level << " " << curScore << " " << numPhase << " " << numMonster << " " << killedMonster << " " << limitMonster;
+    out << endl << maxLevel;
     out.close();
 }

@@ -15,6 +15,7 @@ class Level {
     int getNumMonster() const { return numMonster; }
     int getKilledMonster() const { return killedMonster; }
     void upLevel();
+    int maxLevel = 0;
 
    private:
     void printLevel();
