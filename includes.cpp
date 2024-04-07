@@ -6,6 +6,7 @@ int isStarted = false;
 int isPaused = false;
 int isLost = false;
 int isContinued = false;
+int isStatsShow = false;
 int heroAutoShoot = false;
 int canContinue = false;
 int isMuted = false;
@@ -50,8 +51,8 @@ bool equalF(double x, double y) {
 }
 
 bool pointInBound(double x, double y) {
-//    cerr << x << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND << endl;
-//    cerr << y << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND;
+    //    cerr << x << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND << endl;
+    //    cerr << y << " " << LEFT_BOUND << " " << MAP_WIDTH + LEFT_BOUND;
     return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH - LEFT_BOUND) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT - LEFT_BOUND));
 }
 
@@ -68,7 +69,14 @@ bool enemyCanReachMap(double posX, double posY, double angle) {
     if (posY > MAP_HEIGHT && sin(angle) >= -EPS) {
         return false;
     }
-    return true;
+    if (equalF(cos(angle), 0) || equalF(sin(angle), 0)) {
+        return true;
+    }
+    double leftK = max(-posX / cos(angle), -posY / sin(angle));
+    double rightK = min((MAP_WIDTH - posX) / cos(angle), (MAP_HEIGHT - posY) / sin(angle));
+    //    cerr << posX + leftK * cos(angle) << " " << posY + leftK * sin(angle) << endl;
+    //    cerr << leftK << " " << rightK << endl;
+    return leftK <= rightK && rightK >= 0;
 }
 
 pair<int, int> getMousePosition() {

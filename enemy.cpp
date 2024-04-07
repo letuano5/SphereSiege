@@ -4,6 +4,13 @@
 
 Enemy::Enemy(int w, int h, double x, double y, double speed, double angle, bool canSpilt, double hp, double dmg, int score, const string& image_path)
     : w(w), h(h), x(x), y(y), speed(speed), angle(angle), health_point(hp), max_health_point(hp), dmg(dmg), score(score), canSpilt(canSpilt), imagePath(image_path) {
+    if (image_path.find("big") != string::npos) {
+        accentColor = {224, 119, 63, 255};
+    } else if (image_path.find("small") != string::npos) {
+        accentColor = {231, 202, 34, 255};
+    } else if (image_path.find("splitter") != string::npos) {
+        accentColor = {76, 213, 51, 255};
+    }
     auto surface = IMG_Load(image_path.c_str());
     if (!surface) {
         cerr << "Failed to create surface.\n";
@@ -52,6 +59,12 @@ bool Enemy::enemyOutOfBound(int leftBound) const {
 }
 
 void Enemy::update(int heroX, int heroY, double slowRate) {
+    if (angle < 0) {
+        angle += 2 * PI;
+    }
+    if (angle >= 2 * PI) {
+        angle -= 2 * PI;
+    }
     if (canShiftAngle == 0) {
         angle = calculateAngle(heroX, heroY, x, y);
     }
@@ -62,7 +75,6 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
     } else {
         if (isOut) {
             // ...
-
         } else {
             if (x <= 0 || x + w >= MAP_WIDTH) {
                 angle = PI - angle;
@@ -72,23 +84,12 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
             if (angle < 0) {
                 angle += 2 * PI;
             }
-//    cerr << "enemy at " << x << " " << y << " " << angle << " " << enemyOutOfBound(LEFT_BOUND) << endl;
-    if (enemyOutOfBound(LEFT_BOUND)) {
-        if (enemyCanReachMap(x, y, angle)) {
-//            cerr << "no shifted" << endl;
-//            cerr << x << " " << y << " " << angle << endl;
-        } else if (enemyCanReachMap(nx, ny, PI + angle)) {
-            x = nx;
-            y = ny;
-            angle += PI;
-//            cerr << "shifted" << endl;
-//            cerr << x << " " << y << " " << angle + PI << endl;
             if (angle >= 2 * PI) {
                 angle -= 2 * PI;
             }
         }
     }
-//    cerr << x << " " << y << " " << angle << endl;
+    //    cerr << x << " " << y << " " << angle << endl;
     rotateAngle += rotateSpeed;
 }
 

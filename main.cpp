@@ -27,6 +27,7 @@ Level* level = NULL;
 Menu start("start");
 Menu pause("pause");
 Menu lost("lost");
+Menu stats("stats");
 
 Uint64 prevTime = SDL_GetPerformanceCounter();
 Uint64 currTime, deltaTime;
@@ -164,7 +165,11 @@ void play() {
         best->writeScore();
         level->writeLevel();
     } else {
-        start.draw(mousePos.first, mousePos.second);
+        if (isStatsShow) {
+            stats.draw(mousePos.first, mousePos.second);
+        } else {
+            start.draw(mousePos.first, mousePos.second);
+        }
     }
     window.present();
 }
@@ -172,7 +177,11 @@ void play() {
 int main(int argv, char** args) {
     srand(time(NULL));
 
-//    cerr << enemyCanReachMap(696, 1318.16, 2.49577) << endl;
+    //    24 770 4.27794
+    //    cerr << enemyCanReachMap(24, 770, 4.27794) << endl;
+    //    cerr << cos(6.2263) << " " << sin(2.2263) << endl;
+    //    cerr << (770 > MAP_HEIGHT) << " " << (sin(2.2263) > 0) << endl;
+
     init();
     canContinue = canLoad();
     while (!window.isClosed()) {

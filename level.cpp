@@ -6,8 +6,8 @@ void Level::printLevel() {
 }
 
 Level::Level() {
-    numPhase = randInt(1, 1);
-    numMonster = randInt(1, 1);
+    numPhase = randInt(1, 5);
+    numMonster = randInt(1, 15);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
     //    printLevel();
@@ -29,8 +29,8 @@ void Level::upLevel() {
         }
     }
     level++;
-    numPhase = numPhase + randInt(1, 1);
-    numMonster = randInt(1, 1);
+    numPhase = numPhase + randInt(1, 5);
+    numMonster = randInt(1, 15);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
     //    printLevel();
@@ -53,10 +53,10 @@ void Level::update(int curScore) {
 }
 
 double Level::getLevelProgress() {
-//    int last = 0;
-//    for (int i = 0; i < level; i++) last += levelData[i].second;
+    //    int last = 0;
+    //    for (int i = 0; i < level; i++) last += levelData[i].second;
     //    cerr << "? " << curScore << " " << last << " " << level << endl;
-//    return (double)(curScore - last) / levelData[level].second;
+    //    return (double)(curScore - last) / levelData[level].second;
     //    cerr << "Ratio: " << killedMonster << "/ " << limitMonster << endl;
     return double(killedMonster) / limitMonster;
 }
