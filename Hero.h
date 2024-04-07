@@ -9,7 +9,7 @@
 #include "ParticleEmitter.h"
 #include "Score.h"
 #include "Window.h"
-#include "Stats.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -33,9 +33,9 @@ class Hero {
     double enemyLastHit = 0.0;
 
     void draw(Camera& camera);
-    void shoot(int mouseX, int mouseY, Stats& stats);
+    void shoot(int mouseX, int mouseY, Menu& stats);
     void update();
-    void pollEvents(const Camera& camera, Stats& stats);
+    void pollEvents(const Camera& camera, Menu& stats);
     int intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score& score, double enemyDmg);
     int getX(const Camera& camera) const { return x - camera.getX(); }
     int getY(const Camera& camera) const { return y - camera.getY(); }

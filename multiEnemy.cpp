@@ -170,7 +170,7 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
     enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
 }
 
-void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level, Stats& stats) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level, Menu& stats) {
     if (enemies.empty()) {
         for (int i = 0; i < level.getNumMonster(); i++) {
             generateSingleEnemy(hero, score, camera, level);
@@ -185,7 +185,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
             }
         }
         if (enemies[i]->getHP() <= EPS) {
-            ++stats.killedEnemies;
+            stats.dat[stats.ENEMIES_KILLED]++;
             score.update(enemies[i]->getScore());
             if (enemies[i]->canSpilt) {
                 for (int j = 0; j < 4; j++) {
