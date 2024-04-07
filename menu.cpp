@@ -4,7 +4,7 @@
 #include "Text.h"
 #include "Window.h"
 
-Menu::Menu(string menuType) : menuType(menuType) {}
+Menu::Menu(string menuType) : menuType(menuType), dat(7, 0) {}
 Menu::~Menu() {}
 
 string formatNumber(int num) {
@@ -17,7 +17,7 @@ string formatNumber(int num) {
     return str;
 }
 
-void Menu::draw(int mouseX, int mouseY) const {
+void Menu::draw(int mouseX, int mouseY) {
     SDL_Rect overlay = {x, y, w, h};
     SDL_SetRenderDrawColor(Window::renderer, 30, 30, 30, 255);
     SDL_RenderFillRect(Window::renderer, &overlay);
@@ -25,10 +25,8 @@ void Menu::draw(int mouseX, int mouseY) const {
     SDL_GetMouseState(&mX, &mY);
     if (menuType == "start") {
         Text title("res/font/PressStart2P.ttf", 42, "SPHERE SIEGE", {200, 200, 200, 255});
-        Text credit("res/font/PressStart2P.ttf", 12, "Made with love by lto5", {35, 35, 35, 255});
 
         title.display(WINDOW_WIDTH / 2 - title.getW() / 2, WINDOW_HEIGHT * 0.2);
-        credit.display(WINDOW_WIDTH / 2 - credit.getW() / 2, WINDOW_HEIGHT * 0.8);
 
         Button startBtn(200, 40, WINDOW_WIDTH / 2 - 100, title.getY() + title.getH() + 70, "PLAY");
         Button continueBtn(200, 40, WINDOW_WIDTH / 2 - 100, startBtn.getY() + startBtn.getH() + 10, "CONTINUE");
@@ -98,7 +96,7 @@ void Menu::draw(int mouseX, int mouseY) const {
         for (int i = 0; i < 7; i++) {
             Text stat("res/font/Silkscreen.ttf", 12, statPlaceholders[i], {130, 130, 130, 255});
             stat.display(WINDOW_WIDTH / 2 - stat.getW() - 10, title.getY() + title.getH() + 30 + i * 20);
-            Text value("res/font/Silkscreen.ttf", 12, formatNumber(9999999), {180, 180, 180, 255});
+            Text value("res/font/Silkscreen.ttf", 12, formatNumber(dat[i]), {180, 180, 180, 255});
             value.display(WINDOW_WIDTH / 2 + 10, title.getY() + title.getH() + 30 + i * 20);
             lastPlaceholderY = stat.getY();
         }
@@ -109,10 +107,41 @@ void Menu::draw(int mouseX, int mouseY) const {
         clearDataBtn.updateHover(mX, mY);
         menuBtn.draw();
         clearDataBtn.draw();
+
         if (clearDataBtn.isClicked(mouseX, mouseY)) {
+            dat.assign(7, 0);
+            writeStats();
         }
         if (menuBtn.isClicked(mouseX, mouseY)) {
             isStatsShow = false;
         }
     }
+}
+
+void Menu::writeStats() {
+    if (menuType != "stats") {
+        return;
+    }
+    ofstream out("res/save/stats.txt");
+    for (int x : dat) out << x << " ";
+    out.close();
+}
+
+bool Menu::readStats() {
+    if (menuType != "stats") {
+        return false;
+    }
+    ifstream inp("res/save/stats.txt");
+    vector<int> cur_data(7, -1);
+    for (int& x: cur_data) {
+        inp >> x;
+    }
+    inp.close();
+    for (int x : cur_data) {
+        if (x < 0 || x >= 1e9) {
+            return false;
+        }
+    }
+    dat.swap(cur_data);
+    return true;
 }

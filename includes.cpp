@@ -72,10 +72,14 @@ bool enemyCanReachMap(double posX, double posY, double angle) {
     if (equalF(cos(angle), 0) || equalF(sin(angle), 0)) {
         return true;
     }
-    double leftK = max(-posX / cos(angle), -posY / sin(angle));
-    double rightK = min((MAP_WIDTH - posX) / cos(angle), (MAP_HEIGHT - posY) / sin(angle));
+    double leftKx = -posX / cos(angle), rightKx = (MAP_WIDTH - posX) / cos(angle);
+    double leftKy = -posY / sin(angle), rightKy = (MAP_HEIGHT - posY) / sin(angle);
+    if (leftKx > rightKx) swap(leftKx, rightKx);
+    if (leftKy > rightKy) swap(leftKy, rightKy);
+    double leftK = max(leftKx, leftKy);
+    double rightK = min(rightKx, rightKy);
     //    cerr << posX + leftK * cos(angle) << " " << posY + leftK * sin(angle) << endl;
-    //    cerr << leftK << " " << rightK << endl;
+//    cerr << leftK << " " << rightK << endl;
     return leftK <= rightK && rightK >= 0;
 }
 

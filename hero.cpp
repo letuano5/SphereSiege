@@ -91,7 +91,7 @@ void Hero::draw(Camera &camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(const Camera &camera, Stats& stats) {
+void Hero::pollEvents(const Camera &camera, Menu& stats) {
     double dx = 0;
     double dy = 0;
 
@@ -134,7 +134,7 @@ void Hero::pollEvents(const Camera &camera, Stats& stats) {
 //    cerr << bullets.size() << endl;
 }
 
-void Hero::shoot(int mouseX, int mouseY, Stats& stats) {
+void Hero::shoot(int mouseX, int mouseY, Menu& stats) {
     if (!isMuted && Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
         cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
     }
@@ -146,12 +146,12 @@ void Hero::shoot(int mouseX, int mouseY, Stats& stats) {
     int bulletY = y + h / 2;
     emitters.push_back(ParticleEmitter(bulletX + cos(angle) * w / 2, bulletY + sin(angle) * h / 2, trippleShot ? randInt(2, 3) : 1, 50, 150, 280, 0.75, 0, 2 * PI, {255, 209, 0, 255}));
     if (trippleShot) {
-        stats.firedBullets += 3;
+        stats.dat[stats.BULLETS_FIRED] += 3;
         bullets.push_back(Bullet(bulletX, bulletY, angle - PI / 15));
         bullets.push_back(Bullet(bulletX, bulletY, angle));
         bullets.push_back(Bullet(bulletX, bulletY, angle + PI / 15));
     } else {
-        stats.firedBullets += 1;
+        stats.dat[stats.BULLETS_FIRED] += 1;
         bullets.push_back(Bullet(bulletX, bulletY, angle));
     }
 }

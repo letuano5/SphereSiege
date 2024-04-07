@@ -3,7 +3,7 @@
 #include "Includes.h"
 #include "Item.h"
 #include "ProgressBar.h"
-#include "Stats.h"
+#include "Menu.h"
 
 // seconds
 const double DIF_SPAWN_TIME = 5;
@@ -15,7 +15,7 @@ class Items {
    public:
     Items();
     ~Items();
-    void spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies, Stats& stats);
+    void spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies, Menu& stats);
     clock_t lastTimeSpawned = clock();
     bool checkTime();
     pair<string, SDL_Color> itemProgressTypes[5] = {{"FAST_SHOT", {158, 0, 89, 255}}, {"TRIPPLE_SHOT", {255, 243, 0, 255}}, {"PIERCE_SHOT", {255, 183, 3, 255}}, {"SLOWDOWN_ENEMIES", {30, 150, 252, 255}}, {"SHIELD", {199, 198, 197, 255}}};
