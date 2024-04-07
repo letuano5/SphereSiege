@@ -28,7 +28,8 @@ void Bullet::update(double dt) {
     y += static_cast<double>(dy);
 }
 bool Bullet::outOfBound() {
-    return rectOutOfBound(getW(), getH(), getX(), getY());
+    return x + w < LEFT_BOUND || y + h < LEFT_BOUND || x > MAP_WIDTH || y > MAP_HEIGHT;
+//    return rectOutOfBound(getW(), getH(), getX(), getY());
 }
 bool Bullet::bulletOutOfMap() const {
     return x < 0 || y < 0 || x + w > MAP_WIDTH || y + h > MAP_HEIGHT;

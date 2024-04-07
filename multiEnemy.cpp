@@ -39,7 +39,7 @@ bool MultiEnemy::checkTime() {
 }
 
 bool canSpawn(string typeEnemy, int curLevel) {
-    //    cerr << "Checking if we can spawn... " << curLevel << endl;
+//    cerr << "Checking if we can spawn... " << typeEnemy << " " << curLevel << endl;
     if (typeEnemy == "BIG") {
         // return curSec > MIN_BIG;
         return curLevel >= 2;
@@ -48,7 +48,7 @@ bool canSpawn(string typeEnemy, int curLevel) {
         // return curSec > MIN_SMALL;
         return curLevel >= 1;
     }
-    if (typeEnemy == "SPILLTER") {
+    if (typeEnemy == "SPILTTER") {
         // return curSec > MIN_SPILLTER;
         return curLevel >= 3;
     }
@@ -167,11 +167,10 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
         curSpeed = randDouble(1, 1.3);
         curScore = 5;
     }
-    // cerr << currentPosition.first << " " << currentPosition.second << " " << curAngle << endl;
     enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
 }
 
-void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level) {
+void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level, Stats& stats) {
     if (enemies.empty()) {
         for (int i = 0; i < level.getNumMonster(); i++) {
             generateSingleEnemy(hero, score, camera, level);
@@ -179,7 +178,6 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
         assert(int(enemies.size()) == level.getNumMonster());
     }
     for (int i = 0; i < int(enemies.size()); i++) {
-        // reversion might be hold here ...
         enemies[i]->update(hero.getX(), hero.getY(), isSlow ? 1.0 / SLOW_RATE : 1);
         if (!enemies[i]->enemyOutOfBound(0)) {
             if (hero.intersect(enemies[i]->getW(), enemies[i]->getH(), enemies[i]->getX(), enemies[i]->getY(), score, enemies[i]->dmg) == WIN) {
@@ -187,6 +185,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
             }
         }
         if (enemies[i]->getHP() <= EPS) {
+            ++stats.killedEnemies;
             score.update(enemies[i]->getScore());
             if (enemies[i]->canSpilt) {
                 for (int j = 0; j < 4; j++) {
@@ -196,7 +195,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
                     if (j == 1) nextX += 45;
                     if (j == 2) nextY -= 45;
                     if (j == 3) nextY += 45;
-                    enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, 5, DIRS[0]));
+                    enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, 0, DIRS[0]));
                 }
             }
             double centerEnemyX = enemies[i]->getX() + enemies[i]->getW() / 2;
@@ -338,9 +337,6 @@ bool MultiEnemy::setEnemies() {
         enemies.push_back(new Enemy(w, h, x, y, speed, angle, canSpilt, hp, dmg, score, pathImg));
         if (enemies[i]->enemyOutOfBound(LEFT_BOUND)) {
             // can come back now, so we dont really care
-            //            cerr << "fail at enemies #" << i << endl;
-            //            return false;
-            //            inp.close();
         }
     }
     inp.close();
