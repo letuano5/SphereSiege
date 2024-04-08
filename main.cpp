@@ -24,7 +24,7 @@ Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
 Level* level = NULL;
-Stats stats;
+//Stats stats;
 
 Menu start("start");
 Menu pause("pause");
@@ -125,7 +125,7 @@ void play() {
 
     if (isStarted && isLost) {
         if (isLost == 2) {
-            stats.timeElapsed += getTick();
+            stats.dat[stats.TIME_ELAPSED] += getTick();
             isLost = 1;
         }
         lost.draw(mousePos.first, mousePos.second);
@@ -138,7 +138,7 @@ void play() {
     }
     if (isStarted) {
         if (isStarted == 2) {
-            ++stats.playedRound;
+            stats.dat[stats.ROUNDS_PLAYED]++;
             init();
             isStarted = 1;
         }
@@ -173,12 +173,13 @@ void play() {
         best->writeScore();
         level->writeLevel();
 
-        stats.bestScore = best->getScore();
-        if (stats.bestLevel < level->getLevel()) {
-            stats.bestLevel = level->getLevel();
+        stats.dat[stats.BEST_SCORE] = best->getScore();
+//        cerr << stats.dat[stats.BEST_LEVEL] << " " << level->getLevel();
+        if (stats.dat[stats.BEST_LEVEL] < level->getLevel()) {
+            stats.dat[stats.BEST_LEVEL] = level->getLevel();
         }
-        stats.writeStats();
     } else {
+        stats.readStats();
         if (isStatsShow) {
             stats.draw(mousePos.first, mousePos.second);
         } else {
@@ -191,7 +192,10 @@ void play() {
 int main(int argv, char** args) {
     srand(time(NULL));
 
-    stats.readStats();
+//    cerr << enemyCanReachMap(694.211, 688.211, 5.49779) << endl;
+//    cerr << cos(5.49779) << " " << sin(5.49779) << endl;
+//    return 0;
+//    stats.readStats();
 
     init();
     canContinue = canLoad();

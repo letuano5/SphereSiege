@@ -9,7 +9,7 @@ class Menu {
     Menu(string menuType);
     ~Menu();
 
-    void draw(int mouseX, int mouseY) const;
+    void draw(int mouseX, int mouseY);
     string menuType;
     string statPlaceholders[7] = {
         "BEST SCORE",
@@ -20,6 +20,18 @@ class Menu {
         "BULLETS FIRED",
         "TIME ELAPSED",
     };
+    enum StatsType {
+        BEST_SCORE = 0,
+        BEST_LEVEL = 1,
+        ROUNDS_PLAYED = 2,
+        ENEMIES_KILLED = 3,
+        ITEMS_COLLECTED = 4,
+        BULLETS_FIRED = 5,
+        TIME_ELAPSED = 6
+    };
+    vector<int> dat;
+    bool readStats();
+    void writeStats();
 
    private:
     int x = 0,
