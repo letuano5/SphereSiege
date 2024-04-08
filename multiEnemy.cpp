@@ -39,7 +39,7 @@ bool MultiEnemy::checkTime() {
 }
 
 bool canSpawn(string typeEnemy, int curLevel) {
-//    cerr << "Checking if we can spawn... " << typeEnemy << " " << curLevel << endl;
+    //    cerr << "Checking if we can spawn... " << typeEnemy << " " << curLevel << endl;
     if (typeEnemy == "BIG") {
         // return curSec > MIN_BIG;
         return curLevel >= 2;
@@ -61,7 +61,7 @@ const int LEFT = 2;
 const int RIGHT = 3;
 
 const vector<string> OPTION_ANGLE = {"CHASE", "HORIZONTAL", "DIAGONAL", "RANDOM"};
-const vector<string> DIRS = {"res/image/enemy.png", "res/image/enemybig.png", "res/image/enemysmall.png", "res/image/enemyspiltter.png"};
+const vector<string> DIRS = {"res/image/enemy.png", "res/image/enemybig.png", "res/image/enemysmall.png", "res/image/enemysplitter.png"};
 const vector<string> TYPE_ENEMY = {"NORMAL", "BIG", "SMALL", "SPILTTER"};
 
 double randomAngle(int typeDir, const Hero& hero, pair<int, int> currentPosition) {
@@ -115,6 +115,7 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
     pair<int, int> currentPosition;
     double curAngle;
     int typeDir = 0;
+    double curSpeed = randDouble(1.5, 2);
     do {
         currentPosition.first = randInt(LEFT_BOUND, MAP_WIDTH - LEFT_BOUND);
         currentPosition.second = randInt(LEFT_BOUND, MAP_HEIGHT - LEFT_BOUND);
@@ -128,11 +129,11 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
             typeDir = BOT;
         }
         curAngle = randomAngle(typeDir, hero, currentPosition);
-    } while (!pointInBound(currentPosition.first, currentPosition.second) || !enemyCanReachMap(currentPosition.first, currentPosition.second, curAngle));
+        curSpeed = randDouble(1.5, 2);
+    } while (!pointInBound(currentPosition.first, currentPosition.second) || !enemyCanReachMap(currentPosition.first, currentPosition.second, curSpeed, curAngle));
     double curDamage = 0.01;
     int curW = 32;
     int curH = 32;
-    double curSpeed = randDouble(1.5, 2);
     double curHP = 1;
     int curScore = 5;
     int indexEnemy;
@@ -171,6 +172,7 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
 }
 
 void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& level, Menu& stats) {
+    level.setRemainMonster(enemies.size());
     if (enemies.empty()) {
         for (int i = 0; i < level.getNumMonster(); i++) {
             generateSingleEnemy(hero, score, camera, level);
@@ -184,7 +186,7 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
                 enemies[i]->takeDmg(hero.dmg);
             }
         }
-        if (enemies[i]->getHP() <= EPS) {
+        if (enemies[i]->getHP() <= 1e-2) {
             stats.dat[stats.ENEMIES_KILLED]++;
             score.update(enemies[i]->getScore());
             if (enemies[i]->canSpilt) {
@@ -195,13 +197,23 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
                     if (j == 1) nextX += 45;
                     if (j == 2) nextY -= 45;
                     if (j == 3) nextY += 45;
-                    enemies.push_back(new Enemy(32, 32, nextX, nextY, randDouble(1.5, 2), enemies[i]->getAngle(), false, 1, 0.1, 0, DIRS[0]));
+                    nextX = max<int>(nextX, 1);
+                    nextX = min<int>(nextX, MAP_WIDTH);
+                    nextY = max<int>(nextY, 1);
+                    nextY = min<int>(nextY, MAP_HEIGHT);
+                    double curAngle = enemies[i]->getAngle();
+                    double curSpeed = randDouble(1.5, 2);
+                    while (!enemyCanReachMap(nextX, nextY, curSpeed, curAngle)) {
+                        curAngle = randDouble(0, 2 * PI);
+                    }
+                    enemies.push_back(new Enemy(32, 32, nextX, nextY, curSpeed, curAngle, false, 1, 0.1, 0, DIRS[0]));
                 }
             }
             double centerEnemyX = enemies[i]->getX() + enemies[i]->getW() / 2;
             double centerEnemyY = enemies[i]->getY() + enemies[i]->getH() / 2;
             explosions.push_back(new Explosion(centerEnemyX, centerEnemyY));
             emitters.push_back(ParticleEmitter(centerEnemyX, centerEnemyY, randInt(3, 7), 150, 100, 200, 0.75, 0, 2 * PI, enemies[i]->getAccentColor()));
+            pTexts.push_back(PopupText(enemies[i]->getX(), enemies[i]->getY(), "+" + to_string(enemies[i]->getScore()), 12, 20, enemies[i]->getAccentColor()));
             if (!isMuted && Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
                 cerr << "Failed to play explosion sound: " << Mix_GetError() << "\n";
             }
@@ -232,6 +244,16 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
     }
     for (auto& emitter : emitters) {
         emitter.draw(camera);
+    }
+    for (int i = 0; i < int(pTexts.size()); i++) {
+        pTexts[i].update();
+        if (pTexts[i].isDead()) {
+            pTexts.erase(pTexts.begin() + i);
+            i--;
+        }
+    }
+    for (auto& pText : pTexts) {
+        pText.draw(camera);
     }
 }
 

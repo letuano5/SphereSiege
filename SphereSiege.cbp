@@ -49,6 +49,7 @@
 		<Unit filename="Particle.cpp" />
 		<Unit filename="Particle.h" />
 		<Unit filename="ParticleEmitter.h" />
+		<Unit filename="PopupText.h" />
 		<Unit filename="ProgressBar.h" />
 		<Unit filename="README.md" />
 		<Unit filename="Rect.h" />
@@ -78,6 +79,7 @@
 		<Unit filename="minimap.cpp" />
 		<Unit filename="multiEnemy.cpp" />
 		<Unit filename="particleEmitter.cpp" />
+		<Unit filename="popupText.cpp" />
 		<Unit filename="progressBar.cpp" />
 		<Unit filename="rect.cpp" />
 		<Unit filename="res/ariblk.ttf" />

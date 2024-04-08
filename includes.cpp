@@ -10,7 +10,6 @@ int isStatsShow = false;
 int heroAutoShoot = false;
 int canContinue = false;
 int isMuted = false;
-int isDataCleared = false;
 double dt = 0;
 Uint32 lastTick = 0;
 Uint32 startTick = 0;
@@ -57,8 +56,8 @@ bool pointInBound(double x, double y) {
     return (equalF(x, LEFT_BOUND) || equalF(x, MAP_WIDTH - LEFT_BOUND) || equalF(y, LEFT_BOUND) || equalF(y, MAP_HEIGHT - LEFT_BOUND));
 }
 
-bool enemyCanReachMap(double posX, double posY, double angle) {
-//    cerr << cos(angle) << " " << sin(angle) << endl;
+bool enemyCanReachMap(double posX, double posY, double speed, double angle) {
+    //    cerr << cos(angle) << " " << sin(angle) << endl;
     if (posX < 0 && cos(angle) <= EPS) {
         return false;
     }
@@ -74,15 +73,15 @@ bool enemyCanReachMap(double posX, double posY, double angle) {
     if (equalF(cos(angle), 0) || equalF(sin(angle), 0)) {
         return true;
     }
-    double leftKx = -posX / cos(angle), rightKx = (MAP_WIDTH - posX) / cos(angle);
-    double leftKy = -posY / sin(angle), rightKy = (MAP_HEIGHT - posY) / sin(angle);
+    double leftKx = -posX / (cos(angle) * speed * 50 * 0.018), rightKx = (MAP_WIDTH - posX) / (cos(angle) * speed * 50 * 0.018);
+    double leftKy = -posY / (sin(angle) * speed * 50 * 0.018), rightKy = (MAP_HEIGHT - posY) / (sin(angle) * speed * 50 * 0.018);
     if (leftKx > rightKx) swap(leftKx, rightKx);
     if (leftKy > rightKy) swap(leftKy, rightKy);
     double leftK = max(leftKx, leftKy);
     double rightK = min(rightKx, rightKy);
     //    cerr << posX + leftK * cos(angle) << " " << posY + leftK * sin(angle) << endl;
-    cerr << leftK << " " << rightK << endl;
-    return leftK <= rightK && rightK >= 0;
+    // cerr << leftK << " " << rightK << endl;
+    return leftK <= rightK && rightK >= 1;
 }
 
 pair<int, int> getMousePosition() {
