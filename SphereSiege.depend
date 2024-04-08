@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1712556007 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+1712585612 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -31,7 +31,7 @@
 	"Rect.h"
 	"Includes.h"
 
-1712556290 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1712573000 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
 
 1712553775 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
@@ -54,7 +54,7 @@
 	"Includes.h"
 	"Window.h"
 
-1712553775 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
+1712585225 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
@@ -147,7 +147,7 @@
 1712570942 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
-1712553783 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+1712585157 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_mixer.h>
@@ -164,7 +164,7 @@
 	<string>
 	<vector>
 
-1712553783 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
+1712585033 source:d:\code\cpp\bai_tap_lon\spheresiege\includes.cpp
 	"Includes.h"
 
 1711549464 d:\code\cpp\bai_tap_lon\spheresiege\text.h
@@ -240,20 +240,21 @@
 1711551615 d:\uet\int2215 51\spheresiege\camera.h
 	"Includes.h"
 
-1712553775 d:\code\cpp\bai_tap_lon\spheresiege\multienemy.h
+1712573007 d:\code\cpp\bai_tap_lon\spheresiege\multienemy.h
 	"Enemy.h"
 	"Explosion.h"
 	"Hero.h"
 	"Includes.h"
 	"Level.h"
-	"ParticleEmitter.h"
-	"Score.h"
 	"Menu.h"
+	"ParticleEmitter.h"
+	"PopupText.h"
+	"Score.h"
 
-1712553775 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
+1712585351 source:d:\code\cpp\bai_tap_lon\spheresiege\multienemy.cpp
 	"MultiEnemy.h"
 
-1712556639 source:d:\code\cpp\bai_tap_lon\spheresiege\menu.cpp
+1712573000 source:d:\code\cpp\bai_tap_lon\spheresiege\menu.cpp
 	"Menu.h"
 	"Button.h"
 	"Text.h"
@@ -370,11 +371,12 @@
 	"Items.h"
 	"MultiEnemy.h"
 
-1712502984 d:\code\cpp\bai_tap_lon\spheresiege\level.h
+1712584090 d:\code\cpp\bai_tap_lon\spheresiege\level.h
 	"Includes.h"
 
-1712553775 source:d:\code\cpp\bai_tap_lon\spheresiege\level.cpp
+1712584078 source:d:\code\cpp\bai_tap_lon\spheresiege\level.cpp
 	"Level.h"
+	"Text.h"
 
 1712503008 source:d:\uet\int2215 51\spheresiege\minimap.cpp
 	"Minimap.h"
@@ -441,4 +443,12 @@
 
 1712502984 source:d:\code\cpp\bai_tap_lon\spheresiege\stats.cpp
 	"Stats.h"
+
+1712573828 d:\code\cpp\bai_tap_lon\spheresiege\popuptext.h
+	"Camera.h"
+	"Includes.h"
+
+1712573815 source:d:\code\cpp\bai_tap_lon\spheresiege\popuptext.cpp
+	"PopupText.h"
+	"Text.h"
 

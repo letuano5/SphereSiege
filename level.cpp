@@ -1,13 +1,16 @@
 
 #include "Level.h"
 
+#include "Text.h"
+
 void Level::printLevel() {
     cerr << "Current level: " << numPhase << " " << numMonster << " " << limitMonster << " " << killedMonster << endl;
 }
 
 Level::Level() {
     numPhase = randInt(1, 3);
-    numMonster = randInt(1, 20);
+    initNumPhase = numPhase;
+    numMonster = randInt(1, 5);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
     levelup_sound = Mix_LoadWAV("res/audio/levelUp.wav");
@@ -19,7 +22,14 @@ Level::Level() {
 Level::~Level() {
     Mix_FreeChunk(levelup_sound);
 }
-
+void Level::drawLevelInfo() const {
+    Text curLv("res/font/PressStart2P.ttf", 7, "Current level: " + to_string(level + 1), {100, 100, 100, 255});
+    curLv.display(WINDOW_WIDTH - curLv.getW() - 20, 402);
+    Text curPhase("res/font/PressStart2P.ttf", 7, "Phase: " + to_string(initNumPhase - numPhase + 1) + "/" + to_string(initNumPhase), {100, 100, 100, 255});
+    curPhase.display(WINDOW_WIDTH - curPhase.getW() - 20, 412);
+    Text remainMonster("res/font/PressStart2P.ttf", 7, "Remaining monster(s): " + to_string(remainMonsters), {100, 100, 100, 255});
+    remainMonster.display(WINDOW_WIDTH - remainMonster.getW() - 20, 422);
+}
 void Level::upLevel() {
     if (!isMuted) {
         int play = Mix_PlayChannel(-1, levelup_sound, 0);
@@ -29,6 +39,7 @@ void Level::upLevel() {
     }
     level++;
     numPhase = numPhase + randInt(1, 1);
+    initNumPhase = numPhase;
     numMonster = randInt(1, 5);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
@@ -95,6 +106,7 @@ bool Level::readLevel() {
 void Level::writeLevel() {
     ofstream out("res/save/level.txt");
     out << level << " " << curScore << " " << numPhase << " " << numMonster << " " << killedMonster << " " << limitMonster;
-    out << endl << maxLevel;
+    out << endl
+        << maxLevel;
     out.close();
 }

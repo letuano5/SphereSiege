@@ -117,6 +117,7 @@ void play() {
     currTime = SDL_GetPerformanceCounter();
     deltaTime = currTime - prevTime;
     dt = (double)deltaTime / SDL_GetPerformanceFrequency();
+    cerr << dt << endl;
     prevTime = currTime;
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
@@ -147,7 +148,6 @@ void play() {
         return;
     }
     if (isStarted) {
-        isDataCleared = false;
         if (isStarted == 2) {
             stats.dat[stats.ROUNDS_PLAYED]++;
             init();
@@ -176,6 +176,7 @@ void play() {
         minimap.update(*camera);
         minimap.draw(*hero, *enemies, *items);
         level->update(score->getScore());
+        level->drawLevelInfo();
 
         hero->saveHero();
         enemies->saveEnemies();

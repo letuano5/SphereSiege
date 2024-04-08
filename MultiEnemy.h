@@ -5,9 +5,10 @@
 #include "Hero.h"
 #include "Includes.h"
 #include "Level.h"
-#include "ParticleEmitter.h"
-#include "Score.h"
 #include "Menu.h"
+#include "ParticleEmitter.h"
+#include "PopupText.h"
+#include "Score.h"
 
 // seconds
 const double MAX_DIFF_TIME = 1;
@@ -31,6 +32,7 @@ class MultiEnemy {
     vector<Enemy*>& getEnemies() { return enemies; }
 
    private:
+    vector<PopupText> pTexts;
     vector<ParticleEmitter> emitters;
     vector<Enemy*> enemies;
     vector<Explosion*> explosions;
