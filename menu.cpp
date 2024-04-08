@@ -110,11 +110,15 @@ void Menu::draw(int mouseX, int mouseY) {
             string valueStr;
             if (i == 6) {
                 int s = dat[i] / 1000;
-                int h = s / 3600;
+                string hour = to_string(s / 3600);
                 s %= 3600;
-                int m = s / 60;
+                string minutes = to_string(s / 60);
                 s %= 60;
-                valueStr = to_string(h) + ":" + to_string(m) + ":" + to_string(s);
+                string seconds = to_string(s);
+                while (hour.size() < 2) hour = '0' + hour;
+                while (minutes.size() < 2) minutes = '0' + minutes;
+                while (seconds.size() < 2) seconds = '0' + seconds;
+                valueStr = hour + ":" + minutes + ":" + seconds;
             } else {
                 valueStr = to_string(dat[i]);
             }

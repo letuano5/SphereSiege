@@ -7,7 +7,7 @@ void Level::printLevel() {
 
 Level::Level() {
     numPhase = randInt(1, 3);
-    numMonster = randInt(1, 5);
+    numMonster = randInt(1, 20);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
     levelup_sound = Mix_LoadWAV("res/audio/levelUp.wav");

@@ -303,7 +303,7 @@ bool Hero::setHero() {
         int x = -1, y = -1;
         double angle = -1e9;
         inp >> x >> y >> angle;
-        if (x < 0 || x > MAP_WIDTH || y < 0 || y > MAP_HEIGHT) {
+        if (x < LEFT_BOUND || x > MAP_WIDTH || y < LEFT_BOUND || y > MAP_HEIGHT) {
             inp.close();
             return false;
         }

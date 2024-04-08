@@ -58,6 +58,7 @@ bool pointInBound(double x, double y) {
 }
 
 bool enemyCanReachMap(double posX, double posY, double angle) {
+//    cerr << cos(angle) << " " << sin(angle) << endl;
     if (posX < 0 && cos(angle) <= EPS) {
         return false;
     }
@@ -80,7 +81,7 @@ bool enemyCanReachMap(double posX, double posY, double angle) {
     double leftK = max(leftKx, leftKy);
     double rightK = min(rightKx, rightKy);
     //    cerr << posX + leftK * cos(angle) << " " << posY + leftK * sin(angle) << endl;
-//    cerr << leftK << " " << rightK << endl;
+    cerr << leftK << " " << rightK << endl;
     return leftK <= rightK && rightK >= 0;
 }
 
