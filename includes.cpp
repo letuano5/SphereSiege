@@ -10,6 +10,7 @@ int isStatsShow = false;
 int heroAutoShoot = false;
 int canContinue = false;
 int isMuted = false;
+int isDataCleared = false;
 double dt = 0;
 Uint32 lastTick = 0;
 Uint32 startTick = 0;

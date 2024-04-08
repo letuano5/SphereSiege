@@ -8,8 +8,8 @@
 #include "MultiEnemy.h"
 #include "ProgressBar.h"
 #include "Score.h"
-#include "Window.h"
 #include "Stats.h"
+#include "Window.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
 Level* level = NULL;
-//Stats stats;
+// Stats stats;
 
 Menu start("start");
 Menu pause("pause");
@@ -102,7 +102,7 @@ bool canLoad() {
 }
 
 void play() {
-//    stats.printStats();
+    //    stats.printStats();
     pair<int, int> mousePos = {-1, -1};
     window.clear();
     SDL_Event event;
@@ -127,6 +127,7 @@ void play() {
         if (isLost == 2) {
             stats.dat[stats.TIME_ELAPSED] += getTick();
             isLost = 1;
+            canContinue = false;
         }
         lost.draw(mousePos.first, mousePos.second);
         SDL_RenderPresent(Window::renderer);
@@ -137,10 +138,12 @@ void play() {
         return;
     }
     if (isStarted) {
+        isDataCleared = false;
         if (isStarted == 2) {
             stats.dat[stats.ROUNDS_PLAYED]++;
             init();
             isStarted = 1;
+            canContinue = true;
         }
 
         if (!startTick) {
@@ -174,7 +177,7 @@ void play() {
         level->writeLevel();
 
         stats.dat[stats.BEST_SCORE] = best->getScore();
-//        cerr << stats.dat[stats.BEST_LEVEL] << " " << level->getLevel();
+        //        cerr << stats.dat[stats.BEST_LEVEL] << " " << level->getLevel();
         if (stats.dat[stats.BEST_LEVEL] < level->getLevel()) {
             stats.dat[stats.BEST_LEVEL] = level->getLevel();
         }
@@ -192,10 +195,10 @@ void play() {
 int main(int argv, char** args) {
     srand(time(NULL));
 
-//    cerr << enemyCanReachMap(694.211, 688.211, 5.49779) << endl;
-//    cerr << cos(5.49779) << " " << sin(5.49779) << endl;
-//    return 0;
-//    stats.readStats();
+    //    cerr << enemyCanReachMap(694.211, 688.211, 5.49779) << endl;
+    //    cerr << cos(5.49779) << " " << sin(5.49779) << endl;
+    //    return 0;
+    //    stats.readStats();
 
     init();
     canContinue = canLoad();
