@@ -91,7 +91,7 @@ void Hero::draw(Camera &camera) {
         cout << "No texture.\n";
     }
 }
-void Hero::pollEvents(const Camera &camera, Menu& stats) {
+void Hero::pollEvents(const Camera &camera, Menu &stats) {
     double dx = 0;
     double dy = 0;
 
@@ -131,10 +131,10 @@ void Hero::pollEvents(const Camera &camera, Menu& stats) {
             lastShot = currentTime;
         }
     }
-//    cerr << bullets.size() << endl;
+    //    cerr << bullets.size() << endl;
 }
 
-void Hero::shoot(int mouseX, int mouseY, Menu& stats) {
+void Hero::shoot(int mouseX, int mouseY, Menu &stats) {
     if (!isMuted && Mix_PlayChannel(-1, shoot_sound, 0) == -1) {
         cerr << "Failed to play shoot sound: " << Mix_GetError() << "\n";
     }
