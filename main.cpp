@@ -101,6 +101,14 @@ bool canLoad() {
     return true;
 }
 
+void clearSaveGame() {
+    static vector<string> dirs = {"res/save/camera.txt", "res/save/enemies.txt", "res/save/hero.txt", "res/save/items.txt", "res/save/level.txt", "res/save/score.txt", "res/save/time.txt"};
+    for (const string& s: dirs) {
+        ofstream _(s.c_str());
+        _.close();
+    }
+}
+
 void play() {
     //    stats.printStats();
     pair<int, int> mousePos = {-1, -1};
@@ -124,6 +132,7 @@ void play() {
     }
 
     if (isStarted && isLost) {
+        clearSaveGame();
         if (isLost == 2) {
             stats.dat[stats.TIME_ELAPSED] += getTick();
             isLost = 1;
@@ -195,10 +204,10 @@ void play() {
 int main(int argv, char** args) {
     srand(time(NULL));
 
-    //    cerr << enemyCanReachMap(694.211, 688.211, 5.49779) << endl;
-    //    cerr << cos(5.49779) << " " << sin(5.49779) << endl;
-    //    return 0;
-    //    stats.readStats();
+    // 1280.75 684.75 6.14428
+    // 1124.24 -0.0213035 2.35619
+//    cerr << enemyCanReachMap(1124.24, -0.0213035, - 2.35619) << endl;
+//    return 0;
 
     init();
     canContinue = canLoad();

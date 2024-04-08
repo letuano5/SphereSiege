@@ -72,7 +72,7 @@
 	"Includes.h"
 	"Window.h"
 
-1712507192 source:d:\uet\int2215 51\spheresiege\hero.cpp
+1712566998 source:d:\uet\int2215 51\spheresiege\hero.cpp
 	"Hero.h"
 
 1712507120 d:\uet\int2215 51\spheresiege\hero.h
@@ -92,7 +92,7 @@
 	<string>
 	"Includes.h"
 
-1712512515 source:d:\uet\int2215 51\spheresiege\main.cpp
+1712571489 source:d:\uet\int2215 51\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -103,8 +103,8 @@
 	"MultiEnemy.h"
 	"ProgressBar.h"
 	"Score.h"
-	"Window.h"
 	"Stats.h"
+	"Window.h"
 
 1708837406 source:d:\uet\int2215 51\spheresiege\rect.cpp
 	"Rect.h"
@@ -118,7 +118,7 @@
 	"Window.h"
 	"Includes.h"
 
-1712512653 source:d:\uet\int2215 51\spheresiege\enemy.cpp
+1712572299 source:d:\uet\int2215 51\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
@@ -127,7 +127,7 @@
 	"Includes.h"
 	"Window.h"
 
-1712503008 d:\uet\int2215 51\spheresiege\includes.h
+1712566838 d:\uet\int2215 51\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_mixer.h>
@@ -144,7 +144,7 @@
 	<string>
 	<vector>
 
-1712512511 source:d:\uet\int2215 51\spheresiege\includes.cpp
+1712570942 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
 1712553783 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
@@ -272,9 +272,10 @@
 	"Includes.h"
 	"Stats.h"
 
-1712508993 d:\uet\int2215 51\spheresiege\menu.h
+1712566838 d:\uet\int2215 51\spheresiege\menu.h
 	<string>
 	"Includes.h"
+	"Stats.h"
 
 1711612203 source:d:\uet\int2215 51\spheresiege\button.cpp
 	"Button.h"
@@ -284,7 +285,7 @@
 1711540448 d:\uet\int2215 51\spheresiege\button.h
 	"Includes.h"
 
-1712508993 source:d:\uet\int2215 51\spheresiege\menu.cpp
+1712567049 source:d:\uet\int2215 51\spheresiege\menu.cpp
 	"Menu.h"
 	"Button.h"
 	"Text.h"
@@ -384,7 +385,7 @@
 	"Items.h"
 	"MultiEnemy.h"
 
-1712512898 source:d:\uet\int2215 51\spheresiege\level.cpp
+1712572245 source:d:\uet\int2215 51\spheresiege\level.cpp
 	"Level.h"
 
 1712413370 d:\uet\int2215 51\spheresiege\level.h
@@ -432,7 +433,7 @@
 1712481021 source:d:\uet\int2215 51\spheresiege\stats.cpp
 	"Stats.h"
 
-1712466883 d:\uet\int2215 51\spheresiege\stats.h
+1712566838 d:\uet\int2215 51\spheresiege\stats.h
 	"Includes.h"
 
 1712555917 d:\code\cpp\bai_tap_lon\spheresiege\stats.h
