@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Includes.h"
+#include "Stats.h"
 
 class Menu {
    public:
