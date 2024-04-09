@@ -107,10 +107,10 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
                 angle -= 2 * PI;
             }
         }
-        if (!enemyCanReachMap(x, y, speed, angle)) {
-            cerr << "failed !!!!! " << x << " " << y << " " << angle << endl;
-            assert(enemyCanReachMap(x, y, speed, angle));
-        }
+    }
+
+    while (!enemyCanReachMap(x, y, speed, angle)) {
+        angle = randDouble(0, 2 * PI);
     }
 
     rotateAngle += rotateSpeed;

@@ -117,7 +117,7 @@ void play() {
     currTime = SDL_GetPerformanceCounter();
     deltaTime = currTime - prevTime;
     dt = (double)deltaTime / SDL_GetPerformanceFrequency();
-    cerr << dt << endl;
+//    cerr << dt << endl;
     prevTime = currTime;
     if (SDL_PollEvent(&event)) {
         mousePos = window.pollEvents(event);
@@ -204,11 +204,6 @@ void play() {
 
 int main(int argv, char** args) {
     srand(time(NULL));
-
-    // 1280.75 684.75 6.14428
-    // 1124.24 -0.0213035 2.35619
-//    cerr << enemyCanReachMap(1124.24, -0.0213035, - 2.35619) << endl;
-//    return 0;
 
     init();
     canContinue = canLoad();
