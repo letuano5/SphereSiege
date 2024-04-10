@@ -17,7 +17,7 @@ string formatNumber(int num) {
     return str;
 }
 
-void Menu::draw(int mouseX, int mouseY) {
+void Menu::draw(int mouseX, int mouseY, Score& best) {
     SDL_Rect overlay = {x, y, w, h};
     SDL_SetRenderDrawColor(Window::renderer, 30, 30, 30, 255);
     SDL_RenderFillRect(Window::renderer, &overlay);
@@ -136,6 +136,8 @@ void Menu::draw(int mouseX, int mouseY) {
 
         if (clearDataBtn.isClicked(mouseX, mouseY)) {
             dat.assign(7, 0);
+            best.update(0);
+            best.writeScore();
             writeStats();
         }
         if (menuBtn.isClicked(mouseX, mouseY)) {

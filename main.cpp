@@ -127,7 +127,7 @@ void play() {
         isContinued = 0;
     }
     if (isStarted && isPaused) {
-        pause.draw(mousePos.first, mousePos.second);
+        pause.draw(mousePos.first, mousePos.second, *best);
         SDL_RenderPresent(Window::renderer);
         return;
     }
@@ -139,12 +139,13 @@ void play() {
             isLost = 1;
             canContinue = false;
         }
-        lost.draw(mousePos.first, mousePos.second);
+        lost.draw(mousePos.first, mousePos.second, *best);
         SDL_RenderPresent(Window::renderer);
         if (!isLost) {
             init();
         }
         stats.writeStats();
+        best->writeScore();
         return;
     }
     if (isStarted) {
@@ -183,10 +184,12 @@ void play() {
         camera->saveCamera();
         items->saveItem();
         score->writeScore();
-        best->writeScore();
+//        best->writeScore();
         level->writeLevel();
 
-        stats.dat[stats.BEST_SCORE] = best->getScore();
+        if (stats.dat[stats.BEST_SCORE] < best->getScore()) {
+            stats.dat[stats.BEST_SCORE] = best->getScore();
+        }
         //        cerr << stats.dat[stats.BEST_LEVEL] << " " << level->getLevel();
         if (stats.dat[stats.BEST_LEVEL] < level->getLevel()) {
             stats.dat[stats.BEST_LEVEL] = level->getLevel();
@@ -194,9 +197,9 @@ void play() {
     } else {
         stats.readStats();
         if (isStatsShow) {
-            stats.draw(mousePos.first, mousePos.second);
+            stats.draw(mousePos.first, mousePos.second, *best);
         } else {
-            start.draw(mousePos.first, mousePos.second);
+            start.draw(mousePos.first, mousePos.second, *best);
         }
     }
     window.present();
