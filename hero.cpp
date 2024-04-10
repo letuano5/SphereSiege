@@ -37,6 +37,10 @@ Hero::Hero(int w, int h, int x, int y, const string &image_path) : w(w), h(h), x
     if (!lost_sound) {
         cerr << "Failed to load lost sound.\n";
     }
+    intersect_sound = Mix_LoadWAV("res/audio/intersect.wav");
+    if (!intersect_sound) {
+        cerr << "Failed to load intersect sound.\n";
+    }
     SDL_FreeSurface(hero_surface);
     SDL_FreeSurface(shield_surface);
     SDL_FreeSurface(vignette_surface);
@@ -49,6 +53,7 @@ Hero::~Hero() {
     Mix_FreeChunk(shoot_sound);
     Mix_FreeChunk(hit_sound);
     Mix_FreeChunk(lost_sound);
+    Mix_FreeChunk(intersect_sound);
 }
 
 void Hero::draw(Camera &camera) {
@@ -77,7 +82,7 @@ void Hero::draw(Camera &camera) {
 
         SDL_RenderCopyEx(Window::renderer, hero_texture, nullptr, &hero, angle, nullptr, SDL_FLIP_NONE);
         if (hasShield) {
-            SDL_Rect shield = {getX(camera) - 10 - 3 * cos(angle * PI / 180), getY(camera) - 10, w + 20, h + 20};
+            SDL_Rect shield = {getX(camera) - 10 - 3 * cos(angle * PI / 180), getY(camera) - 10 - 3 * sin(angle * PI / 180), w + 20, h + 20};
             SDL_RenderCopyEx(Window::renderer, shield_texture, nullptr, &shield, angle, nullptr, SDL_FLIP_NONE);
         }
         for (const auto &bullet : bullets) {
@@ -142,8 +147,8 @@ void Hero::shoot(int mouseX, int mouseY, Menu &stats) {
     int dy = mouseY - (y + h / 2);
     double angle = atan2(dy, dx);
 
-    int bulletX = x + w / 2;
-    int bulletY = y + h / 2;
+    int bulletX = x + w / 2 - 10 * cos(angle);
+    int bulletY = y + h / 2 - 10 * sin(angle);
     emitters.push_back(ParticleEmitter(bulletX + cos(angle) * w / 2, bulletY + sin(angle) * h / 2, trippleShot ? randInt(2, 3) : 1, 50, 150, 280, 0.75, 0, 2 * PI, {255, 209, 0, 255}));
     if (trippleShot) {
         stats.dat[stats.BULLETS_FIRED] += 3;
@@ -193,6 +198,9 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             }
         }
         if (isFlickering) {
+            if (!isMuted && Mix_PlayChannel(-1, intersect_sound, 0) == -1) {
+                cerr << "Failed to play intersect sound: " << Mix_GetError() << "\n";
+            }
             SDL_SetTextureAlphaMod(vignette_texture, 255);
             SDL_Rect vignette_rect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
             SDL_RenderCopy(Window::renderer, vignette_texture, nullptr, &vignette_rect);

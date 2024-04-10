@@ -6,10 +6,10 @@
 #include "Camera.h"
 #include "Enemy.h"
 #include "Includes.h"
+#include "Menu.h"
 #include "ParticleEmitter.h"
 #include "Score.h"
 #include "Window.h"
-#include "Menu.h"
 
 using namespace std;
 
@@ -71,6 +71,7 @@ class Hero {
     Mix_Chunk* shoot_sound = nullptr;
     Mix_Chunk* hit_sound = nullptr;
     Mix_Chunk* lost_sound = nullptr;
+    Mix_Chunk* intersect_sound = nullptr;
     vector<Bullet> bullets;
     vector<ParticleEmitter> emitters;
 };
