@@ -19,6 +19,7 @@ void Score::draw() const {
 
 void Score::update(const int score) {
     if (isBestScoreTxt) {
+//        cerr << "set " << score << endl;
         scoreNum = score;
     } else {
         scoreNum += score;
