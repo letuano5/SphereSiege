@@ -28,7 +28,7 @@ Enemy::~Enemy() {
 void Enemy::draw(const Camera& camera) {
     //    cerr << "enemy at " << x << " " << y << " draw at " << x-camera.getX() << " " << y-camera.getY() << " " << angle << endl;
     //    cerr << "possibility: " << x + 1e9 * cos(angle) << " " << x - 1e9 * cos(angle) << " " << y + 1e9 * sin(angle) << " " << y-1e9 * sin(angle)<<endl;
-    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
+//    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
 //    if (!enemyCanReachMap(x, y, angle)) {
 //        cerr << "fail " << x << " " << y << " " << angle << endl;
 //        assert(enemyCanReachMap(x, y, angle));

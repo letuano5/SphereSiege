@@ -4,13 +4,14 @@
 
 #include "Includes.h"
 #include "Stats.h"
+#include "Score.h"
 
 class Menu {
    public:
     Menu(string menuType);
     ~Menu();
 
-    void draw(int mouseX, int mouseY);
+    void draw(int mouseX, int mouseY, Score& best);
     string menuType;
     string statPlaceholders[7] = {
         "BEST SCORE",
