@@ -166,7 +166,7 @@ void MultiEnemy::generateSingleEnemy(Hero& hero, Score& score, Camera& camera, L
         curDamage = 0.03;
         canSpilt = true;
         curSpeed = randDouble(1, 1.3);
-        curScore = 5;
+        curScore = 25;
     }
     enemies.push_back(new Enemy(curW, curH, currentPosition.first, currentPosition.second, curSpeed, curAngle, canSpilt, curHP, curDamage, curScore, DIRS[indexEnemy]));
 }
@@ -213,7 +213,9 @@ void MultiEnemy::generateEnemy(Hero& hero, Score& score, Camera& camera, Level& 
             double centerEnemyY = enemies[i]->getY() + enemies[i]->getH() / 2;
             explosions.push_back(new Explosion(centerEnemyX, centerEnemyY));
             emitters.push_back(ParticleEmitter(centerEnemyX, centerEnemyY, randInt(3, 7), 150, 100, 200, 0.75, 0, 2 * PI, enemies[i]->getAccentColor()));
-            pTexts.push_back(PopupText(enemies[i]->getX(), enemies[i]->getY(), "+" + to_string(enemies[i]->getScore()), 12, 20, enemies[i]->getAccentColor()));
+            if (enemies[i]->getScore() > 0) {
+                pTexts.push_back(PopupText(enemies[i]->getX(), enemies[i]->getY(), "+" + to_string(enemies[i]->getScore()), 12, 20, enemies[i]->getAccentColor()));
+            }
             if (!isMuted && Mix_PlayChannel(-1, explosion_sound, 0) == -1) {
                 cerr << "Failed to play explosion sound: " << Mix_GetError() << "\n";
             }

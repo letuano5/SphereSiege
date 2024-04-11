@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1712630468 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
+1712753160 source:d:\code\cpp\bai_tap_lon\spheresiege\main.cpp
 	"Enemy.h"
 	"Hero.h"
 	"Includes.h"
@@ -31,7 +31,7 @@
 	"Rect.h"
 	"Includes.h"
 
-1712743322 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
+1712743514 source:d:\code\cpp\bai_tap_lon\spheresiege\hero.cpp
 	"Hero.h"
 
 1712742099 d:\code\cpp\bai_tap_lon\spheresiege\hero.h
@@ -45,7 +45,7 @@
 	"Score.h"
 	"Window.h"
 
-1712502984 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
+1712743446 source:d:\code\cpp\bai_tap_lon\spheresiege\bullet.cpp
 	"Bullet.h"
 	"Includes.h"
 
@@ -54,7 +54,7 @@
 	"Includes.h"
 	"Window.h"
 
-1712630468 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
+1712753160 source:d:\code\cpp\bai_tap_lon\spheresiege\enemy.cpp
 	"Enemy.h"
 	"Includes.h"
 
@@ -147,7 +147,7 @@
 1712596312 source:d:\uet\int2215 51\spheresiege\includes.cpp
 	"Includes.h"
 
-1712585157 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
+1712753481 d:\code\cpp\bai_tap_lon\spheresiege\includes.h
 	<SDL.h>
 	<SDL_Image.h>
 	<SDL_mixer.h>
@@ -187,7 +187,7 @@
 1711546148 d:\code\cpp\bai_tap_lon\spheresiege\score.h
 	"Includes.h"
 
-1711548604 source:d:\code\cpp\bai_tap_lon\spheresiege\score.cpp
+1712753160 source:d:\code\cpp\bai_tap_lon\spheresiege\score.cpp
 	"Score.h"
 	<string>
 	"Text.h"
@@ -269,10 +269,11 @@
 1711531534 d:\code\cpp\bai_tap_lon\spheresiege\button.h
 	"Includes.h"
 
-1712556762 d:\code\cpp\bai_tap_lon\spheresiege\menu.h
+1712753160 d:\code\cpp\bai_tap_lon\spheresiege\menu.h
 	<string>
 	"Includes.h"
 	"Stats.h"
+	"Score.h"
 
 1712752719 d:\uet\int2215 51\spheresiege\menu.h
 	<string>
@@ -314,12 +315,12 @@
 1712553775 source:d:\code\cpp\bai_tap_lon\spheresiege\items.cpp
 	"Items.h"
 
-1712553775 d:\code\cpp\bai_tap_lon\spheresiege\items.h
+1712753649 d:\code\cpp\bai_tap_lon\spheresiege\items.h
 	"Hero.h"
 	"Includes.h"
 	"Item.h"
-	"ProgressBar.h"
 	"Menu.h"
+	"ProgressBar.h"
 
 1711646505 source:d:\uet\int2215 51\spheresiege\item.cpp
 	"Item.h"
@@ -367,13 +368,13 @@
 1711540448 source:d:\uet\int2215 51\spheresiege\explosion.cpp
 	"Explosion.h"
 
-1711512560 d:\code\cpp\bai_tap_lon\spheresiege\minimap.h
+1712753475 d:\code\cpp\bai_tap_lon\spheresiege\minimap.h
 	"Hero.h"
 	"Includes.h"
 	"Items.h"
 	"MultiEnemy.h"
 
-1712584090 d:\code\cpp\bai_tap_lon\spheresiege\level.h
+1712753478 d:\code\cpp\bai_tap_lon\spheresiege\level.h
 	"Includes.h"
 
 1712584078 source:d:\code\cpp\bai_tap_lon\spheresiege\level.cpp
