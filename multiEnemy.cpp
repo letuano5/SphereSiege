@@ -29,15 +29,6 @@ void MultiEnemy::clearE() {
     enemies.clear();
 }
 
-double MultiEnemy::passedSecond() {
-    clock_t currentTime = clock();
-    return (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
-}
-
-bool MultiEnemy::checkTime() {
-    return passedSecond() > MAX_DIFF_TIME;
-}
-
 bool canSpawn(string typeEnemy, int curLevel) {
     //    cerr << "Checking if we can spawn... " << typeEnemy << " " << curLevel << endl;
     if (typeEnemy == "BIG") {
