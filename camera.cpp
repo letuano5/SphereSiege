@@ -12,8 +12,8 @@ void Camera::adjust(int heroX, int heroY, int heroW, int heroH) {
     int targetY = heroY + heroH / 2 - WINDOW_HEIGHT / 2;
 
     // Use linear interpolation to gradually move the camera towards the target position
-    leftX = (1 - speed) * leftX + speed * targetX;
-    leftY = (1 - speed) * leftY + speed * targetY;
+    leftX += speed * (targetX - leftX);
+    leftY += speed * (targetY - leftY);
 
     if (leftX < 0) {
         leftX = 0;

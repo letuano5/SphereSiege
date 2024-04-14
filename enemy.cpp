@@ -28,11 +28,11 @@ Enemy::~Enemy() {
 void Enemy::draw(const Camera& camera) {
     //    cerr << "enemy at " << x << " " << y << " draw at " << x-camera.getX() << " " << y-camera.getY() << " " << angle << endl;
     //    cerr << "possibility: " << x + 1e9 * cos(angle) << " " << x - 1e9 * cos(angle) << " " << y + 1e9 * sin(angle) << " " << y-1e9 * sin(angle)<<endl;
-//    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
-//    if (!enemyCanReachMap(x, y, angle)) {
-//        cerr << "fail " << x << " " << y << " " << angle << endl;
-//        assert(enemyCanReachMap(x, y, angle));
-//    }
+    //    cerr << "render enemy at " << x << " " << y << " " << angle << endl;
+    //    if (!enemyCanReachMap(x, y, angle)) {
+    //        cerr << "fail " << x << " " << y << " " << angle << endl;
+    //        assert(enemyCanReachMap(x, y, angle));
+    //    }
     SDL_FRect enemy = {x - camera.getX(), y - camera.getY(), w, h};
     SDL_Rect inner = {x + (w - hp_w) / 2 - camera.getX(), y + h + 8 - camera.getY(), hp_w * (health_point / max_health_point), hp_h};
 
@@ -81,10 +81,10 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
             // ...
         } else {
             if ((x <= 0 || x + w >= MAP_WIDTH) && enemyCanReachMap(x, y, speed, PI - angle)) {
-                cerr << "shifted 1" << x << " " << y << " " << angle << endl;
+                // cerr << "shifted 1" << x << " " << y << " " << angle << endl;
                 angle = PI - angle;
             } else if ((y <= 0 || y + h >= MAP_HEIGHT) && enemyCanReachMap(x, y, speed, -angle)) {
-                cerr << "shifted 2" << x << " " << y << " " << angle << endl;
+                // cerr << "shifted 2" << x << " " << y << " " << angle << endl;
                 angle = -angle;
             } else {
                 bool shifted = false;
@@ -96,8 +96,9 @@ void Enemy::update(int heroX, int heroY, double slowRate) {
                     }
                 }
                 if (!shifted) {
-                    cerr << x << " " << y << " " << angle << endl;
-                    assert(false);
+                    while (!enemyCanReachMap(x, y, speed, angle)) {
+                        angle = randDouble(0, 2 * PI);
+                    }
                 }
             }
             if (angle < 0) {

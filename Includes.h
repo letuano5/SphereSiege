@@ -7,7 +7,6 @@
 
 #include <algorithm>
 #include <cassert>
-#include <chrono>
 #include <cmath>
 #include <ctime>
 #include <fstream>
@@ -18,7 +17,6 @@
 #include <vector>
 
 using namespace std;
-using namespace chrono;
 
 const int WIN = 0;
 const int LOSE = 1;
