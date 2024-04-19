@@ -8,7 +8,6 @@
 #include "MultiEnemy.h"
 #include "ProgressBar.h"
 #include "Score.h"
-#include "Stats.h"
 #include "Window.h"
 
 using namespace std;
@@ -24,7 +23,6 @@ Camera* camera = NULL;
 Items* items = NULL;
 Minimap minimap;
 Level* level = NULL;
-// Stats stats;
 
 Menu start("start");
 Menu pause("pause");

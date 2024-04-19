@@ -38,9 +38,9 @@ void Level::upLevel() {
         }
     }
     level++;
-    numPhase = numPhase + randInt(1, 1);
+    numPhase = numPhase + randInt(1, 5);
     initNumPhase = numPhase;
-    numMonster = randInt(1, 5);
+    numMonster = randInt(1, 15);
     limitMonster = numPhase * numMonster;
     killedMonster = 0;
 }

@@ -12,11 +12,6 @@ class Level {
 
     bool readLevel();
     void writeLevel();
-    bool donePhase() {
-        --numPhase;
-        numMonster = 0;
-        return numPhase == 0;
-    }
     int getNumMonster() const { return numMonster; }
     int getKilledMonster() const { return killedMonster; }
     void setRemainMonster(int remainMonsters) { this->remainMonsters = remainMonsters; }

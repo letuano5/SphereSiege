@@ -23,8 +23,8 @@ class Camera {
     void update(double dt) {
         if (shakeDuration > 0) {
             double shakeProgress = shakeDuration / initialShakeDuration;
-            leftX += randInt(-1000, 1000) / 1000.0 * shakeIntensity * shakeProgress;
-            leftY += randInt(-1000, 1000) / 1000.0 * shakeIntensity * shakeProgress;
+            leftX += randDouble(-1, 1) * shakeIntensity * shakeProgress;
+            leftY += randDouble(-1, 1) * shakeIntensity * shakeProgress;
             shakeDuration -= dt;
             if (shakeDuration < 0) {
                 shakeDuration = 0;

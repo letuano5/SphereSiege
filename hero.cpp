@@ -115,8 +115,6 @@ void Hero::pollEvents(const Camera &camera, Menu &stats) {
     }
     double length = sqrt(dx * dx + dy * dy);
     if (length > 0) {
-        dx /= length;
-        dy /= length;
         x += dx * moveSpeed * dt;
         y += dy * moveSpeed * dt;
     }
@@ -201,7 +199,6 @@ int Hero::intersect(int enemyW, int enemyH, double enemyX, double enemyY, Score 
             if (!isMuted && Mix_PlayChannel(-1, intersect_sound, 0) == -1) {
                 cerr << "Failed to play intersect sound: " << Mix_GetError() << "\n";
             }
-            SDL_SetTextureAlphaMod(vignette_texture, 255);
             SDL_Rect vignette_rect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
             SDL_RenderCopy(Window::renderer, vignette_texture, nullptr, &vignette_rect);
         }

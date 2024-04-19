@@ -31,8 +31,8 @@ Items::~Items() {
     Mix_FreeChunk(powerUp_sound);
 }
 bool Items::checkTime() {
-    clock_t currentTime = clock();
-    double diffTime = (currentTime - lastTimeSpawned) / double(CLOCKS_PER_SEC);
+    Uint32 currentTime = getTick();
+    double diffTime = (currentTime - lastTimeSpawned) / 1000.0;
     return diffTime > DIF_SPAWN_TIME;
 }
 void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies, Menu& stats) {
@@ -73,7 +73,7 @@ void Items::spawnItem(Hero& hero, const Camera& camera, MultiEnemy& enemies, Men
         }
     }
     if (items.empty() || checkTime()) {
-        lastTimeSpawned = clock();
+        lastTimeSpawned = getTick();
         int itemType = randInt(0, 5);
         items.push_back(new Item(itemTypes[itemType], itemDirPath[itemType]));
     }
