@@ -13,7 +13,6 @@
 Dựa vào một chủ đề cổ điển, là khi tàu vũ trụ di chuyển trên không gian sẽ gặp phải những tinh thể không xác định bay xung quanh. Để tránh va chạm, ta cần "xử lý" các tinh thể này, trước khi bị chúng va phải.
 
 ## Ngưỡng điểm mong muốn
-- 9 - 9.5
 - Lý do:
   - Game tự viết có đồ hoạ đơn giản: âm thanh, texture, background tự thiết kế;
   - Có các hiệu ứng khi xảy ra va chạm hoặc bị tiêu diệt;
