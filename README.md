@@ -12,12 +12,6 @@
 
 Dựa vào một chủ đề cổ điển, là khi tàu vũ trụ di chuyển trên không gian sẽ gặp phải những tinh thể không xác định bay xung quanh. Để tránh va chạm, ta cần "xử lý" các tinh thể này, trước khi bị chúng va phải.
 
-## Ngưỡng điểm mong muốn
-- Lý do:
-  - Game tự viết có đồ hoạ đơn giản: âm thanh, texture, background tự thiết kế;
-  - Có các hiệu ứng khi xảy ra va chạm hoặc bị tiêu diệt;
-  - Sử dụng kết hợp kiến thức Toán và Vật lý cơ bản cho phần chuyển động và điều hướng của các nhân vật.
-
 ## Cách chơi
 
 -   Bạn sẽ được cho một tàu chiến với vô hạn lượng đạn. Nhiệm vụ của bạn là phải di chuyển xung quanh map để tiêu diệt hết toàn bộ kẻ địch.
